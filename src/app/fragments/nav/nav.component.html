@@ -1,0 +1,19 @@
+<div class="toolbar" role="banner">
+
+  <a href="/" id="navBar">Home</a>
+
+  <a href="/horarios">Consultar horarios</a>
+
+  <button mat-button [matMenuTriggerFor]="menu">Gestión de jornada</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item >Consultar jornada</button>
+    <button mat-menu-item>Solicitar vacaciones</button>
+    <button mat-menu-item>Portal de solicitudes</button>
+  </mat-menu>
+
+  <!--  <mi-componente></mi-componente>-->
+
+  <div class="spacer"></div>
+  <a routerLink="/login">Identificarse</a>
+
+</div>

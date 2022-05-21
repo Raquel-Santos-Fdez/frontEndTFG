@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.loginButton{
+  color:white;
+  background: #1976d2;
+}
+

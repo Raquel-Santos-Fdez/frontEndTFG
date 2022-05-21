@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-root', //etiqueta que vamos a usar en el html
+  templateUrl: './app.component.html', //indica que vista esta asociada al componente
+  styleUrls: ['./app.component.css'] //indica las hojas de estilo del componente
 })
-export class AppComponent {
-  title = 'AprendiendoAngular';
+export class AppComponent { //clase que exportamos para poder importarla en otros componentes
+
+  options:string[]=["prueba", "prueba2"];
+  constructor(){
+
+  }
+
+
 }
