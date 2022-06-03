@@ -6,14 +6,13 @@
 
   <button mat-button [matMenuTriggerFor]="menu">Gestión de jornada</button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item >Consultar jornada</button>
-    <button mat-menu-item>Solicitar vacaciones</button>
+    <button mat-menu-item routerLink="/consultar_jornada" >Consultar jornada</button>
+    <button mat-menu-item routerLink="/solicitar_vacaciones">Solicitar vacaciones</button>
     <button mat-menu-item>Portal de solicitudes</button>
   </mat-menu>
 
-  <!--  <mi-componente></mi-componente>-->
-
   <div class="spacer"></div>
   <a routerLink="/login">Identificarse</a>
+  <a (click)="logout()">Logout</a>
 
 </div>

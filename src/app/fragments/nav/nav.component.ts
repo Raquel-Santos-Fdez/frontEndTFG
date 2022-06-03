@@ -1,6 +1,7 @@
 
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'nav-component',
@@ -9,7 +10,7 @@ import {MatMenuTrigger} from "@angular/material/menu";
 })
 export class NavComponent implements OnInit {
 
-  constructor() {
+  constructor( private http:HttpClient) {
   }
 
   ngOnInit(): void {
@@ -22,5 +23,9 @@ export class NavComponent implements OnInit {
     //util en caso de que sea undefined
     // @ts-ignore
     this.trigger.openMenu();
+  }
+
+  logout() {
+
   }
 }

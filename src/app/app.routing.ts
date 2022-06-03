@@ -3,6 +3,8 @@ import {HomeComponent} from "./vistas/home/home.component";
 import {LoginComponent} from "./vistas/login/login.component";
 import {InicioComponent} from "./vistas/inicio/inicio.component";
 import {HorariosComponent} from "./vistas/horarios/horarios.component";
+import {ConsultarJornadaComponent} from "./vistas/jornada/consultar-jornada/consultar-jornada.component";
+import {SolicitarVacacionesComponent} from "./vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component";
 
 const routes:Routes =[
   {
@@ -20,7 +22,20 @@ const routes:Routes =[
   {
     path:'horarios',
     component: HorariosComponent
-  }
+  },
+  {
+    path:'tabla_horarios',
+    loadChildren: ()=>
+      import ('./vistas/horarios/horarios.module').then((h)=> h.HorariosModule),
+  },
+  {
+    path: 'consultar_jornada',
+    component: ConsultarJornadaComponent
+  },
+  {
+    path: 'solicitar_vacaciones',
+    component: SolicitarVacacionesComponent
+  },
 ];
 
 export const routing=RouterModule.forRoot(routes);

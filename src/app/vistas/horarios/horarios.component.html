@@ -1,30 +1,8 @@
-<div>
-  <button mat-button>C1 (Gijón-Mieres)</button>
-  <button mat-button>C2 (Aviles-Pola de Lena)</button>
-  <button mat-button>C3 (Oviedo-Llamaquique)</button>
+<div *ngFor="let route of routes">
+  <button mat-button (click)="showTablaHorarios(route.route_id)">{{route.route_short_name}} ({{route.route_long_name}})</button>
 </div>
 
 <app-mapa></app-mapa>
 
-<table class = "table table-striped">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Estacion</th>
-    <th>Latitud</th>
-    <th>Longitud</th>
-  </tr>
-  </thead>
-  <!-- El bucle recorre cada empleado de employees-->
-  <!-- Este archivo html está asociado a su respectivo .ts -->
-  <!-- employees es una propiedad definida en el .ts employees: Employee[]-->
-  <tbody>
-  <tr *ngFor = "let u of estaciones">
-    <!-- {{}} Es interpolación para acceder a los campos -->
-    <td>{{u.id}}</td>
-    <td>{{u.descripcion}}</td>
-    <td>{{u.latitud}}</td>
-    <td>{{u.longitd}}</td>
-  </tr>
-  </tbody>
-</table>
+<router-outlet></router-outlet>
+
