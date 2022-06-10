@@ -5,6 +5,8 @@ import {InicioComponent} from "./vistas/inicio/inicio.component";
 import {HorariosComponent} from "./vistas/horarios/horarios.component";
 import {ConsultarJornadaComponent} from "./vistas/jornada/consultar-jornada/consultar-jornada.component";
 import {SolicitarVacacionesComponent} from "./vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component";
+import {PortalSolicitudesComponent} from "./vistas/jornada/portal-solicitudes/portal-solicitudes.component";
+import {VerSolicitudesComponent} from "./vistas/jornada/ver-solicitudes/ver-solicitudes.component";
 
 const routes:Routes =[
   {
@@ -36,6 +38,14 @@ const routes:Routes =[
     path: 'solicitar_vacaciones',
     component: SolicitarVacacionesComponent
   },
+  {
+    path: 'portal_solicitudes',
+    component: PortalSolicitudesComponent
+  },
+  {
+    path: 'ver_solicitudes',
+    component: VerSolicitudesComponent
+  }
 ];
 
 export const routing=RouterModule.forRoot(routes);

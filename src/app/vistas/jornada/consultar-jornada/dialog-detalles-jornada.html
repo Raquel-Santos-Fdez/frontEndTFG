@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Detalles de la tarea</h1>
+
+<mat-form-field appearance="fill">
+  <h3>Hora de salida</h3>
+  <input [(ngModel)]="data.tarea.horaSalida" readonly type="text"/>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <h3>Andén</h3>
+  <input [(ngModel)]="data.tarea.anden" readonly/>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <h3>Descripción</h3>
+  <input [(ngModel)]="data.tarea.descripcion" readonly/>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <h3>Inicio de la ruta</h3>
+  <input [(ngModel)]="data.origen.stop_name" readonly/>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <h3>Final de la ruta</h3>
+  <input [(ngModel)]="data.final.stop_name" readonly/>
+</mat-form-field>
+
+<div mat-dialog-actions>
+  <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
+
+</div>

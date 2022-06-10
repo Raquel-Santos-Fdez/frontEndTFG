@@ -1,6 +1,9 @@
 <div class="toolbar" role="banner">
 
-  <a href="/" id="navBar">Home</a>
+
+  <a href="/" id="navBar">
+    <mat-icon aria-hidden="false" aria-label="Example home icon" href="/">home</mat-icon>
+  </a>
 
   <a href="/horarios">Consultar horarios</a>
 
@@ -8,8 +11,10 @@
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/consultar_jornada" >Consultar jornada</button>
     <button mat-menu-item routerLink="/solicitar_vacaciones">Solicitar vacaciones</button>
-    <button mat-menu-item>Portal de solicitudes</button>
+    <button mat-menu-item routerLink="/portal_solicitudes">Portal de solicitudes</button>
   </mat-menu>
+
+  <button mat-button routerLink="/ver_solicitudes">Ver solicitudes</button>
 
   <div class="spacer"></div>
   <a routerLink="/login">Identificarse</a>

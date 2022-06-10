@@ -1,0 +1,63 @@
+<h1>PORTAL DE SOLICITUDES</h1>
+
+
+<button mat-raised-button (click)="openDialog()">Nueva solicitud</button>
+
+<br/>
+
+<mat-tab-group>
+  <mat-tab  label="Todas las solicitudes">
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="fechaTrabajo">
+        <th mat-header-cell *matHeaderCellDef> Día a cubrir </th>
+        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaDescanso">
+        <th mat-header-cell *matHeaderCellDef> Día de descanso </th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaDescanso}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="aceptar">
+        <th mat-header-cell *matHeaderCellDef> Acción </th>
+        <td mat-cell *matCellDef>
+          <button mat-button> Aceptar</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </mat-tab>
+
+  <mat-tab label="Mis solicitudes">
+    <table mat-table [dataSource]="misSolicitudes">
+
+      <ng-container matColumnDef="fechaTrabajo">
+        <th mat-header-cell *matHeaderCellDef> Día a cubrir </th>
+        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaDescanso">
+        <th mat-header-cell *matHeaderCellDef> Día de descanso </th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaDescanso}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsMisSolicitudes"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsMisSolicitudes;"></tr>
+
+    </table>
+
+  </mat-tab>
+</mat-tab-group>
+
+
+
+

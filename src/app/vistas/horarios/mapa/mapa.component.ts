@@ -1,9 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { map } from 'rxjs';
-import {Estacion} from "../../../model/estacion/estacion";
 import {BackendService} from "../../../servicios/backend.service";
-import {AppComponent} from "../../../app.component";
 import {Stop} from "../../../model/stop/stop";
 
 @Component({

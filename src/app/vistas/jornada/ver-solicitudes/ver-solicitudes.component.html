@@ -1,0 +1,14 @@
+<h1> Solicitudes pendientes</h1>
+<table>
+  <th>Id</th>
+  <th>Fecha</th>
+  <th>Motivo</th>
+  <tr *ngFor="let solicitud of solicitudes">
+    <td>{{solicitud.id}}</td>
+    <td>{{solicitud.fecha}}</td>
+    <td>{{solicitud.motivo}}</td>
+    <button mat-button (click)="aceptarSolicitud(solicitud.id)">Aceptar</button>
+
+    <button mat-button (click)="rechazarSolicitud(solicitud.id)">Rechazar</button>
+  </tr>
+</table>

@@ -19,11 +19,15 @@ import { MatTableModule } from "@angular/material/table";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 import { HorariosComponent } from './vistas/horarios/horarios.component';
 import { MapaComponent } from './vistas/horarios/mapa/mapa.component';
 import { TablaHorariosComponent } from './vistas/horarios/tabla-horarios/tabla-horarios.component';
-import { ConsultarJornadaComponent } from './vistas/jornada/consultar-jornada/consultar-jornada.component';
+import {
+  ConsultarJornadaComponent,
+  DialogDetallesJornada
+} from './vistas/jornada/consultar-jornada/consultar-jornada.component';
 
 import {HorariosModule} from "./vistas/horarios/horarios.module";
 
@@ -31,6 +35,11 @@ import {GoogleMapsModule} from '@angular/google-maps';
 
 import {FormsModule} from "@angular/forms";
 import { SolicitarVacacionesComponent } from './vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component';
+import {
+  DialogNuevaSolicitud,
+  PortalSolicitudesComponent
+} from './vistas/jornada/portal-solicitudes/portal-solicitudes.component';
+import { VerSolicitudesComponent } from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
 // import {AppService} from "./app.service";
 
 @NgModule({
@@ -47,6 +56,10 @@ import { SolicitarVacacionesComponent } from './vistas/jornada/solicitar-vacacio
     TablaHorariosComponent,
     ConsultarJornadaComponent,
     SolicitarVacacionesComponent,
+    PortalSolicitudesComponent,
+    DialogNuevaSolicitud,
+    VerSolicitudesComponent,
+    DialogDetallesJornada
   ],
   imports: [
     BrowserModule,
@@ -63,7 +76,8 @@ import { SolicitarVacacionesComponent } from './vistas/jornada/solicitar-vacacio
     MatTableModule,
     MatDatepickerModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule
 
   ],
   providers: [

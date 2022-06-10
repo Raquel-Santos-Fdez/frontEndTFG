@@ -1,0 +1,21 @@
+
+<mat-card class="calendar-card">
+  <mat-calendar [(selected)]="selected" (click)="verJornada()"></mat-calendar>
+</mat-card>
+
+
+<br/>
+
+<table *ngIf="isSelected">
+  <th>Descripción</th>
+  <tr *ngFor="let t of tareas">
+    <td>{{t.descripcion}}</td>
+    <td>
+      <button mat-button (click)="verDetalles(t.id)">Detalles</button>
+    </td>
+  </tr>
+</table>
+
+<p *ngIf="!isSelected">Aún no se ha asignado una jornada para el día seleccionado</p>
+
+

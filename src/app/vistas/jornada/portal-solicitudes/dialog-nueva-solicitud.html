@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Nuevo cambio de turno</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Día libre a solicitar</mat-label>
+    <input matInput [matDatepicker]="picker1" (dateInput)="saveDateLibrar($event)">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Día trabajo a cubrir</mat-label>
+    <input matInput [matDatepicker]="picker2" (dateInput)="saveDateCubrir($event)">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Motivo de la ausencia</mat-label>
+    <mat-select [(value)]="selected">
+      <mat-option value="Visita médica">Visita médica</mat-option>
+      <mat-option value="Otro motivo">Otro motivo</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button (click)="enviar()" cdkFocusInitial>Enviar</button>
+</div>
