@@ -20,7 +20,7 @@ export class PortalSolicitudesComponent implements OnInit {
   name: string;
   displayedColumns: string[] = ["fechaTrabajo", "fechaDescanso", "aceptar"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
-  dataSource: SolicitudIntercambio[]
+  todasSolicitudes: SolicitudIntercambio[]
   misSolicitudes: SolicitudIntercambio[]
 
   constructor(public dialog: MatDialog, private service: JornadaService) {
@@ -38,7 +38,6 @@ export class PortalSolicitudesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.animal = result;
     });
   }
@@ -46,7 +45,7 @@ export class PortalSolicitudesComponent implements OnInit {
   private loadSolicitudes() {
     let id: bigint = BigInt("1");
     this.service.findNotOwnSolicitudes(id).subscribe(data => {
-      this.dataSource = data;
+      this.todasSolicitudes = data;
     });
   }
 
@@ -54,8 +53,20 @@ export class PortalSolicitudesComponent implements OnInit {
     let id: bigint = BigInt("1");
     this.service.findOwnSolicitudes(id).subscribe(data => {
       this.misSolicitudes = data;
-      console.log(this.misSolicitudes)
     });
+  }
+
+   aceptarSolicitud(solicitud:SolicitudIntercambio) {
+    let id: bigint = BigInt("1");
+    let posible=setTimeout(()=>{this.service.checkCambioJornada(id,solicitud.fecha, solicitud.fechaDescanso)},500);
+    if (!posible)
+      alert("No es posible realizar el cambio de turno, por favor consulta tu jornada")
+    else {
+      this.service.reasignar(solicitud).subscribe();
+      this.todasSolicitudes=this.todasSolicitudes.filter(s=> s!=solicitud)
+    }
+
+
   }
 }
 

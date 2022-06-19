@@ -20,6 +20,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
 
 import { HorariosComponent } from './vistas/horarios/horarios.component';
 import { MapaComponent } from './vistas/horarios/mapa/mapa.component';
@@ -77,7 +78,8 @@ import { VerSolicitudesComponent } from './vistas/jornada/ver-solicitudes/ver-so
     MatDatepickerModule,
     MatCardModule,
     MatButtonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatInputModule
 
   ],
   providers: [

@@ -9,5 +9,5 @@ export abstract class Solicitud {
 }
 
 enum EstadoEnum{
-  PENDIENTE, ACEPTADA, RECHAZADA
+  PENDIENTE, ACEPTADA, RECHAZADA, REASIGNADA
 }

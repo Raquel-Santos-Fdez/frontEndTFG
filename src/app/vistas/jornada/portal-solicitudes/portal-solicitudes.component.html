@@ -7,7 +7,7 @@
 
 <mat-tab-group>
   <mat-tab  label="Todas las solicitudes">
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="todasSolicitudes">
 
       <ng-container matColumnDef="fechaTrabajo">
         <th mat-header-cell *matHeaderCellDef> Día a cubrir </th>
@@ -21,8 +21,8 @@
 
       <ng-container matColumnDef="aceptar">
         <th mat-header-cell *matHeaderCellDef> Acción </th>
-        <td mat-cell *matCellDef>
-          <button mat-button> Aceptar</button>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button (click)="aceptarSolicitud(element)"> Aceptar</button>
         </td>
       </ng-container>
 

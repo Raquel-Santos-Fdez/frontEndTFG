@@ -22,8 +22,9 @@ export class VerSolicitudesComponent implements OnInit {
 
 
   aceptarSolicitud(id:bigint) {
-    this.service.aceptarSolicitud(id).subscribe();
-    this.borrarSolicitud(id);
+    let idNuevoEmployee: bigint = BigInt("1");
+    this.service.aceptarSolicitud(id).subscribe(()=> this.borrarSolicitud(id));
+    this.service.realizarCambio(id, idNuevoEmployee).subscribe();
   }
 
   borrarSolicitud(id:bigint){
@@ -34,7 +35,6 @@ export class VerSolicitudesComponent implements OnInit {
   }
 
   rechazarSolicitud(id:bigint) {
-    this.service.rechazarSolicitud(id).subscribe();
-    this.borrarSolicitud(id);
+    this.service.rechazarSolicitud(id).subscribe(()=>this.borrarSolicitud(id) );
   }
 }
