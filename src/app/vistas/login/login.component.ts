@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../../servicios/authentication.service";
-// import {AppService} from "../../app.service";
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {HttpHeaders} from "@angular/common/http";
+import {LoginService} from "../../servicios/login.service";
+import {Employee} from "../../model/employee/employee";
 
 @Component({
   selector: 'app-login',
@@ -11,36 +11,36 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LoginComponent implements OnInit {
 
-  // error:boolean=false;
-  // credentials = {username: '', password: ''};
-  //
-  // constructor(private app: AppService, private http: HttpClient, private router: Router) {
-  // }
-  //
-  // login() {
-  //   this.app.authenticate(this.credentials, () => {
-  //     this.router.navigateByUrl('/');
-  //   });
-  //   return false;
-  // }
+  errorInicio: boolean = false;
+  loading: boolean = false;
+  // employee: any = {};
+  employee:Employee=new Employee();
 
-
-  username:string;
-  password: string;
-
-  hide=true;
-
-  constructor(private authentication:AuthenticationService, private router:Router) { }
+  constructor(private service: LoginService) {
+  }
 
   ngOnInit(): void {
   }
 
   login() {
-    let resp=this.authentication.login(this.username, this.password);
-    resp.subscribe(data=> {
-        console.log("ESRO ES UNA PRUEBAAAAA");
-          this.router.navigate(['/inicio']);
-      }
-    );
+    let formulario: any = document.getElementById("login");
+    let formularioValido: boolean = formulario.reportValidity();
+    if (formularioValido) {
+      this.loading = true;
+      this.service.login(this.employee).subscribe(data => {
+        this.iniciarSesion(data)
+      })
+    }
+  }
+
+  iniciarSesion(resultado: any) {
+    this.loading = false;
+    if (resultado) {
+      localStorage.setItem("usuario", JSON.stringify(resultado));
+      location.href = "";
+    } else {
+      //si es null o undefined
+      this.errorInicio = true;
+    }
   }
 }

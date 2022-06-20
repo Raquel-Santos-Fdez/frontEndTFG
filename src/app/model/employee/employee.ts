@@ -1,9 +1,9 @@
 export class Employee {
 
   id: bigint;
-  name:String;
-  surname:String;
-  username:String;
-  password:String;
-  role:String;
+  name:string;
+  surname:string;
+  username:string;
+  password:string;
+  role:string;
 }

@@ -7,17 +7,24 @@
 
   <a href="/horarios">Consultar horarios</a>
 
-  <button mat-button [matMenuTriggerFor]="menu">Gestión de jornada</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/consultar_jornada" >Consultar jornada</button>
-    <button mat-menu-item routerLink="/solicitar_vacaciones">Solicitar vacaciones</button>
-    <button mat-menu-item routerLink="/portal_solicitudes">Portal de solicitudes</button>
-  </mat-menu>
-
-  <button mat-button routerLink="/ver_solicitudes">Ver solicitudes</button>
+  <div *ngIf="isLogin && employee.role !='ADMIN'">
+    <button [matMenuTriggerFor]="menu" mat-button>Gestión de jornada</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/consultar_jornada">Consultar jornada</button>
+      <button mat-menu-item routerLink="/solicitar_vacaciones">Solicitar vacaciones</button>
+      <button mat-menu-item routerLink="/portal_solicitudes">Portal de solicitudes</button>
+    </mat-menu>
+  </div>
+  <div *ngIf="isLogin && employee.role=='ADMIN'">
+    <button mat-button routerLink="/ver_solicitudes">Ver solicitudes</button>
+  </div>
 
   <div class="spacer"></div>
-  <a routerLink="/login">Identificarse</a>
-  <a (click)="logout()">Logout</a>
+  <div *ngIf="!isLogin">
+    <a routerLink="/login">Identificarse</a>
+  </div>
+  <div *ngIf="isLogin">
+    <a (click)="logout()">Logout</a>
+  </div>
 
 </div>

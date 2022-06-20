@@ -21,8 +21,8 @@ export class JornadaService {
 
   }
 
-  findJornadaByDate(date: Date): Observable<Tarea[]> {
-    return this.httpClient.get<Tarea[]>(`${this.backendURL}` + "jornada/consultar/" + date + "/1");
+  findJornadaByDate(date: Date, idEmployee:bigint): Observable<Tarea[]> {
+    return this.httpClient.get<Tarea[]>(`${this.backendURL}` + "jornada/consultar/" + date + "/"+idEmployee);
   }
 
   getAllSolicitudesPendientes(): Observable<Solicitud[]> {

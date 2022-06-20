@@ -1,19 +1,47 @@
-<p>Usuario:</p>
-<mat-form-field appearance="fill">
-  <mat-label>Nombre de usuario</mat-label>
-  <input matInput placeholder="rsfernandez" required [(ngModel)]="username">
-</mat-form-field>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Bienvenidos!</h1>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <hr>
+  </div>
+</div>
+<div *ngIf="loading" class="row">
+  <div class="col-md-12">
+    <div class="spinner-border text-info float-right" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>
 
-<p>Contraseña:</p>
-<mat-form-field appearance="fill">
-  <mat-label>Enter your password</mat-label>
-  <input matInput [type]="hide ? 'password' : 'text'" required [(ngModel)]="password">
-  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-  </button>
-</mat-form-field>
-<button mat-button type="submit" class="loginButton" (click)="login()">Login</button>
-
+<form (ngSubmit)="login()" id="login">
+  <div class="row">
+    <div class="col-md-12">
+      <input [(ngModel)]="employee.username" [ngModelOptions]="{standalone:true}" class="form-control"
+             placeholder="username"
+             required type="text">
+    </div>
+    <div class="col-md-12">
+      <input [(ngModel)]="employee.password" [ngModelOptions]="{standalone:true}" class="form-control"
+             placeholder="password"
+             required type="password">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <input class="btn btn-success float-right" type="submit" value="Login">
+    </div>
+  </div>
+</form>
+<br>
+<div *ngIf="errorInicio" class="row">
+  <label class="float-right" style="color:red;"> Usuario o password incorrecto</label>
+</div>
 
 
 <!--<div class="alert alert-danger" [hidden]="!error">-->

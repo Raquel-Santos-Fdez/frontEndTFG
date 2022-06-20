@@ -4,6 +4,7 @@ import {Tarea} from "../../../model/tarea/tarea";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Stop} from "../../../model/stop/stop";
 import {Incidencia} from "../../../model/incidencia/incidencia";
+import {Employee} from "../../../model/employee/employee";
 
 export interface DialogData {
   tarea: Tarea |undefined
@@ -30,10 +31,19 @@ export class ConsultarJornadaComponent implements OnInit {
 
   isSelected: boolean = false;
 
+  employee:Employee;
+  isLoggedIn:boolean=false;
+
   constructor(private service: JornadaService, public dialog: MatDialog) {
+
+    // var employeeJson=JSON.parse(localStorage.string)
+    // this.employee=service.find
   }
 
   ngOnInit(): void {
+    this.employee=JSON.parse(localStorage.getItem("usuario")||'{}');
+    if(Object.keys(this.employee).length!=0)
+      this.isLoggedIn = true;
   }
 
   verJornada() {
@@ -42,7 +52,7 @@ export class ConsultarJornadaComponent implements OnInit {
     this.origen=undefined;
     this.final=undefined;
     if (this.selected != null)
-      this.service.findJornadaByDate(this.selected).subscribe(data => {
+      this.service.findJornadaByDate(this.selected, this.employee.id).subscribe(data => {
         this.tareas = data
         if (this.tareas.length > 0)
           this.isSelected = true

@@ -1,7 +1,4 @@
-import { Component } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
-// import {AppService} from "./app.service";
+import {Component, HostListener, OnInit} from '@angular/core';
 import {finalize} from "rxjs";
 
 
@@ -13,20 +10,18 @@ import {finalize} from "rxjs";
 export class AppComponent { //clase que exportamos para poder importarla en otros componentes
 
 
-  constructor(
-    // private app: AppService, private http:HttpClient, private router:Router
-  ){
-    // this.app.authenticate(undefined, undefined);
+  constructor() {
+    // localStorage.removeItem("usuario");
   }
+
   ngOnInit(): void {
 
   }
 
-  logout() {
-    // this.http.post('logout', {}).pipe(
-    //   finalize(() => {
-    //     this.app.authenticated = false;
-    //     this.router.navigateByUrl('/login');
-    //   })).subscribe();
-  }
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeunloadHandler(event:any) {
+  //   localStorage.clear();
+  //
+  // }
+
 }

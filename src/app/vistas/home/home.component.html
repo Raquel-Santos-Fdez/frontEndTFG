@@ -1,1 +1,28 @@
 <h1>BIENVENIDO A CERCANIAS RENFE ASTURIAS</h1>
+
+
+  <button (click)="cambiaIzquierda()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+
+  <mat-card>
+    <img [src]="rutaImagen"/>
+  </mat-card>
+
+
+<button (click)="cambiaDerecha()">
+  <mat-icon>keyboard_arrow_right</mat-icon>
+</button>
+
+<!--<div ng-controller="dataController">-->
+<!--  <div class="coverflow">-->
+<!--    <div class=coverflow_container">-->
+<!--      <div class="coverflow_element" ng-click="changeIndex($index)" ng-repeat="item in list">-->
+<!--        <h2 class="coverflow__title">{{ item.title }}</h2>-->
+<!--        <div class="coverflow__image">-->
+<!--          <img src="{{ item.image }}"/>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
