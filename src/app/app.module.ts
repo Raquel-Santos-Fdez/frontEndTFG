@@ -21,6 +21,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
+import { NgImageSliderModule } from 'ng-image-slider';
+import {MatSelectModule} from '@angular/material/select';
 
 import { HorariosComponent } from './vistas/horarios/horarios.component';
 import { MapaComponent } from './vistas/horarios/mapa/mapa.component';
@@ -79,7 +81,9 @@ import { VerSolicitudesComponent } from './vistas/jornada/ver-solicitudes/ver-so
     MatCardModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatInputModule
+    MatInputModule,
+    NgImageSliderModule,
+    MatSelectModule
 
   ],
   providers: [

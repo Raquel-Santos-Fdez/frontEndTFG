@@ -1,5 +1,35 @@
-<div *ngFor="let route of routes">
-  <button mat-button (click)="showTablaHorarios(route.route_id)">{{route.route_short_name}} ({{route.route_long_name}})</button>
+<!--<mat-form-field appearance="fill">-->
+<!--  <mat-label>Seleccione una ruta</mat-label>-->
+<!--  <mat-select [(value)]="selected" >-->
+<!--    <mat-option>&#45;&#45; None &#45;&#45;</mat-option>-->
+<!--    <mat-optgroup *ngFor="let group of getRoutes()" [label]="group.route_short_name">-->
+<!--      <mat-option *ngFor="let r of getByShortName(group.route_short_name)"  [value]="r" >-->
+<!--        {{r.route_long_name}}-->
+<!--      </mat-option>-->
+<!--    </mat-optgroup>-->
+<!--  </mat-select>-->
+<!--</mat-form-field>-->
+
+<div>
+<mat-form-field appearance="fill">
+  <mat-label>Origen</mat-label>
+  <mat-select [(value)]="origen" >
+    <mat-option *ngFor="let e of stops"  [value]="e" >
+        {{e.stop_name}}
+      </mat-option>
+  </mat-select>
+</mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Destino</mat-label>
+    <mat-select [(value)]="destino" >
+      <mat-option *ngFor="let e of stops"  [value]="e" >
+        {{e.stop_name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<button mat-button (click)="consultarHorario(origen, destino)">Consultar horarios</button>
 </div>
 
 <app-mapa></app-mapa>

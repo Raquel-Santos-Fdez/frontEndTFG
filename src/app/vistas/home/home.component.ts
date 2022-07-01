@@ -11,6 +11,19 @@ export class HomeComponent implements OnInit {
   imagenes:string[]=["assets/img/imagen1.jpg", "assets/img/imagen2.jpg", "assets/img/imagen3.jpg"];
   rutaImagen:string=this.imagenes[0];
   actual:number=0;
+  imageObject=[{
+    image:'assets/img/imagen1.jpg',
+    thumbImage: 'assets/img/imagen1.jpg',
+    alt:'imagen1'
+  },{
+    image:'assets/img/imagen2.jpg',
+    thumbImage: 'assets/img/imagen2.jpg',
+    alt:'imagen2'
+  },{
+    mage:'assets/img/imagen3.jpg',
+    thumbImage: 'assets/img/imagen3.jpg',
+    alt:'imagen3'
+  }];
 
   constructor() { }
 

@@ -3,8 +3,9 @@ import {NgModule} from "@angular/core";
 import {TablaHorariosComponent} from "./tabla-horarios/tabla-horarios.component";
 
 const routes:Routes =[
+
   {
-    path:'tabla_horarios/:id',
+    path:'tabla_horarios',
     component: TablaHorariosComponent
   }
 ];

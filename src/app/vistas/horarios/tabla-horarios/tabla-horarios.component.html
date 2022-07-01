@@ -1,8 +1,30 @@
-<table class="default">
-  <tr>HORARIOS</tr>
-  <tr *ngFor="let st of stopTimes">
+<nav-component></nav-component>
 
-    <td>{{st.arrival_time}}</td>
+<body>
 
-  </tr>
-</table>
+<div class="content" role="main">
+
+  <table class="default">
+    <tr>HORARIOS</tr>
+    <tr *ngFor="let st of stopTimes">
+
+      <td>{{st.arrival_time}}</td>
+
+    </tr>
+  </table>
+
+  <table mat-table [dataSource]="stopTimes">
+
+    <ng-container matColumnDef="horario">
+      <th mat-header-cell *matHeaderCellDef> HORARIO </th>
+      <td mat-cell *matCellDef="let element"> {{element.arrival_time}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+</div>
+
+</body>
