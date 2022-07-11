@@ -1,0 +1,41 @@
+<h1>Hola, {{employee.name}}</h1>
+
+<mat-tab-group>
+  <mat-tab label="Datos personales">
+    <ng-container>
+      <div>
+        <label>Nombre, Apellidos</label>
+        <input [(ngModel)]="employee.name +' '+employee.surname">
+      </div>
+      <div>
+        <label>Nombre de usuario</label>
+        <input [(ngModel)]="employee.username">
+      </div>
+      <div>
+        <label>Contraseña</label>
+        <input [(ngModel)]="employee.password" matInput [type]="show ? 'text': 'password'" id="password">
+        <ng-container *ngIf="!show">
+          <a (click)="mostrarPassword()" matTooltip="Ver contraseña"> <mat-icon>visibility</mat-icon></a>
+        </ng-container>
+        <ng-container *ngIf="show">
+          <a (click)="mostrarPassword()" matTooltip="Ocultar contraseña"><mat-icon>visibility_off</mat-icon></a>
+        </ng-container>
+        <mat-icon>edit</mat-icon>
+      </div>
+
+      <div>
+        <label>Rol</label>
+        <input [(ngModel)]="employee.role">
+      </div>
+    </ng-container>
+
+  </mat-tab>
+
+  <mat-tab label="Días libres">
+
+  </mat-tab>
+
+  <mat-tab label="Solicitudes">
+
+  </mat-tab>
+</mat-tab-group>

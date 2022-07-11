@@ -1,0 +1,51 @@
+<h1 mat-dialog-title>Nuevo usuario</h1>
+
+<form [formGroup]="formulario">
+  <p>
+    <mat-form-field>
+      <input [(ngModel)]="empleado.username" matInput placeholder="Nombre de usuario" formControlName="username" required type="text"/>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <input [(ngModel)]="empleado.name" matInput placeholder="Nombre" formControlName="nombre" required type="text"/>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <input [(ngModel)]="empleado.surname" matInput placeholder="Apellidos" formControlName="apellidos" required type="text"/>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <input [(ngModel)]="empleado.dni" matInput placeholder="DNI"  formControlName="dni" required type="text"/>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <input [(ngModel)]="empleado.email" matInput placeholder="Email" formControlName="email" required type="text"/>
+    </mat-form-field>
+  </p>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Rol</mat-label>
+    <mat-select required>
+      <mat-option *ngFor="let rol of roles" [value]="rol">
+        {{rol}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div mat-dialog-actions>
+    <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
+    <button (click)="addUsuarioNuevo()" mat-button type="submit">Añadir</button>
+  </div>
+</form>
+
+
+
+

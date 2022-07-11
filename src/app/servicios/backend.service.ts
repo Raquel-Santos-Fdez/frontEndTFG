@@ -27,28 +27,19 @@ export class BackendService {
     return this.httpClient.get<Route>(`${this.backendURL}`+"routes/"+id);
   }
 
-  findAllStops(): Observable<Stop[]>{
-    return this.httpClient.get<Stop[]>(`${this.backendURL}`+"stops");
-  }
+
 
   findAllStopTimes(): Observable<StopTime[]>{
     return this.httpClient.get<StopTime[]>(`${this.backendURL}`+"stop_times");
   }
 
-  findAllRoutes(): Observable<Route[]>{
-    return this.httpClient.get<Route[]>(`${this.backendURL}`+"routes");
-  }
-
-  findRoutesByStop(stop: Stop) {
-    return this.httpClient.get<Route[]>(`${this.backendURL}`+"route_by_stop/"+stop.stop_id);
-  }
+  // findRoutesByStop(stop: Stop) {
+  //   return this.httpClient.get<Route[]>(`${this.backendURL}`+"route_by_stop/"+stop.stop_id);
+  // }
 
   findTimeByRutaStop(route_id: String, stop_id:String) {
     return this.httpClient.get<StopTime[]>(`${this.backendURL}`+"stop_times/"+route_id+"/"+stop_id).pipe(map(response=>response));
   }
 
-  findRoutesByStops(origen_id:String, destino_id:string): Observable<Route_stop[]>{
-    return this.httpClient.get<Route_stop[]>(`${this.backendURL}`+"route/"+origen_id+"/"+destino_id);
 
-  }
 }

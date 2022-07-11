@@ -1,32 +1,34 @@
 import {Injectable, NgModule} from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { HomeComponent } from './vistas/home/home.component';
-import { LoginComponent } from './vistas/login/login.component';
-import { NavComponent } from './fragments/nav/nav.component';
-import { FooterComponent } from './fragments/footer/footer.component';
-import { InicioComponent } from './vistas/inicio/inicio.component';
+import {AppComponent} from './app.component';
+import {HomeComponent} from './vistas/home/home.component';
+import {LoginComponent} from './vistas/login/login.component';
+import {NavComponent} from './fragments/nav/nav.component';
+import {FooterComponent} from './fragments/footer/footer.component';
+import {InicioComponent} from './vistas/inicio/inicio.component';
 
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {routing} from './app.routing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialExampleModule } from '../material.module';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTableModule } from "@angular/material/table";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MaterialExampleModule} from '../material.module';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTableModule} from "@angular/material/table";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { MatInputModule } from '@angular/material/input';
-import { NgImageSliderModule } from 'ng-image-slider';
+import {MatInputModule} from '@angular/material/input';
+import {NgImageSliderModule} from 'ng-image-slider';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ReactiveFormsModule} from '@angular/forms';
 
-import { HorariosComponent } from './vistas/horarios/horarios.component';
-import { MapaComponent } from './vistas/horarios/mapa/mapa.component';
-import { TablaHorariosComponent } from './vistas/horarios/tabla-horarios/tabla-horarios.component';
+import {HorariosComponent} from './vistas/horarios/horarios.component';
+import {MapaComponent} from './vistas/horarios/mapa/mapa.component';
+import {TablaHorariosComponent} from './vistas/horarios/tabla-horarios/tabla-horarios.component';
 import {
   ConsultarJornadaComponent,
   DialogDetallesJornada
@@ -37,18 +39,22 @@ import {HorariosModule} from "./vistas/horarios/horarios.module";
 import {GoogleMapsModule} from '@angular/google-maps';
 
 import {FormsModule} from "@angular/forms";
-import { SolicitarVacacionesComponent } from './vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component';
+import {SolicitarVacacionesComponent} from './vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component';
 import {
   DialogNuevaSolicitud,
   PortalSolicitudesComponent
 } from './vistas/jornada/portal-solicitudes/portal-solicitudes.component';
-import { VerSolicitudesComponent } from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
-// import {AppService} from "./app.service";
+import {VerSolicitudesComponent} from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
+import {PerfilComponent} from './vistas/perfil/perfil.component';
+import {
+  GestUsuariosJornadasComponent
+} from './vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.component';
+import {FilterPipe} from "./vistas/jornada/gest-usuarios-jornadas/filter.pipe";
+import {GestUsuariosJornadasModule} from "./vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-
     HomeComponent,
     LoginComponent,
     NavComponent,
@@ -62,7 +68,10 @@ import { VerSolicitudesComponent } from './vistas/jornada/ver-solicitudes/ver-so
     PortalSolicitudesComponent,
     DialogNuevaSolicitud,
     VerSolicitudesComponent,
-    DialogDetallesJornada
+    DialogDetallesJornada,
+    PerfilComponent,
+    GestUsuariosJornadasComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -83,7 +92,9 @@ import { VerSolicitudesComponent } from './vistas/jornada/ver-solicitudes/ver-so
     MatSnackBarModule,
     MatInputModule,
     NgImageSliderModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule,
+    GestUsuariosJornadasModule
 
   ],
   providers: [
@@ -92,15 +103,5 @@ import { VerSolicitudesComponent } from './vistas/jornada/ver-solicitudes/ver-so
   bootstrap: [AppComponent]
 })
 
-// @Injectable()
-// export class XhrInterceptor implements HttpInterceptor {
-//
-//   intercept(req: HttpRequest<any>, next: HttpHandler) {
-//     const xhr = req.clone({
-//       headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
-//     });
-//     return next.handle(xhr);
-//   }
-// }
-
-export class AppModule { }
+export class AppModule {
+}

@@ -9,6 +9,7 @@ import {SolicitudSimple} from "../model/solicitud/solicitudSimple";
 import {Incidencia} from "../model/incidencia/incidencia";
 import {Jornada} from "../model/jornada/jornada";
 import {DialogDetallesJornada} from "../vistas/jornada/consultar-jornada/consultar-jornada.component";
+import {Situacion} from "../model/tarea/tarea_stop";
 
 
 @Injectable({
@@ -21,8 +22,20 @@ export class JornadaService {
 
   }
 
-  findJornadaByDate(date: Date, idEmployee:bigint): Observable<Tarea[]> {
-    return this.httpClient.get<Tarea[]>(`${this.backendURL}` + "jornada/consultar/" + date + "/"+idEmployee);
+  findTareasByDateEmpleado(date: Date, idEmployee: bigint): Observable<Tarea[]> {
+    return this.httpClient.get<Tarea[]>(`${this.backendURL}` + "jornada/consultar/" + date + "/" + idEmployee);
+  }
+
+  findJornadaByEmployee(id: bigint) {
+    return this.httpClient.get<Jornada[]>(`${this.backendURL}` + "jornada/findByEmpleado/" + id)
+  }
+
+  findJornadaByDate(date: Date) {
+    return this.httpClient.get<Jornada[]>(`${this.backendURL}` + "jornada/findByDate/" + date);
+  }
+
+  findJornadaByDateEmpleado(date: Date, idEmployee: bigint) {
+    return this.httpClient.get<Jornada[]>(`${this.backendURL}` + "jornada/findJornadaByDateEmpleado/" + date + "/" + idEmployee);
   }
 
   getAllSolicitudesPendientes(): Observable<Solicitud[]> {
@@ -41,9 +54,6 @@ export class JornadaService {
     return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "jornada/find_own_solicitudes/" + id);
   }
 
-  getIncidenciasPending(id: bigint) {
-    return this.httpClient.get<Incidencia[]>(`${this.backendURL}` + "tren/getIncidenciasPending/" + id);
-  }
 
   checkCambioJornada(id: bigint, fecha: string, fechaDescanso: string) {
 
@@ -54,20 +64,14 @@ export class JornadaService {
 
     })
 
-    // setTimeout(() => {
-    //   console.log(listJornadas.length)
-      if (listJornadas.length == 0)
-        return false;
+    if (listJornadas.length == 0)
+      return false;
 
-      return true;
-
-    // }, 500)
-
-    // return false;
+    return true;
   }
 
   aceptarSolicitud(id: bigint) {
-    return this.httpClient.put(`${this.backendURL}` + "jornada/aceptar_solicitud", id )
+    return this.httpClient.put(`${this.backendURL}` + "jornada/aceptar_solicitud", id)
   }
 
   rechazarSolicitud(id: bigint) {
@@ -82,10 +86,6 @@ export class JornadaService {
     return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar_intercambio/", solicitudIntercambio)
   }
 
-  addIncidencia(incidencia: Incidencia) {
-    return this.httpClient.post(`${this.backendURL}` + "tren/addIncidencia/", incidencia)
-  }
-
 
   reasignar(solicitud: SolicitudIntercambio) {
     return this.httpClient.put(`${this.backendURL}` + "jornada/reasignar", solicitud)
@@ -93,5 +93,14 @@ export class JornadaService {
 
   realizarCambio(id: bigint, idEmployee: bigint) {
     return this.httpClient.put(`${this.backendURL}` + "jornada/realizarCambio", {id, idEmployee})
+  }
+
+  addTarea(tarea: Tarea) {
+    return this.httpClient.post(`${this.backendURL}` + "tarea/addTarea/", tarea)
+  }
+
+  addTareaStop(tarea: Tarea, origen: Stop, inicio: string) {
+    return this.httpClient.post(`${this.backendURL}` + "tarea_stop/addTareaStop", {tarea, origen, inicio})
+
   }
 }

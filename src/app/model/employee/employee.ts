@@ -4,6 +4,9 @@ export class Employee {
   name:string;
   surname:string;
   username:string;
+  email:string;
+  dni:string;
   password:string;
   role:string;
+
 }

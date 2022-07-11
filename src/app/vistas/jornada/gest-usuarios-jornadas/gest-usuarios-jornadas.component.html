@@ -1,0 +1,69 @@
+<h1>Gestión de usuarios y jornadas </h1>
+
+<input [(ngModel)]="filtroUsuarios" name="filtroUsuarios" placeholder="Buscar por nombre de usuario">
+
+<a matTooltip="añadir nuevo usuario">
+  <a (click)="addUsuario()">
+    <mat-icon>person_add</mat-icon>
+  </a>
+</a>
+
+<table>
+  <tr>
+    <th>Nombre de usuario</th>
+    <th>Nombre completo</th>
+    <th>Rol</th>
+    <th></th>
+  </tr>
+  <tr (click)="isClicado(empleado.id)" *ngFor="let empleado of empleados | filter:filtroUsuarios">
+    <td>{{empleado.username}}</td>
+    <td>{{empleado.name}}</td>
+    <td>{{empleado.role}}</td>
+    <td><a href="/ver_solicitudes">Detalles</a></td>
+  </tr>
+
+</table>
+
+<ng-container *ngIf="empleadoSeleccionado">
+  <button (click)="deleteEmpleadoFiltro()" mat-stroked-button>
+    <mat-icon>clear</mat-icon>
+    {{empleadoSeleccionado.username}}
+  </button>
+</ng-container>
+<ng-container *ngIf="diaSeleccionado">
+  <button (click)="deleteFechaFiltro()" mat-stroked-button>
+    <mat-icon>clear</mat-icon>
+    {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth()}}/{{diaSeleccionado.getFullYear()}}
+  </button>
+</ng-container>
+
+
+<mat-card class="calendar-card">
+  <mat-calendar (click)="seleccionarDia()" [(selected)]="diaSeleccionado"></mat-calendar>
+</mat-card>
+
+
+<table *ngIf="hasTarea">
+  <th>Descripción</th>
+  <th>Fecha</th>
+  <th>Horario</th>
+  <th>Empleado</th>
+  <tr *ngFor="let j of jornadasEmpleado">
+    <td *ngFor="let t of j.tareas">
+      {{t.descripcion}}
+    </td>
+    <td>{{j.date.toString().split('T')[0]}}</td>
+    <td *ngFor="let t of j.tareas">
+      {{t.horaSalida}}
+    </td>
+    <td>{{j.employee.username}}</td>
+    <td><a href="/ver_solicitudes">Detalles Tarea</a></td>
+  </tr>
+
+</table>
+<p *ngIf="!hasTarea && diaSeleccionado">Aún no se ha asignado una jornada para el día seleccionado</p>
+
+<button mat-button (click)="addTarea()">
+  Nueva tarea
+</button>
+

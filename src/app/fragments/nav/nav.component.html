@@ -17,13 +17,16 @@
   </div>
   <div *ngIf="isLogin && employee.role=='ADMIN'">
     <button mat-button routerLink="/ver_solicitudes">Ver solicitudes</button>
+    <button mat-button routerLink="/gestionar-usuarios-jornadas">Gestionar usuarios y jornadas</button>
   </div>
 
   <div class="spacer"></div>
+
   <div *ngIf="!isLogin">
     <a routerLink="/login">Identificarse</a>
   </div>
   <div *ngIf="isLogin">
+    <a routerLink="/ver-perfil" matTooltip="Ver perfil"><mat-icon>account_circle</mat-icon></a>
     <a (click)="logout()">Logout</a>
   </div>
 

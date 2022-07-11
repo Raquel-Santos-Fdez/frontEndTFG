@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BackendService} from "../../../servicios/backend.service";
 import {Stop} from "../../../model/stop/stop";
+import {EstacionService} from "../../../servicios/parada.service";
 
 @Component({
   selector: 'app-mapa',
@@ -33,7 +34,7 @@ export class MapaComponent implements OnInit {
     minZoom: 5,
   };
 
-  constructor(private service:BackendService) {
+  constructor(private paradaService:EstacionService) {
 
   }
 
@@ -101,7 +102,7 @@ export class MapaComponent implements OnInit {
   }
 
   private getStops(){
-    this.service.findAllStops().subscribe(
+    this.paradaService.findAllStops().subscribe(
       userData => {this.stops = userData}
     );
   }

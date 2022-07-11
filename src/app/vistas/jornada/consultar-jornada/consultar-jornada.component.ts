@@ -1,10 +1,12 @@
-import {Component, forwardRef, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {JornadaService} from "../../../servicios/jornada.service";
 import {Tarea} from "../../../model/tarea/tarea";
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Stop} from "../../../model/stop/stop";
 import {Incidencia} from "../../../model/incidencia/incidencia";
 import {Employee} from "../../../model/employee/employee";
+import {TrenService} from "../../../servicios/tren.service";
+import {Situacion} from "../../../model/tarea/tarea_stop";
 
 export interface DialogData {
   tarea: Tarea |undefined
@@ -34,7 +36,7 @@ export class ConsultarJornadaComponent implements OnInit {
   employee:Employee;
   isLoggedIn:boolean=false;
 
-  constructor(private service: JornadaService, public dialog: MatDialog) {
+  constructor(private service: JornadaService, private trenService: TrenService,public dialog: MatDialog) {
 
     // var employeeJson=JSON.parse(localStorage.string)
     // this.employee=service.find
@@ -52,7 +54,7 @@ export class ConsultarJornadaComponent implements OnInit {
     this.origen=undefined;
     this.final=undefined;
     if (this.selected != null)
-      this.service.findJornadaByDate(this.selected, this.employee.id).subscribe(data => {
+      this.service.findTareasByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
         this.tareas = data
         if (this.tareas.length > 0)
           this.isSelected = true
@@ -89,14 +91,14 @@ export class ConsultarJornadaComponent implements OnInit {
       let stop
       this.service.findStopByTareaStop(s.id).subscribe(data => {
         stop = data;
-        if (s.situacion == "INICIO")
+        if (s.situacion == Situacion.INICIO)
           this.origen = stop
         else
           this.final = stop
       })
     })
 
-    this.service.getIncidenciasPending(this.tareaDetalle.id).subscribe((data: Incidencia[])=>{
+    this.trenService.getIncidenciasPending(this.tareaDetalle.id).subscribe((data: Incidencia[])=>{
       this.incidencias=data;
     })
   }
@@ -112,7 +114,8 @@ export class DialogDetallesJornada {
   constructor(
     public dialogRef: MatDialogRef<DialogDetallesJornada>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private service: JornadaService
+    private service: JornadaService,
+    private trenService: TrenService
   ) {
   }
 
@@ -123,7 +126,7 @@ export class DialogDetallesJornada {
     //tarea puede ser undefined
     if(this.nuevaIncidencia!="" && this.data.tarea?.tren!=undefined){
       let incidencia=new Incidencia(this.nuevaIncidencia, this.data.tarea?.tren);
-      this.service.addIncidencia(incidencia).subscribe()
+      this.trenService.addIncidencia(incidencia).subscribe()
       this.data.incidencias.push(incidencia);
 
     }

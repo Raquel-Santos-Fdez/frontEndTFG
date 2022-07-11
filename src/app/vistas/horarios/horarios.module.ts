@@ -11,6 +11,7 @@ import {HorariosComponent} from "./horarios.component";
     CommonModule,
     HorariosRouting,
 
+
   ]
 })
 export class HorariosModule { }

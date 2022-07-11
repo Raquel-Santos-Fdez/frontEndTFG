@@ -9,13 +9,15 @@ export class Tarea {
 
   descripcion:String;
   horaSalida:Time;
+  horaFin:Time;
   anden:number;
 
-  jornada:Jornada;
 
   tren:Tren;
 
   stops:Set<Tarea_stop>;
+
+  jornada:Jornada;
 
   constructor() {
   }

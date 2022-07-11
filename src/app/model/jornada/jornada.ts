@@ -5,6 +5,12 @@ export class Jornada {
 
   id: bigint;
   date:Date;
-  tarea:Tarea;
+
+  tareas: Set<Tarea>;
   employee:Employee;
+
+  constructor(date:Date, employee:Employee) {
+    this.date=date;
+    this.employee=employee
+  }
 }
