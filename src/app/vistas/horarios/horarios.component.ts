@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {BackendService} from "../../servicios/backend.service";
 import {Stop} from "../../model/stop/stop";
 import {Route} from "../../model/route/route";
 import {Router} from "@angular/router";
 import {ProveedorService} from "../../servicios/proveedor.service";
 import {Route_stop} from "../../model/route_stop/route_stop";
 import {RutaService} from "../../servicios/ruta.service";
-import {EstacionService} from "../../servicios/parada.service";
+import {EstacionService} from "../../servicios/estacion.service";
 
 @Component({
   selector: 'app-horarios',
@@ -67,9 +66,9 @@ export class HorariosComponent implements OnInit {
     let rutasConjuntasDestino: Route_stop[] = [];
     let rutasConjuntas: Route_stop[] = [];
     if (origen && destino) {
-      this.rutaService.findRoutesByStops(origen.stop_id, destino.stop_id).subscribe(data => {
+      this.rutaService.findRutaByEstacion(origen.stop_id, destino.stop_id).subscribe(data => {
         rutasConjuntasOri = data
-        this.rutaService.findRoutesByStops(this.destino.stop_id, this.origen.stop_id).subscribe(data2 => {
+        this.rutaService.findRutaByEstacion(this.destino.stop_id, this.origen.stop_id).subscribe(data2 => {
           rutasConjuntasDestino = data2;
           let i;
           let j;

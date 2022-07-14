@@ -13,7 +13,7 @@ export class RutaService {
 
   constructor(private httpClient:HttpClient) { }
 
-  findRoutesByStops(origen_id:String, destino_id:string): Observable<Route_stop[]>{
+  findRutaByEstacion(origen_id:String, destino_id:string): Observable<Route_stop[]>{
     return this.httpClient.get<Route_stop[]>(`${this.backendURL}`+"route/"+origen_id+"/"+destino_id);
 
   }

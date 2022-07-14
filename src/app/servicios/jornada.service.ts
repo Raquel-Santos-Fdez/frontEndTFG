@@ -1,15 +1,13 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {observable, Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 import {Tarea} from "../model/tarea/tarea";
 import {Solicitud} from "../model/solicitud/solicitud";
 import {Stop} from "../model/stop/stop";
 import {SolicitudIntercambio} from "../model/solicitud/solicituIntercambio";
 import {SolicitudSimple} from "../model/solicitud/solicitudSimple";
-import {Incidencia} from "../model/incidencia/incidencia";
 import {Jornada} from "../model/jornada/jornada";
-import {DialogDetallesJornada} from "../vistas/jornada/consultar-jornada/consultar-jornada.component";
-import {Situacion} from "../model/tarea/tarea_stop";
+import {Tarea_stop} from "../model/tarea/tarea_stop";
 
 
 @Injectable({
@@ -64,10 +62,9 @@ export class JornadaService {
 
     })
 
-    if (listJornadas.length == 0)
-      return false;
+    return listJornadas.length != 0;
 
-    return true;
+
   }
 
   aceptarSolicitud(id: bigint) {
@@ -95,12 +92,24 @@ export class JornadaService {
     return this.httpClient.put(`${this.backendURL}` + "jornada/realizarCambio", {id, idEmployee})
   }
 
-  addTarea(tarea: Tarea) {
-    return this.httpClient.post(`${this.backendURL}` + "tarea/addTarea/", tarea)
+  addTarea(tarea: Tarea):Observable<Tarea>{
+    return this.httpClient.post<Tarea>(`${this.backendURL}` + "tarea/addTarea/", tarea)
   }
 
-  addTareaStop(tarea: Tarea, origen: Stop, inicio: string) {
-    return this.httpClient.post(`${this.backendURL}` + "tarea_stop/addTareaStop", {tarea, origen, inicio})
+  // addTareaStop( origen: Stop, inicio: string): Observable<any> {
+  //   return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio})
+  // }
+  //
+  // assignTareaStop(id:bigint, tarea: Tarea) {
+  //   return this.httpClient.put(`${this.backendURL}` + "tarea-stop/asignarTareaStop", {id, tarea})
+  //
+  // }
 
-  }
+  // addTareaStop( origen: Stop, inicio: string, tarea:Tarea): Observable<any> {
+  //   return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio, tarea})
+  // }
+
+  addTareaStop( origen: Stop, inicio: string, tarea:Tarea): Observable<any> {
+      return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio, tarea})
+    }
 }

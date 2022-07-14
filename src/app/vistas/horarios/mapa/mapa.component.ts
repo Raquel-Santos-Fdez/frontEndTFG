@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BackendService} from "../../../servicios/backend.service";
+import {Component, OnInit} from '@angular/core';
 import {Stop} from "../../../model/stop/stop";
-import {EstacionService} from "../../../servicios/parada.service";
+import {EstacionService} from "../../../servicios/estacion.service";
 
 @Component({
   selector: 'app-mapa',

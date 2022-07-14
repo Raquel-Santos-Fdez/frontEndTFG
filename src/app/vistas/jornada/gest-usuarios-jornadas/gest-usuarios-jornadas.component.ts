@@ -9,9 +9,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TrenService} from "../../../servicios/tren.service";
 import {Stop} from "../../../model/stop/stop";
-import {BackendService} from "../../../servicios/backend.service";
-import {Situacion} from "../../../model/tarea/tarea_stop";
-import {EstacionService} from "../../../servicios/parada.service";
+import {EstacionService} from "../../../servicios/estacion.service";
+import {Tarea_stop} from "../../../model/tarea/tarea_stop";
 
 export interface DialogData {
 
@@ -115,13 +114,13 @@ export class GestUsuariosJornadasComponent implements OnInit {
       let jornada: Jornada
       this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
         jornada = data[0]
-        if(!jornada && this.diaSeleccionado && this.empleadoSeleccionado) {
+        if (!jornada && this.diaSeleccionado && this.empleadoSeleccionado) {
           jornada = new Jornada(this.diaSeleccionado, this.empleadoSeleccionado);
         }
         this.dialog.open(NuevaTareaDialog, {
           width: '450px',
           data: {
-            jornada:jornada
+            jornada: jornada
           }
         })
       })
@@ -211,14 +210,21 @@ export class NuevaTareaDialog {
         this.tarea.tren = data
       })
       this.tarea.jornada = this.data.jornada;
-      this.jornadaService.addTarea(this.tarea).subscribe();
-      console.log("TAREA: "+this.tarea)
-      console.log("ORIGEN: "+this.origen)
-      this.jornadaService.addTareaStop(this.tarea, this.origen, "INICIO").subscribe();
-      // this.jornadaService.addTareaStop(this.tarea, this.origen, Situacion.FINAL).subscribe();
+      this.jornadaService.addTarea(this.tarea).subscribe(data => {
+        this.tarea = data
+        console.log(this.tarea)
+        console.log(this.origen)
+      });
+      console.log(this.tarea);
+      console.log(this.origen)
+      this.jornadaService.addTareaStop( this.origen, "INICIO",this.tarea).subscribe();
       this.dialogRef.close()
       this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
     }
     //comprobar que todos los campos están rellenos
   }
 }
+
+// let tarea_stop: Tarea_stop = new Tarea_stop();
+// this.jornadaService.addTareaStop(origen, "INICIO").subscribe(data => tarea_stop = data);
+// this.jornadaService.assignTareaStop(tarea_stop.id, this.tarea).subscribe();
