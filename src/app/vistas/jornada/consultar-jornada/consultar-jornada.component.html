@@ -6,6 +6,25 @@
 
 <br/>
 
+<mat-accordion  *ngIf="isSelected">
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Solicitar día libre
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Motivo de la ausencia</mat-label>
+      <mat-select [(value)]="motivoSeleccionado">
+        <mat-option value="Visita médica">Visita médica</mat-option>
+        <mat-option value="Otro motivo">Otro motivo</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-button *ngIf="motivoSeleccionado" (click)="solicitarDiaLibre()">Solicitar</button>
+  </mat-expansion-panel>
+</mat-accordion>
+
 <table *ngIf="isSelected">
   <th>Descripción</th>
   <tr *ngFor="let t of tareas">

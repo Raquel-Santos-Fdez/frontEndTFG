@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Stop} from "../model/stop/stop";
+import {Estacion} from "../model/estacion/estacion";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class EstacionService {
 
   constructor(private httpClient:HttpClient) { }
 
-  findAllStops(): Observable<Stop[]>{
-    return this.httpClient.get<Stop[]>(`${this.backendURL}`+"stops");
+  findAllStops(): Observable<Estacion[]>{
+    return this.httpClient.get<Estacion[]>(`${this.backendURL}`+"stops");
   }
 }

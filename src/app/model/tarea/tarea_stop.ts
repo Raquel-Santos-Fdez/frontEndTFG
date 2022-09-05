@@ -1,20 +1,24 @@
-import {Stop} from "../stop/stop";
+import {Estacion} from "../estacion/estacion";
 import {Tarea} from "./tarea";
 
 export class Tarea_stop{
 
   id:bigint
   situacion:Situacion
-  stop:Stop
+  estacion:Estacion
   tarea:Tarea
 
-  // constructor(situacion:Situacion, stop: Stop) {
+  constructor(situacion:Situacion, stop: Estacion, tarea:Tarea) {
+    this.situacion=situacion;
+    this.estacion=stop;
+    this.tarea=tarea;
+  }
+
+  // constructor(situacion:Situacion, estacion: Estacion) {
   //   this.situacion=situacion;
-  //   this.stop=stop;
+  //   this.estacion=estacion;
   // }
 
-  constructor() {
-  }
 }
 
 export enum Situacion{

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Employee} from "../../model/employee/employee";
+import {Empleado} from "../../model/empleado/empleado";
 
 @Component({
   selector: 'app-perfil',
@@ -8,7 +8,7 @@ import {Employee} from "../../model/employee/employee";
 })
 export class PerfilComponent implements OnInit {
 
-  employee:Employee;
+  employee:Empleado;
   show:boolean;
   constructor() { }
 

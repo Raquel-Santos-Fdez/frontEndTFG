@@ -1,9 +1,7 @@
-
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {HttpClient} from "@angular/common/http";
-import {isEmpty} from "rxjs";
-import {Employee} from "../../model/employee/employee";
+import {Empleado, Rol} from "../../model/empleado/empleado";
 
 @Component({
   selector: 'nav-component',
@@ -12,16 +10,18 @@ import {Employee} from "../../model/employee/employee";
 })
 export class NavComponent implements OnInit {
 
-  employee:Employee;
+  empleado:Empleado;
   isLogin:boolean=false;
+
+
 
   constructor( private http:HttpClient) {
   }
 
   ngOnInit(): void {
-    this.employee = JSON.parse(localStorage.getItem("usuario")||'{}');
+    this.empleado = JSON.parse(localStorage.getItem("usuario")||'{}');
 
-    if(Object.keys(this.employee).length!=0)
+    if(Object.keys(this.empleado).length!=0)
       this.isLogin = true;
 
 

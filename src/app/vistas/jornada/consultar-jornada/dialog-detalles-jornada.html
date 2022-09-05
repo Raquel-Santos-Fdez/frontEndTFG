@@ -19,7 +19,7 @@
 
   <mat-form-field *ngIf="data.origen && data.final">
     <h3>Ruta</h3>
-    <input [(ngModel)]="data.origen.stop_name +'\n-'+ data.final.stop_name" matInput readonly/>
+    <input [(ngModel)]="data.origen.nombre +'\n-'+ data.final.nombre" matInput readonly/>
   </mat-form-field>
 
   <mat-form-field *ngIf="data.tarea.tren">

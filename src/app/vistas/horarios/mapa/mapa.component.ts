@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Stop} from "../../../model/stop/stop";
+import {Estacion} from "../../../model/estacion/estacion";
 import {EstacionService} from "../../../servicios/estacion.service";
 
 @Component({
@@ -12,7 +12,7 @@ export class MapaComponent implements OnInit {
   //Markers: Estaciones
   marker: Marker;
   markers: Marker[]=[];
-  stops:Stop[];
+  stops:Estacion[];
 
   located: boolean = false;
 
@@ -71,7 +71,7 @@ export class MapaComponent implements OnInit {
     setTimeout(() => {
       var i;
       for(i=0; i<this.stops.length;i++){
-        this.addMarker(this.stops[i].stop_lat, this.stops[i].stop_lon, this.stops[i].stop_name);
+        this.addMarker(this.stops[i].latitud, this.stops[i].longitud, this.stops[i].nombre);
       }
     }, 1000);
 

@@ -1,4 +1,4 @@
-import {Employee} from "../employee/employee";
+import {Empleado} from "../empleado/empleado";
 import {Tarea} from "../tarea/tarea";
 
 export class Jornada {
@@ -6,11 +6,11 @@ export class Jornada {
   id: bigint;
   date:Date;
 
-  tareas: Set<Tarea>;
-  employee:Employee;
+  tareas: Tarea[]=[];
+  empleado:Empleado;
 
-  constructor(date:Date, employee:Employee) {
+  constructor(date:Date, empleado:Empleado) {
     this.date=date;
-    this.employee=employee
+    this.empleado=empleado
   }
 }

@@ -23,7 +23,7 @@ export class TablaHorariosComponent implements OnInit {
     let origen = this.proveedor.origen;
     let i;
     for(i=0; i<rutasConjuntas.length; i++){
-      this.addStopTime(rutasConjuntas[i].route.route_id, origen.stop_id)
+      this.addStopTime(rutasConjuntas[i].ruta.ruta_id, origen.id)
     }
 
 

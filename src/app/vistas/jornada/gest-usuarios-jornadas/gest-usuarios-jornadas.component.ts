@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Employee} from "../../../model/employee/employee";
+import {Empleado, Rol} from "../../../model/empleado/empleado";
 import {EmpleadosService} from "../../../servicios/empleados.service";
 import {JornadaService} from "../../../servicios/jornada.service";
 import {Tarea} from "../../../model/tarea/tarea";
@@ -8,13 +8,13 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TrenService} from "../../../servicios/tren.service";
-import {Stop} from "../../../model/stop/stop";
+import {Estacion} from "../../../model/estacion/estacion";
 import {EstacionService} from "../../../servicios/estacion.service";
-import {Tarea_stop} from "../../../model/tarea/tarea_stop";
+import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
+import {DialogDetallesJornada} from "../consultar-jornada/consultar-jornada.component";
+import {Situacion, Tarea_stop} from "../../../model/tarea/tarea_stop";
+import {NuevaTareaDialog} from "./nueva-tarea.component";
 
-export interface DialogData {
-
-}
 
 @Component({
   selector: 'app-gest-usuarios-jornadas',
@@ -23,12 +23,12 @@ export interface DialogData {
 })
 export class GestUsuariosJornadasComponent implements OnInit {
 
-  empleados: Employee[] = [];
+  empleados: Empleado[] = [];
   filtroUsuarios = '';
   diaSeleccionado: Date | null = null;
-  tareas: Tarea[] = [];
+  tareasJornada: Tarea[] = [];
   hasTarea: boolean = false;
-  empleadoSeleccionado: Employee | undefined = undefined;
+  empleadoSeleccionado: Empleado | undefined = undefined;
   jornadasEmpleado: Jornada[] = [];
 
   constructor(
@@ -40,11 +40,16 @@ export class GestUsuariosJornadasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.mostrarUsuarios();
+
+  }
+
+  public mostrarUsuarios() {
     this.empleadosService.findAllEmpleados().subscribe(data => this.empleados = data)
   }
 
-  isClicado(id: any) {
-    this.tareas = [];
+  seleccionarEmpleado(id: any) {
+    this.tareasJornada = [];
     this.jornadasEmpleado = [];
     this.empleadosService.findEmpleadoById(id).subscribe(data => {
       this.empleadoSeleccionado = data;
@@ -60,15 +65,17 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
   seleccionarDia() {
     if (this.diaSeleccionado) {
-      this.tareas = [];
+      this.tareasJornada = [];
       this.jornadasEmpleado = [];
       //si hay un empelado seleccionado se muestrasn solo las de ese empleado, sino se muestran todas las de esa fecha
-      if (this.diaSeleccionado && this.empleadoSeleccionado) {
+      if (this.empleadoSeleccionado) {
         this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data
           this.guardarTareas();
         });
-      } else if (!this.diaSeleccionado && !this.empleadoSeleccionado) {
+      } else {
+        console.log(new Date(this.diaSeleccionado))
+        console.log(new Date(this.diaSeleccionado).toUTCString())
         this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
           this.jornadasEmpleado = data
           this.guardarTareas();
@@ -77,11 +84,11 @@ export class GestUsuariosJornadasComponent implements OnInit {
     }
   }
 
-  private guardarTareas() {
+  public guardarTareas() {
     let i;
     for (i = 0; i < this.jornadasEmpleado.length; i++)
-      this.jornadasEmpleado[i].tareas.forEach(l => this.tareas.push(l))
-    this.hasTarea = this.tareas.length > 0;
+      this.jornadasEmpleado[i].tareas.forEach(l => this.tareasJornada.push(l))
+    this.hasTarea = this.tareasJornada.length > 0;
   }
 
   deleteEmpleadoFiltro() {
@@ -94,7 +101,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
   deleteFechaFiltro() {
     this.diaSeleccionado = null;
     if (this.empleadoSeleccionado != null)
-      this.isClicado(this.empleadoSeleccionado.id)
+      this.seleccionarEmpleado(this.empleadoSeleccionado.id)
     else
       this.hasTarea = false;
   }
@@ -102,7 +109,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
   addUsuario() {
     this.dialog.open(NuevoUsuarioDialog, {
       width: '450px',
-      data: {}
+      data: {gestorUsuariosJornadas: this}
     })
   }
 
@@ -114,13 +121,13 @@ export class GestUsuariosJornadasComponent implements OnInit {
       let jornada: Jornada
       this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
         jornada = data[0]
-        if (!jornada && this.diaSeleccionado && this.empleadoSeleccionado) {
-          jornada = new Jornada(this.diaSeleccionado, this.empleadoSeleccionado);
-        }
         this.dialog.open(NuevaTareaDialog, {
           width: '450px',
           data: {
-            jornada: jornada
+            diaSeleccionado: this.diaSeleccionado,
+            empleadoSeleccionado: this.empleadoSeleccionado,
+            jornada: jornada,
+            gestorUsuariosJornadas: this
           }
         })
       })
@@ -128,7 +135,48 @@ export class GestUsuariosJornadasComponent implements OnInit {
     }
 
   }
+
+  verDetallesEmpleado(empleado: Empleado) {
+    this.dialog.open(DetallesEmpleadoComponent, {
+      width: '450px',
+      data: {
+        empleado: empleado
+      }
+    })
+  }
+
+  verDetallesTarea(id: BigInt) {
+    let tarea;
+    this.jornadaService.findTareaById(id).subscribe(data => {
+      tarea = data
+      this.dialog.open(DialogDetallesJornada, {
+        width: '450px',
+        data: {
+          tarea: tarea,
+          origen: tarea.stops.forEach(s => s.situacion == Situacion.INICIO),
+          final: tarea.stops.forEach(s => s.situacion == Situacion.FINAL),
+          incidencias: tarea.tren.incidencias
+
+        }
+      })
+    });
+
+
+  }
+
+  eliminarEmpleado(empleado: Empleado) {
+    this.empleadosService.eliminarEmpleado(empleado).subscribe(() => {
+      this.empleados = this.empleados.filter((e) => e.id != empleado.id)
+      this.empleadoSeleccionado = undefined
+    });
+
+  }
 }
+
+export interface NuevoUsuarioData {
+  gestorUsuariosJornadas: GestUsuariosJornadasComponent
+}
+
 
 @Component({
   selector: 'nuevo-usuario',
@@ -137,8 +185,9 @@ export class GestUsuariosJornadasComponent implements OnInit {
 })
 export class NuevoUsuarioDialog {
 
-  roles: string[] = ["Maquinista", "Revisor"];
-  empleado: Employee = new Employee();
+  roles: any[] = [];
+  empleado: Empleado = new Empleado();
+  rol: String;
 
   formulario = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -148,82 +197,35 @@ export class NuevoUsuarioDialog {
     email: new FormControl('', [Validators.required, Validators.email])
   });
 
+
   constructor(
     public dialogRef: MatDialogRef<NuevoUsuarioDialog>,
     private employeeService: EmpleadosService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: NuevoUsuarioData,
   ) {
+    for (let item in Rol) {
+      if (isNaN(Number(item)))
+        this.roles.push({text: item, value: Rol[item]})
+    }
   }
 
   addUsuarioNuevo() {
     if (this.formulario.valid) {
-      this.employeeService.addEmployee(this.empleado).subscribe();
+      //Generamos una contraseña aleatoria
+      this.empleado.password = Math.random().toString(36).toUpperCase().slice(2)
+      this.employeeService.addEmployee(this.empleado).subscribe(() =>
+        this._snackBar.open("Usuario añadido correctamente", undefined, {duration: 2000})
+      )
+      ;
       this.dialogRef.close()
-      this._snackBar.open("Usuario añadido correctamente", undefined, {duration: 2000});
+
+      setTimeout(() => this.data.gestorUsuariosJornadas.mostrarUsuarios(), 500);
     }
     //comprobar que todos los campos están rellenos
   }
 }
 
-export interface DialogData {
-  jornada: Jornada
-}
-
-@Component({
-  selector: 'nueva-tarea',
-  templateUrl: './nueva-tarea.html',
-  styleUrls: ['./gest-usuarios-jornadas.component.css']
-})
-export class NuevaTareaDialog {
-
-  tarea: Tarea = new Tarea();
-  time = {hour: 13, minute: 30};
-  idTren: number;
-  stops: Stop[] = []
-  origen: Stop;
-  destino: Stop;
-
-  formulario = new FormGroup({
-    anden: new FormControl('', [Validators.required, Validators.maxLength(2)]),
-    descripcion: new FormControl('', [Validators.required]),
-    horaInicio: new FormControl('', [Validators.required]),
-    horaFin: new FormControl('', [Validators.required]),
-    idTren: new FormControl('', [Validators.required])
-  });
-
-  constructor(
-    public dialogRef: MatDialogRef<NuevaTareaDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private jornadaService: JornadaService,
-    private trenService: TrenService,
-    private paradaService: EstacionService,
-    private _snackBar: MatSnackBar
-  ) {
-    this.paradaService.findAllStops().subscribe(data => {
-      this.stops = data
-    });
-  }
-
-  addNuevaTarea() {
-    if (this.formulario.valid) {
-      this.trenService.findTrenById(BigInt(this.idTren)).subscribe(data => {
-        this.tarea.tren = data
-      })
-      this.tarea.jornada = this.data.jornada;
-      this.jornadaService.addTarea(this.tarea).subscribe(data => {
-        this.tarea = data
-        console.log(this.tarea)
-        console.log(this.origen)
-      });
-      console.log(this.tarea);
-      console.log(this.origen)
-      this.jornadaService.addTareaStop( this.origen, "INICIO",this.tarea).subscribe();
-      this.dialogRef.close()
-      this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
-    }
-    //comprobar que todos los campos están rellenos
-  }
-}
 
 // let tarea_stop: Tarea_stop = new Tarea_stop();
 // this.jornadaService.addTareaStop(origen, "INICIO").subscribe(data => tarea_stop = data);

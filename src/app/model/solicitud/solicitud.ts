@@ -1,3 +1,5 @@
+import {Empleado} from "../empleado/empleado";
+
 export abstract class Solicitud {
 
   id: bigint;
@@ -5,6 +7,8 @@ export abstract class Solicitud {
   motivo:string;
 
   estado:EstadoEnum=EstadoEnum.PENDIENTE;
+
+  empleado:Empleado;
 
 }
 

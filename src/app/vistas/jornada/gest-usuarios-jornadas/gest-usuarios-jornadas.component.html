@@ -15,11 +15,15 @@
     <th>Rol</th>
     <th></th>
   </tr>
-  <tr (click)="isClicado(empleado.id)" *ngFor="let empleado of empleados | filter:filtroUsuarios">
+  <tr (click)="seleccionarEmpleado(empleado.id)" *ngFor="let empleado of empleados | filter:filtroUsuarios"
+      matTooltip="seleccionar">
     <td>{{empleado.username}}</td>
     <td>{{empleado.name}}</td>
     <td>{{empleado.role}}</td>
-    <td><a href="/ver_solicitudes">Detalles</a></td>
+    <td>
+      <button (click)="verDetallesEmpleado(empleado)" mat-button>Detalles</button>
+      <button (click)="eliminarEmpleado(empleado)" mat-button>Eliminar</button>
+    </td>
   </tr>
 
 </table>
@@ -48,22 +52,27 @@
   <th>Fecha</th>
   <th>Horario</th>
   <th>Empleado</th>
-  <tr *ngFor="let j of jornadasEmpleado">
-    <td *ngFor="let t of j.tareas">
+  <p *ngFor="let j of jornadasEmpleado">
+    <tr *ngFor="let t of j.tareas">
+      <td>
       {{t.descripcion}}
-    </td>
+      </td>
+
     <td>{{j.date.toString().split('T')[0]}}</td>
-    <td *ngFor="let t of j.tareas">
+    <td>
       {{t.horaSalida}}
     </td>
-    <td>{{j.employee.username}}</td>
-    <td><a href="/ver_solicitudes">Detalles Tarea</a></td>
+    <td>{{j.empleado.username}}</td>
+    <td>
+      <button (click)="verDetallesTarea(t.id)" href="/ver-solicitudes">Detalles Tarea</button>
+    </td>
   </tr>
+  </p>
 
 </table>
 <p *ngIf="!hasTarea && diaSeleccionado">Aún no se ha asignado una jornada para el día seleccionado</p>
 
-<button mat-button (click)="addTarea()">
+<button (click)="addTarea()" mat-button>
   Nueva tarea
 </button>
 

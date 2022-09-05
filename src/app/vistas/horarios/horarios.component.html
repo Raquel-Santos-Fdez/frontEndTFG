@@ -2,8 +2,8 @@
 <mat-form-field appearance="fill">
   <mat-label>Origen</mat-label>
   <mat-select [(value)]="origen" >
-    <mat-option *ngFor="let e of stops"  [value]="e" >
-        {{e.stop_name}}
+    <mat-option *ngFor="let e of estaciones"  [value]="e" >
+        {{e.nombre}}
       </mat-option>
   </mat-select>
 </mat-form-field>
@@ -11,8 +11,8 @@
   <mat-form-field appearance="fill">
     <mat-label>Destino</mat-label>
     <mat-select [(value)]="destino" >
-      <mat-option *ngFor="let e of stops"  [value]="e" >
-        {{e.stop_name}}
+      <mat-option *ngFor="let e of estaciones" [value]="e" >
+        {{e.nombre}}
       </mat-option>
     </mat-select>
   </mat-form-field>

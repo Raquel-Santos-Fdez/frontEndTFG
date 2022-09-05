@@ -15,9 +15,9 @@ export class Tarea {
 
   tren:Tren;
 
-  stops:Set<Tarea_stop>;
+  stops:Tarea_stop[]=[];
 
-  jornada:Jornada;
+  // jornada:Jornada;
 
   constructor() {
   }

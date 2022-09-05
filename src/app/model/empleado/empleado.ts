@@ -1,4 +1,4 @@
-export class Employee {
+export class Empleado {
 
   id: bigint;
   name:string;
@@ -7,6 +7,10 @@ export class Employee {
   email:string;
   dni:string;
   password:string;
-  role:string;
+  role:Rol;
 
+}
+
+export enum Rol{
+  MAQUINISTA, REVISOR, ADMIN
 }

@@ -28,24 +28,24 @@ const routes:Routes =[
     component: HorariosComponent
   },
   {
-    path:'tabla_horarios',
+    path:'tabla-horarios',
     loadChildren: ()=>
       import ('./vistas/horarios/horarios.module').then((h)=> h.HorariosModule),
   },
   {
-    path: 'consultar_jornada',
+    path: 'consultar-jornada',
     component: ConsultarJornadaComponent
   },
   {
-    path: 'solicitar_vacaciones',
+    path: 'solicitar-vacaciones',
     component: SolicitarVacacionesComponent
   },
   {
-    path: 'portal_solicitudes',
+    path: 'portal-solicitudes',
     component: PortalSolicitudesComponent
   },
   {
-    path: 'ver_solicitudes',
+    path: 'ver-solicitudes',
     component: VerSolicitudesComponent
   },
   {

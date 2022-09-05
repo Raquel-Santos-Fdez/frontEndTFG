@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Stop} from "../../model/stop/stop";
-import {Route} from "../../model/route/route";
+import {Estacion} from "../../model/estacion/estacion";
+import {Ruta} from "../../model/ruta/ruta";
 import {Router} from "@angular/router";
 import {ProveedorService} from "../../servicios/proveedor.service";
 import {Route_stop} from "../../model/route_stop/route_stop";
 import {RutaService} from "../../servicios/ruta.service";
 import {EstacionService} from "../../servicios/estacion.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-horarios',
@@ -15,34 +16,35 @@ import {EstacionService} from "../../servicios/estacion.service";
 
 export class HorariosComponent implements OnInit {
 
-  routes: Route[] = [];
-  selected: Route;
+  rutas: Ruta[] = [];
+  selected: Ruta;
 
-  origen: Stop;
-  destino: Stop;
-  stops: Stop[] = []
+  origen: Estacion;
+  destino: Estacion;
+  estaciones: Estacion[] = []
 
   constructor(private rutaService: RutaService,
               private paradaService: EstacionService,
               private router: Router,
-              private proveedor: ProveedorService) {
+              private proveedor: ProveedorService,
+              private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
 
     this.rutaService.findAllRoutes().subscribe(
       userData => {
-        this.routes = userData
+        this.rutas = userData
       }
     );
 
     this.paradaService.findAllStops().subscribe(data => {
-      this.stops = data
+      this.estaciones = data
     });
   }
 
   // getByShortName(shortName: string) {
-  //   let estacionesEnRuta: Route[] = [];
+  //   let estacionesEnRuta: Ruta[] = [];
   //   let i;
   //   for (i = 0; i < this.routes.length; i++) {
   //     if (this.routes[i].route_short_name == shortName)
@@ -52,29 +54,29 @@ export class HorariosComponent implements OnInit {
   // }
 
   getRoutes() {
-    let lineas: Route[] = [];
+    let lineas: Ruta[] = [];
     let j = 0;
-    for (j = 0; j < this.routes.length; j++) {
-      if (lineas.filter(l => l.route_short_name == this.routes[j].route_short_name).length == 0)
-        lineas.push(this.routes[j])
+    for (j = 0; j < this.rutas.length; j++) {
+      if (lineas.filter(l => l.ruta_corto == this.rutas[j].ruta_corto).length == 0)
+        lineas.push(this.rutas[j])
     }
     return lineas;
   }
 
-  consultarHorario(origen: Stop, destino: Stop) {
+  consultarHorario(origen: Estacion, destino: Estacion) {
     let rutasConjuntasOri: Route_stop[] = [];
     let rutasConjuntasDestino: Route_stop[] = [];
     let rutasConjuntas: Route_stop[] = [];
     if (origen && destino) {
-      this.rutaService.findRutaByEstacion(origen.stop_id, destino.stop_id).subscribe(data => {
+      this.rutaService.findRutaByEstacion(origen.id, destino.id).subscribe(data => {
         rutasConjuntasOri = data
-        this.rutaService.findRutaByEstacion(this.destino.stop_id, this.origen.stop_id).subscribe(data2 => {
+        this.rutaService.findRutaByEstacion(this.destino.id, this.origen.id).subscribe(data2 => {
           rutasConjuntasDestino = data2;
           let i;
           let j;
           for (i = 0; i < rutasConjuntasOri.length; i++) {
             for (j = 0; j < rutasConjuntasDestino.length; j++) {
-              if (rutasConjuntasOri[i].orderParada < rutasConjuntasDestino[j].orderParada && rutasConjuntasOri[i].route == rutasConjuntasOri[j].route) {
+              if (rutasConjuntasOri[i].orderParada < rutasConjuntasDestino[j].orderParada && rutasConjuntasOri[i].ruta == rutasConjuntasOri[j].ruta) {
                 rutasConjuntas.push(rutasConjuntasOri[i])
               }
             }
@@ -83,20 +85,22 @@ export class HorariosComponent implements OnInit {
           if (rutasConjuntas.length > 0) {
             this.proveedor.listRutas = rutasConjuntas;
             this.proveedor.origen = origen;
-            this.router.navigate(['tabla_horarios']);
+            this.router.navigate(['tabla-horarios']);
           } else
             alert("No existe recorrido entre esas dos estaciones");
 
         })
       });
 
+    }else{
+      this._snackBar.open("Selecciona un origen y un destino", undefined, {duration: 2000});
     }
 
 
   }
 
   getAllEstaciones() {
-    let estaciones: Stop[] = []
+    let estaciones: Estacion[] = []
     this.paradaService.findAllStops().subscribe(data => {
       estaciones = data
     });

@@ -1,7 +1,7 @@
-import {Employee} from "../employee/employee";
+import {Empleado} from "../empleado/empleado";
 
 export class Session {
 
   public token:String;
-  public employee:Employee;
+  public employee:Empleado;
 }

@@ -1,12 +1,12 @@
 import {Routes, RouterModule} from '@angular/router';
 import {NgModule} from "@angular/core";
-import {TablaHorariosComponent} from "./tabla-horarios/tabla-horarios.component";
+import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 
 const routes:Routes =[
 
   {
-    path:'tabla-horarios',
-    component: TablaHorariosComponent
+    path:'detalles-empleado/:id',
+    component: DetallesEmpleadoComponent
   }
 ];
 
@@ -15,4 +15,4 @@ const routes:Routes =[
   exports: [RouterModule]
 })
 
-export class HorariosRouting{}
+export class GestUsuariosJornadasRouting{}

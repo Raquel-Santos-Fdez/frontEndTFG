@@ -14,16 +14,16 @@
   <mat-form-field appearance="fill">
     <mat-label>Estación de origen</mat-label>
     <mat-select [(value)]="origen" required>
-      <mat-option *ngFor="let e of stops"  [value]="e" >
-        {{e.stop_name}}
+      <mat-option *ngFor="let e of estaciones" [value]="e" >
+        {{e.nombre}}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Estación de destino</mat-label>
     <mat-select [(value)]="destino" required>
-      <mat-option *ngFor="let e of stops"  [value]="e" >
-        {{e.stop_name}}
+      <mat-option *ngFor="let e of estaciones" [value]="e" >
+        {{e.nombre}}
       </mat-option>
     </mat-select>
   </mat-form-field>

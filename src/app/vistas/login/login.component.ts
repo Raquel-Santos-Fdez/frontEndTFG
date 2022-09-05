@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpHeaders} from "@angular/common/http";
 import {LoginService} from "../../servicios/login.service";
-import {Employee} from "../../model/employee/employee";
+import {Empleado} from "../../model/empleado/empleado";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   errorInicio: boolean = false;
   loading: boolean = false;
   // employee: any = {};
-  employee:Employee=new Employee();
+  employee:Empleado=new Empleado();
 
   constructor(private service: LoginService) {
   }

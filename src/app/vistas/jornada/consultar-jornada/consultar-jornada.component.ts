@@ -2,16 +2,20 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {JornadaService} from "../../../servicios/jornada.service";
 import {Tarea} from "../../../model/tarea/tarea";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Stop} from "../../../model/stop/stop";
+import {Estacion} from "../../../model/estacion/estacion";
 import {Incidencia} from "../../../model/incidencia/incidencia";
-import {Employee} from "../../../model/employee/employee";
+import {Empleado} from "../../../model/empleado/empleado";
 import {TrenService} from "../../../servicios/tren.service";
 import {Situacion} from "../../../model/tarea/tarea_stop";
+import {Solicitud} from "../../../model/solicitud/solicitud";
+import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {DatePipe} from "@angular/common";
 
 export interface DialogData {
-  tarea: Tarea |undefined
-  origen: Stop|undefined
-  final: Stop|undefined
+  tarea: Tarea | undefined
+  origen: Estacion | undefined
+  final: Estacion | undefined
   incidencias: Incidencia[]
 }
 
@@ -26,33 +30,36 @@ export class ConsultarJornadaComponent implements OnInit {
 
   tareas: Tarea[] = [];
   tareaDetalle: Tarea = new Tarea();
-  origen: Stop|undefined;
-  final: Stop |undefined;
+  origen: Estacion | undefined;
+  final: Estacion | undefined;
 
   incidencias: Incidencia[]
 
   isSelected: boolean = false;
 
-  employee:Employee;
-  isLoggedIn:boolean=false;
+  employee: Empleado;
+  isLoggedIn: boolean = false;
 
-  constructor(private service: JornadaService, private trenService: TrenService,public dialog: MatDialog) {
+  solicitud: Solicitud = new SolicitudSimple();
+  motivoSeleccionado: string;
+
+  constructor(private service: JornadaService, private trenService: TrenService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
 
     // var employeeJson=JSON.parse(localStorage.string)
     // this.employee=service.find
   }
 
   ngOnInit(): void {
-    this.employee=JSON.parse(localStorage.getItem("usuario")||'{}');
-    if(Object.keys(this.employee).length!=0)
+    this.employee = JSON.parse(localStorage.getItem("usuario") || '{}');
+    if (Object.keys(this.employee).length != 0)
       this.isLoggedIn = true;
   }
 
   verJornada() {
     this.tareas = [];
-    this.incidencias=[];
-    this.origen=undefined;
-    this.final=undefined;
+    this.incidencias = [];
+    this.origen = undefined;
+    this.final = undefined;
     if (this.selected != null)
       this.service.findTareasByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
         this.tareas = data
@@ -76,7 +83,7 @@ export class ConsultarJornadaComponent implements OnInit {
           tarea: this.tareaDetalle,
           origen: this.origen,
           final: this.final,
-          incidencias:this.incidencias
+          incidencias: this.incidencias
         }
       })
     }, 500)
@@ -98,11 +105,23 @@ export class ConsultarJornadaComponent implements OnInit {
       })
     })
 
-    this.trenService.getIncidenciasPending(this.tareaDetalle.id).subscribe((data: Incidencia[])=>{
-      this.incidencias=data;
+    this.trenService.getIncidenciasPending(this.tareaDetalle.id).subscribe((data: Incidencia[]) => {
+      this.incidencias = data;
     })
   }
 
+  solicitarDiaLibre() {
+    let pipe = new DatePipe('en-US')
+    let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
+    if (fecha_seleccionada)
+      this.solicitud.fecha = fecha_seleccionada
+    this.solicitud.motivo = this.motivoSeleccionado;
+    this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+
+    this.service.enviarSolicitud(this.solicitud).subscribe(() =>
+      this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+    );
+  }
 }
 
 @Component({
@@ -119,26 +138,26 @@ export class DialogDetallesJornada {
   ) {
   }
 
-  nuevaIncidencia:string="";
+  nuevaIncidencia: string = "";
 
 
   addIncidencia() {
     //tarea puede ser undefined
-    if(this.nuevaIncidencia!="" && this.data.tarea?.tren!=undefined){
-      let incidencia=new Incidencia(this.nuevaIncidencia, this.data.tarea?.tren);
+    if (this.nuevaIncidencia != "" && this.data.tarea?.tren != undefined) {
+      let incidencia = new Incidencia(this.nuevaIncidencia, this.data.tarea?.tren);
       this.trenService.addIncidencia(incidencia).subscribe()
       this.data.incidencias.push(incidencia);
 
     }
     // @ts-ignore
-    document.getElementById("nuevasIncidencias").value="";
+    document.getElementById("nuevasIncidencias").value = "";
 
   }
 
   cerrar() {
-    this.data.final=undefined
-    this.data.origen=undefined
-    this.data.tarea=undefined
-    this.data.incidencias=[]
+    this.data.final = undefined
+    this.data.origen = undefined
+    this.data.tarea = undefined
+    this.data.incidencias = []
   }
 }

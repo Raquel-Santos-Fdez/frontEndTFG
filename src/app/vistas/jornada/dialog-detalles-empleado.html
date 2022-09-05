@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Detalles empleado</h1>
+
+
+<ng-container>
+  <div>
+    <label>Nombre, Apellidos</label>
+    <input [(ngModel)]="employee.name +' '+employee.surname">
+  </div>
+  <div>
+    <label>Nombre de usuario</label>
+    <input [(ngModel)]="employee.username">
+  </div>
+
+  <div>
+    <label>Rol</label>
+    <input [(ngModel)]="employee.role">
+  </div>
+</ng-container>
+

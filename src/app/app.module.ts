@@ -51,6 +51,8 @@ import {
 } from './vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.component';
 import {FilterPipe} from "./vistas/jornada/gest-usuarios-jornadas/filter.pipe";
 import {GestUsuariosJornadasModule} from "./vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.module";
+import {DetallesEmpleadoModule} from "./vistas/jornada/detalles-empleado.module";
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,9 @@ import {GestUsuariosJornadasModule} from "./vistas/jornada/gest-usuarios-jornada
     NgImageSliderModule,
     MatSelectModule,
     MatTooltipModule,
-    GestUsuariosJornadasModule
+    DetallesEmpleadoModule,
+    GestUsuariosJornadasModule,
+    MatExpansionModule
 
   ],
   providers: [

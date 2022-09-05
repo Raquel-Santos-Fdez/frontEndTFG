@@ -17,14 +17,16 @@ export class VerSolicitudesComponent implements OnInit {
 
     this.service.getAllSolicitudesPendientes().subscribe(data => {
       this.solicitudes=data;
+      this.solicitudes.forEach(e => console.log(e))
     });
+
   }
 
 
   aceptarSolicitud(id:bigint) {
-    let idNuevoEmployee: bigint = BigInt("1");
+    let nuevoEmployee=JSON.parse(localStorage.getItem("usuario")||'{}');
     this.service.aceptarSolicitud(id).subscribe(()=> this.borrarSolicitud(id));
-    this.service.realizarCambio(id, idNuevoEmployee).subscribe();
+    this.service.realizarCambio(id, nuevoEmployee.id).subscribe();
   }
 
   borrarSolicitud(id:bigint){

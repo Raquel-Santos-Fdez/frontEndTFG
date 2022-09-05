@@ -30,12 +30,13 @@
       <input [(ngModel)]="empleado.email" matInput placeholder="Email" formControlName="email" required type="text"/>
     </mat-form-field>
   </p>
+</form>
 
   <mat-form-field appearance="fill">
     <mat-label>Rol</mat-label>
-    <mat-select required>
-      <mat-option *ngFor="let rol of roles" [value]="rol">
-        {{rol}}
+    <mat-select [(ngModel)]="empleado.role" required >
+      <mat-option *ngFor="let role of roles" [value]="role.value">
+        {{role.text}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -44,7 +45,7 @@
     <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
     <button (click)="addUsuarioNuevo()" mat-button type="submit">Añadir</button>
   </div>
-</form>
+
 
 
 

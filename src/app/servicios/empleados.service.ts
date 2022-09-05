@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Route} from "../model/route/route";
-import {Employee} from "../model/employee/employee";
+import {Ruta} from "../model/ruta/ruta";
+import {Empleado} from "../model/empleado/empleado";
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +13,19 @@ export class EmpleadosService {
   constructor(private httpClient:HttpClient) { }
 
   findAllEmpleados() {
-    return this.httpClient.get<Employee[]>(`${this.backendURL}`+"empleados");
+    return this.httpClient.get<Empleado[]>(`${this.backendURL}`+"empleados");
   }
 
   findEmpleadoById(id:any){
-    return this.httpClient.get<Employee>(`${this.backendURL}`+"empleado/"+id);
+    return this.httpClient.get<Empleado>(`${this.backendURL}`+"empleado/"+id);
   }
 
-  addEmployee(empleado: Employee) {
+  addEmployee(empleado: Empleado) {
     return this.httpClient.post(`${this.backendURL}` + "empleados/addEmpleado/", empleado)
 
+  }
+
+  eliminarEmpleado(empleado: Empleado) {
+     return this.httpClient.delete(`${this.backendURL}` + "empleados/eliminarEmpleado/"+empleado.id)
   }
 }

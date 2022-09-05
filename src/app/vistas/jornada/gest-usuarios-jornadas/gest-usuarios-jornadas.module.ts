@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NuevaTareaDialog, NuevoUsuarioDialog} from "./gest-usuarios-jornadas.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import { NuevoUsuarioDialog} from "./gest-usuarios-jornadas.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {GestUsuariosJornadasRouting} from "./gest-usuarios-jornadas.routing";
+import {NuevaTareaDialog} from "./nueva-tarea.component";
 
 
 @NgModule({
   declarations: [
     NuevaTareaDialog,
-    NuevoUsuarioDialog,
+    NuevoUsuarioDialog
 
 ],
   imports: [
@@ -25,7 +27,9 @@ import {MatButtonModule} from "@angular/material/button";
     MatDialogModule,
     MatSelectModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    GestUsuariosJornadasRouting,
+    FormsModule
 
   ]
 })

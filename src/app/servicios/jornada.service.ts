@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Tarea} from "../model/tarea/tarea";
 import {Solicitud} from "../model/solicitud/solicitud";
-import {Stop} from "../model/stop/stop";
+import {Estacion} from "../model/estacion/estacion";
 import {SolicitudIntercambio} from "../model/solicitud/solicituIntercambio";
 import {SolicitudSimple} from "../model/solicitud/solicitudSimple";
 import {Jornada} from "../model/jornada/jornada";
@@ -37,19 +37,23 @@ export class JornadaService {
   }
 
   getAllSolicitudesPendientes(): Observable<Solicitud[]> {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "jornada/ver_solicitudes_vacaciones/");
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "jornada/ver-solicitudes-vacaciones/");
   }
 
   findStopByTareaStop(id: bigint) {
-    return this.httpClient.get<Stop>(`${this.backendURL}` + "tarea_stop/" + id);
+    return this.httpClient.get<Estacion>(`${this.backendURL}` + "tareaStop/" + id);
   }
 
   findNotOwnSolicitudes(id: bigint): Observable<SolicitudIntercambio[]> {
-    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "jornada/find_others_solicitudes/" + id);
+    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "jornada/find-others-solicitudes/" + id);
   }
 
   findOwnSolicitudes(id: bigint) {
-    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "jornada/find_own_solicitudes/" + id);
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "jornada/find-own-solicitudes/" + id);
+  }
+
+  addJornada(jornada: Jornada) {
+    return this.httpClient.post<Jornada>(`${this.backendURL}` + "jornada/addJornada/", jornada)
   }
 
 
@@ -68,19 +72,19 @@ export class JornadaService {
   }
 
   aceptarSolicitud(id: bigint) {
-    return this.httpClient.put(`${this.backendURL}` + "jornada/aceptar_solicitud", id)
+    return this.httpClient.put(`${this.backendURL}` + "jornada/aceptar-solicitud", id)
   }
 
   rechazarSolicitud(id: bigint) {
-    return this.httpClient.put(`${this.backendURL}` + "jornada/rechazar_solicitud", id)
+    return this.httpClient.put(`${this.backendURL}` + "jornada/rechazar-solicitud", id)
   }
 
   enviarSolicitud(solicitud: SolicitudSimple): Observable<any> {
-    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar_vacaciones/", solicitud)
+    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-vacaciones/", solicitud)
   }
 
   addSolicitudIntercambio(solicitudIntercambio: SolicitudIntercambio): Observable<any> {
-    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar_intercambio/", solicitudIntercambio)
+    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-intercambio/", solicitudIntercambio)
   }
 
 
@@ -92,11 +96,11 @@ export class JornadaService {
     return this.httpClient.put(`${this.backendURL}` + "jornada/realizarCambio", {id, idEmployee})
   }
 
-  addTarea(tarea: Tarea):Observable<Tarea>{
+  addTarea(tarea: Tarea): Observable<Tarea> {
     return this.httpClient.post<Tarea>(`${this.backendURL}` + "tarea/addTarea/", tarea)
   }
 
-  // addTareaStop( origen: Stop, inicio: string): Observable<any> {
+  // addTareaStop( origen: Estacion, inicio: string): Observable<any> {
   //   return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio})
   // }
   //
@@ -105,11 +109,21 @@ export class JornadaService {
   //
   // }
 
-  // addTareaStop( origen: Stop, inicio: string, tarea:Tarea): Observable<any> {
+  // addTareaStop( origen: Estacion, inicio: string, tarea:Tarea): Observable<any> {
   //   return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio, tarea})
   // }
 
-  addTareaStop( origen: Stop, inicio: string, tarea:Tarea): Observable<any> {
-      return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio, tarea})
-    }
+  findTareaById(id: BigInt): Observable<Tarea> {
+    return this.httpClient.get<Tarea>(`${this.backendURL}` + "tarea/" + id)
+
+  }
+
+  addNuevaTareaStop(tareaStop: Tarea_stop) {
+    return this.httpClient.post(`${this.backendURL}` + "tareaStop/addNuevaTareaStop", tareaStop)
+  }
+
+  findSolicitudByFechaEmpleado(date: string, id: bigint) {
+    return this.httpClient.get(`${this.backendURL}` + "solicitudes/findSolicitudByFechaEmpleado/"+date+"/"+id)
+
+  }
 }

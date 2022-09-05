@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Employee} from "../model/employee/employee";
+import {Empleado} from "../model/empleado/empleado";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  login(employee: Employee) {
+  login(employee: Empleado) {
     // var httpOptions = {
     //   headers: new HttpHeaders({
     //     'Content-Type': 'application/json'
