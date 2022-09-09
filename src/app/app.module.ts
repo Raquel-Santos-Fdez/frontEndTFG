@@ -53,6 +53,7 @@ import {FilterPipe} from "./vistas/jornada/gest-usuarios-jornadas/filter.pipe";
 import {GestUsuariosJornadasModule} from "./vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.module";
 import {DetallesEmpleadoModule} from "./vistas/jornada/detalles-empleado.module";
 import {MatExpansionModule} from '@angular/material/expansion';
+import {PerfilModule} from "./vistas/perfil/perfil.module";
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatSelectModule,
     MatTooltipModule,
     DetallesEmpleadoModule,
+    PerfilModule,
     GestUsuariosJornadasModule,
     MatExpansionModule
 

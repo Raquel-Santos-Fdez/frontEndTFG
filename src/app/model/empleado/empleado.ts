@@ -8,6 +8,7 @@ export class Empleado {
   dni:string;
   password:string;
   role:Rol;
+  nDiasLibres:number;
 
 }
 

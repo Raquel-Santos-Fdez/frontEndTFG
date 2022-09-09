@@ -7,7 +7,7 @@
 
 <mat-tab-group>
   <mat-tab  label="Todas las solicitudes">
-    <table mat-table [dataSource]="solicitudesIntercambio">
+    <table mat-table [dataSource]="solicitudesIntercambio" ng-controller="cargarSolicitudes">
 
       <ng-container matColumnDef="fechaTrabajo">
         <th mat-header-cell *matHeaderCellDef> Día a cubrir </th>
@@ -26,8 +26,8 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="colummsTodasSolicitudes"></tr>
+      <tr mat-row *matRowDef="let row; columns: colummsTodasSolicitudes;"></tr>
 
     </table>
   </mat-tab>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Ruta} from "../model/ruta/ruta";
 import {Empleado} from "../model/empleado/empleado";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,10 @@ export class EmpleadosService {
 
   eliminarEmpleado(empleado: Empleado) {
      return this.httpClient.delete(`${this.backendURL}` + "empleados/eliminarEmpleado/"+empleado.id)
+  }
+
+  actualizarEmpleado(empleado: Empleado):Observable<any>{
+    return this.httpClient.put(`${this.backendURL}` + "empleados/actualizarEmpleado/",empleado)
+
   }
 }

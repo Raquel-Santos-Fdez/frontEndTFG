@@ -19,20 +19,22 @@ export interface DialogData {
 })
 export class PortalSolicitudesComponent implements OnInit {
 
-  displayedColumns: string[] = ["fechaTrabajo", "fechaDescanso", "aceptar"];
+  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "aceptar"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
   todasSolicitudes: SolicitudIntercambio[] = [];
   misSolicitudes: Solicitud[]
   empleado: Empleado;
-  solicitudesIntercambio: SolicitudIntercambio[] = [];
+  solicitudesIntercambio: SolicitudIntercambio[]=[];
 
   constructor(public dialog: MatDialog, private service: JornadaService) {
-
+    this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+    this.cargarSolicitudes();
+    console.log(this.solicitudesIntercambio)
   }
 
   ngOnInit(): void {
-    this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-    this.cargarSolicitudes();
+
+
     this.cargarMisSolicitudes();
   }
 
@@ -43,25 +45,20 @@ export class PortalSolicitudesComponent implements OnInit {
     });
   }
 
-  private cargarSolicitudes() {
+  private  cargarSolicitudes(){
     this.service.findNotOwnSolicitudes(this.empleado.id).subscribe(data => {
       this.todasSolicitudes = data;
       //fecha debe descansar y fechaDescanso debe trabajar
       this.todasSolicitudes.forEach(s => {
         this.service.findJornadaByDateEmpleado(new Date(s.fechaDescanso), this.empleado.id).subscribe(data => {
-          console.log(data)
-            if (data.length!=0) {
-              console.log("Hasta aqui mal")
-              this.service.findJornadaByDateEmpleado(new Date(s.fecha), this.empleado.id).subscribe(data2 => {
-                if (data2.length==0) {
-                  console.log("Hasta aqui mal")
-                  this.solicitudesIntercambio.push(s)
-                }
-              })
-            }
-          })
+          if (data.length != 0) {
+            this.service.findJornadaByDateEmpleado(new Date(s.fecha), this.empleado.id).subscribe(data2 => {
+              if (data2.length == 0)
+                this.solicitudesIntercambio.push(s)
+            })
+          }
+        })
       })
-
     });
   }
 

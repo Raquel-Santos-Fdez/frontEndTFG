@@ -21,12 +21,12 @@
 <form (ngSubmit)="login()" id="login">
   <div class="row">
     <div class="col-md-12">
-      <input [(ngModel)]="employee.username" [ngModelOptions]="{standalone:true}" class="form-control"
+      <input  matInput [(ngModel)]="employee.username" [ngModelOptions]="{standalone:true}" class="form-control"
              placeholder="username"
              required type="text">
     </div>
     <div class="col-md-12">
-      <input [(ngModel)]="employee.password" [ngModelOptions]="{standalone:true}" class="form-control"
+      <input matInput [(ngModel)]="employee.password" [ngModelOptions]="{standalone:true}" class="form-control"
              placeholder="password"
              required type="password">
     </div>
@@ -34,7 +34,7 @@
   <br>
   <div class="row">
     <div class="col-md-12">
-      <input class="btn btn-success float-right" type="submit" value="Login">
+      <button mat-button type="submit" value="Login">Login</button>
     </div>
   </div>
 </form>
