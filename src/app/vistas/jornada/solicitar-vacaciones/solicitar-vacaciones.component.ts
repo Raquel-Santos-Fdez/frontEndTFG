@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {JornadaService} from "../../../servicios/jornada.service";
-import {Solicitud} from "../../../model/solicitud/solicitud";
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {EstadoEnum, Solicitud} from "../../../model/solicitud/solicitud";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
 import {DatePipe} from "@angular/common";
@@ -97,21 +96,17 @@ export class SolicitarVacacionesComponent implements OnInit {
         let fecha_seleccionada = pipe.transform(j, 'yyyy-MM-dd')
         if (fecha_seleccionada) {
 
-
           //comprobamos que no existe ya una solicitud para esa fecha y ese empleado
           this.service.findSolicitudByFechaEmpleado(fecha_seleccionada, this.solicitud.empleado.id).subscribe(data => {
-            console.log(fecha_seleccionada)
-            if(fecha_seleccionada)
-            this.solicitud.fecha = fecha_seleccionada
+            if (fecha_seleccionada)
+              this.solicitud.fecha = fecha_seleccionada
             if ((data as Solicitud[]).length == 0) {
-
               this.service.enviarSolicitud(this.solicitud).subscribe(() =>
                 this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
               );
             } else {
               this._snackBar.open("Ya existe una solicitud para esta fecha", undefined, {duration: 2000})
             }
-
           })
         }
       }

@@ -1,12 +1,11 @@
-import {Solicitud} from "./solicitud";
+import {EstadoEnum, Solicitud} from "./solicitud";
+import {Empleado} from "../empleado/empleado";
 
 export class SolicitudIntercambio extends Solicitud{
 
   fechaDescanso:string
 
-  // constructor(fecha:string,fechaDescanso:string, motivo:string) {
-  //   super(fecha, motivo);
-  //   this.fechaDescanso=fechaDescanso;
-  // }
-
+  constructor() {
+    super();
+  }
 }

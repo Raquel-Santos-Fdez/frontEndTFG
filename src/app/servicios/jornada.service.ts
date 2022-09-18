@@ -8,6 +8,7 @@ import {SolicitudIntercambio} from "../model/solicitud/solicituIntercambio";
 import {SolicitudSimple} from "../model/solicitud/solicitudSimple";
 import {Jornada} from "../model/jornada/jornada";
 import {Tarea_stop} from "../model/tarea/tarea_stop";
+import {map} from "rxjs/operators"
 
 
 @Injectable({
@@ -71,12 +72,12 @@ export class JornadaService {
 
   }
 
-  aceptarSolicitud(id: bigint) {
-    return this.httpClient.put(`${this.backendURL}` + "jornada/aceptar-solicitud", id)
+  aceptarSolicitud(solicitud:Solicitud) {
+    return this.httpClient.put(`${this.backendURL}` + "solicitudes/aceptar-solicitud", solicitud)
   }
 
   rechazarSolicitud(id: bigint) {
-    return this.httpClient.put(`${this.backendURL}` + "jornada/rechazar-solicitud", id)
+    return this.httpClient.put(`${this.backendURL}` + "solicitudes/rechazar-solicitud", id)
   }
 
   enviarSolicitud(solicitud: SolicitudSimple): Observable<any> {
@@ -125,5 +126,9 @@ export class JornadaService {
   findSolicitudByFechaEmpleado(date: string, id: bigint) {
     return this.httpClient.get(`${this.backendURL}` + "solicitudes/findSolicitudByFechaEmpleado/"+date+"/"+id)
 
+  }
+
+  gestionarSolicitudAceptada(id:Solicitud) {
+     return this.httpClient.put(`${this.backendURL}` + 'solicitudes/gestionarSolicitudAceptada', id)
   }
 }

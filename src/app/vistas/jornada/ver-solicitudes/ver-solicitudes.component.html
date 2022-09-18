@@ -9,7 +9,7 @@
     <td>{{solicitud.fecha}}</td>
     <td>{{solicitud.motivo}}</td>
     <td>{{solicitud.empleado.username}}</td>
-    <button mat-button (click)="aceptarSolicitud(solicitud.id)">Aceptar</button>
+    <button mat-button (click)="aceptarSolicitud(solicitud)">Aceptar</button>
 
     <button mat-button (click)="rechazarSolicitud(solicitud.id)">Rechazar</button>
   </tr>

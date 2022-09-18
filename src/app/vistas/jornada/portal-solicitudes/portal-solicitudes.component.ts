@@ -5,7 +5,8 @@ import {SolicitudIntercambio} from "../../../model/solicitud/solicituIntercambio
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {DatePipe} from "@angular/common";
 import {Empleado} from "../../../model/empleado/empleado";
-import {Solicitud} from "../../../model/solicitud/solicitud";
+import {EstadoEnum, Solicitud} from "../../../model/solicitud/solicitud";
+import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
 
 export interface DialogData {
   portalSolicitudes: PortalSolicitudesComponent
@@ -99,7 +100,7 @@ export class DialogNuevaSolicitud {
   }
 
   selected: string;
-  solicitud: SolicitudIntercambio = new SolicitudIntercambio()
+  solicitud: SolicitudIntercambio = new SolicitudIntercambio();
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -112,7 +113,9 @@ export class DialogNuevaSolicitud {
       //COMPROBAR --> Si el empleado no tiene una jornada para el dia seleccionado de descanso mostrar aviso
       this.service.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
         if (data)
-          this.service.addSolicitudIntercambio(this.solicitud).subscribe(() => this.data.portalSolicitudes.cargarMisSolicitudes());
+          this.service.addSolicitudIntercambio(this.solicitud).subscribe(() =>
+            this.data.portalSolicitudes.cargarMisSolicitudes()
+          );
       })
 
     }

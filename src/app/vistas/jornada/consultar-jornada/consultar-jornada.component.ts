@@ -118,8 +118,9 @@ export class ConsultarJornadaComponent implements OnInit {
     this.solicitud.motivo = this.motivoSeleccionado;
     this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
 
-    this.service.enviarSolicitud(this.solicitud).subscribe(() =>
-      this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+    this.service.enviarSolicitud(this.solicitud).subscribe(() => {
+        this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+      }
     );
   }
 }

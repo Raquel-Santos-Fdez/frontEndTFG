@@ -10,8 +10,13 @@ export abstract class Solicitud {
 
   empleado:Empleado;
 
+
+  constructor() {
+  }
+
+
 }
 
-enum EstadoEnum{
+export enum EstadoEnum{
   PENDIENTE, ACEPTADA, RECHAZADA, REASIGNADA
 }
