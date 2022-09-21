@@ -88,6 +88,7 @@ import {PerfilModule} from "./vistas/perfil/perfil.module";
     GoogleMapsModule,
     HorariosModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatDatepickerModule,
     MatCardModule,

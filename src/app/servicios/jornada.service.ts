@@ -46,11 +46,11 @@ export class JornadaService {
   }
 
   findNotOwnSolicitudes(id: bigint): Observable<SolicitudIntercambio[]> {
-    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "jornada/find-others-solicitudes/" + id);
+    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" + id);
   }
 
   findOwnSolicitudes(id: bigint) {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "jornada/find-own-solicitudes/" + id);
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-own-solicitudes/" + id);
   }
 
   addJornada(jornada: Jornada) {
@@ -80,11 +80,11 @@ export class JornadaService {
     return this.httpClient.put(`${this.backendURL}` + "solicitudes/rechazar-solicitud", id)
   }
 
-  enviarSolicitud(solicitud: SolicitudSimple): Observable<any> {
+  enviarSolicitud(solicitud: SolicitudSimple){
     return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-vacaciones/", solicitud)
   }
 
-  addSolicitudIntercambio(solicitudIntercambio: SolicitudIntercambio): Observable<any> {
+  addSolicitudIntercambio(solicitudIntercambio: Solicitud): Observable<any> {
     return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-intercambio/", solicitudIntercambio)
   }
 

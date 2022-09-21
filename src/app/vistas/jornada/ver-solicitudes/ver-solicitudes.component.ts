@@ -22,7 +22,6 @@ export class VerSolicitudesComponent implements OnInit {
       this.solicitudes=data;
       // this.solicitudes[0]=data[0]
       // let sol=new Solicitud()
-      // sol.estoPrueba();
       console.log( this.solicitudes[0])
       // console.log(typeof this.solicitudes.values()Array.prototype.forEach()dexOf(this.solicitudes,0))
       console.log(typeof this.solicitudes[0])

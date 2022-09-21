@@ -7,21 +7,30 @@
 <br/>
 
 <mat-accordion >
-  <mat-expansion-panel hideToggle>
+  <mat-expansion-panel [expanded]="isSolicitado" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Solicitar día libre
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field >
+      <mat-label>Hora inicio</mat-label>
+      <input matInput type="time" [(ngModel)]="horaInicio" required>
+    </mat-form-field>
+    <mat-form-field >
+      <mat-label>Hora fin</mat-label>
+      <input matInput type="time" [(ngModel)]="horaFin" required>
+    </mat-form-field>
+    <br>
+   <mat-form-field appearance="fill">
       <mat-label>Motivo de la ausencia</mat-label>
       <mat-select [(value)]="motivoSeleccionado">
         <mat-option value="Visita médica">Visita médica</mat-option>
         <mat-option value="Otro motivo">Otro motivo</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-button *ngIf="motivoSeleccionado" (click)="solicitarDiaLibre()">Solicitar</button>
+    <button mat-button type="submit" *ngIf="motivoSeleccionado" (click)="solicitarDiaLibre()">Solicitar</button>
   </mat-expansion-panel>
 </mat-accordion>
 
