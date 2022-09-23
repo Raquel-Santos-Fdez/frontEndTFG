@@ -54,6 +54,7 @@ import {GestUsuariosJornadasModule} from "./vistas/jornada/gest-usuarios-jornada
 import {DetallesEmpleadoModule} from "./vistas/jornada/detalles-empleado.module";
 import {MatExpansionModule} from '@angular/material/expansion';
 import {PerfilModule} from "./vistas/perfil/perfil.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import {PerfilModule} from "./vistas/perfil/perfil.module";
     DetallesEmpleadoModule,
     PerfilModule,
     GestUsuariosJornadasModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatProgressSpinnerModule
 
   ],
   providers: [

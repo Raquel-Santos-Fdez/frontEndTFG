@@ -30,7 +30,6 @@ const ELEMENT_DATA: PeriodoVacaciones[] = [
 })
 export class SolicitarVacacionesComponent implements OnInit {
 
-
   solicitud: SolicitudSimple = new SolicitudSimple();
   selected: string;
   displayedColumns: string[] = ['invierno', 'verano'];

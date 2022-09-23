@@ -7,12 +7,9 @@ import {Jornada} from "../../../model/jornada/jornada";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {TrenService} from "../../../servicios/tren.service";
-import {Estacion} from "../../../model/estacion/estacion";
-import {EstacionService} from "../../../servicios/estacion.service";
 import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 import {DialogDetallesJornada} from "../consultar-jornada/consultar-jornada.component";
-import {Situacion, Tarea_stop} from "../../../model/tarea/tarea_stop";
+import {Situacion} from "../../../model/tarea/tarea_stop";
 import {NuevaTareaDialog} from "./nueva-tarea.component";
 
 
@@ -30,6 +27,9 @@ export class GestUsuariosJornadasComponent implements OnInit {
   hasTarea: boolean = false;
   empleadoSeleccionado: Empleado | undefined = undefined;
   jornadasEmpleado: Jornada[] = [];
+
+  tareas: {jornada:Jornada, tarea:Tarea}[]=[];
+  displayedColumns: string[] = ['descripcion', 'fecha', 'horario', 'empleado','accion'];
 
   constructor(
     private empleadosService: EmpleadosService,
@@ -56,6 +56,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
       if (this.diaSeleccionado == null)
         this.jornadaService.findJornadaByEmployee(this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data;
+          this.jornadasEmpleado.forEach(j=> j.tareas.forEach(t=>this.tareas.push({jornada:j,tarea:t})))
           this.guardarTareas();
         })
       else
@@ -131,9 +132,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
           }
         })
       })
-
     }
-
   }
 
   verDetallesEmpleado(empleado: Empleado) {

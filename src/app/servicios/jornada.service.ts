@@ -45,8 +45,8 @@ export class JornadaService {
     return this.httpClient.get<Estacion>(`${this.backendURL}` + "tareaStop/" + id);
   }
 
-  findNotOwnSolicitudes(id: bigint): Observable<SolicitudIntercambio[]> {
-    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" + id);
+  findNotOwnSolicitudes(id: bigint) {
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" + id);
   }
 
   findOwnSolicitudes(id: bigint) {

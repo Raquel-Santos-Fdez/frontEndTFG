@@ -10,6 +10,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {GestUsuariosJornadasRouting} from "./gest-usuarios-jornadas.routing";
 import {NuevaTareaDialog} from "./nueva-tarea.component";
+import {MatTableModule} from "@angular/material/table";
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import {NuevaTareaDialog} from "./nueva-tarea.component";
     MatInputModule,
     MatButtonModule,
     GestUsuariosJornadasRouting,
-    FormsModule
+    FormsModule,
+    MatTableModule,
+    MatGridListModule
 
   ]
 })

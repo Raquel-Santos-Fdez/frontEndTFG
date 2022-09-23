@@ -1,0 +1,52 @@
+table {
+  width: 100%;
+}
+
+td {
+  width: auto;
+}
+
+
+
+.container {
+  position: absolute;
+  top: 120px;
+  left: 100px;
+  display: flex;
+  flex-flow: column wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  gap: 15px;
+
+}
+
+#filtroUsuarios{
+  width: 100%;
+}
+
+.filtro{
+  width: 100%;
+}
+
+#tablaUsuarios {
+
+  align-self: flex-start;
+  width: 50%;
+}
+
+.calendar-card {
+  width: 30%;
+}
+
+#tablaTareas{
+  float: right;
+  width: 50%;
+}
+
+#btnNuevaTarea{
+  width: 100%
+}
+
+

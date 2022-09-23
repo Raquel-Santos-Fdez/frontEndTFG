@@ -22,10 +22,10 @@ export class PortalSolicitudesComponent implements OnInit {
 
   colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "aceptar"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
-  todasSolicitudes: SolicitudIntercambio[] = [];
+  todasSolicitudes: Solicitud[] = [];
   misSolicitudes: Solicitud[]
   empleado: Empleado;
-  solicitudesIntercambio: SolicitudIntercambio[]=[];
+  solicitudesIntercambio: Solicitud[] = [];
 
   constructor(public dialog: MatDialog, private service: JornadaService) {
     this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
@@ -46,19 +46,24 @@ export class PortalSolicitudesComponent implements OnInit {
     });
   }
 
-  private  cargarSolicitudes(){
+  private cargarSolicitudes() {
     this.service.findNotOwnSolicitudes(this.empleado.id).subscribe(data => {
       this.todasSolicitudes = data;
+
       //fecha debe descansar y fechaDescanso debe trabajar
       this.todasSolicitudes.forEach(s => {
-        this.service.findJornadaByDateEmpleado(new Date(s.fechaDescanso), this.empleado.id).subscribe(data => {
-          if (data.length != 0) {
-            this.service.findJornadaByDateEmpleado(new Date(s.fecha), this.empleado.id).subscribe(data2 => {
-              if (data2.length == 0)
-                this.solicitudesIntercambio.push(s)
-            })
-          }
-        })
+        if (s instanceof SolicitudIntercambio) {
+          console.log("Es una solicitudintercambio")
+          this.service.findJornadaByDateEmpleado(new Date(s.fechaDescanso), this.empleado.id).subscribe(data => {
+            if (data.length != 0) {
+              this.service.findJornadaByDateEmpleado(new Date(s.fecha), this.empleado.id).subscribe(data2 => {
+                if (data2.length == 0)
+                  this.solicitudesIntercambio.push(s)
+                console.log(this.solicitudesIntercambio)
+              })
+            }
+          })
+        }
       })
     });
   }
