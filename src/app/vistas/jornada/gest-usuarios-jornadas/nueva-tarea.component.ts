@@ -15,7 +15,7 @@ import {Situacion, Tarea_stop} from "../../../model/tarea/tarea_stop";
 export interface DialogData {
   jornada: Jornada,
   gestorUsuariosJornadas: GestUsuariosJornadasComponent,
-  diaSeleccionado: Date,
+  diaSeleccionado: string,
   empleadoSeleccionado: Empleado
 }
 
@@ -61,9 +61,8 @@ export class NuevaTareaDialog {
         this.tarea.tren = data
 
         if (!this.data.jornada) {
-          //es una nueva jornada sin tareas
-          this.data.jornada = new Jornada(new Date(this.data.diaSeleccionado.setMinutes(this.data.diaSeleccionado.getMinutes()+
-            this.data.diaSeleccionado.getTimezoneOffset())), this.data.empleadoSeleccionado);
+          let fecha2=new Date(this.data.diaSeleccionado)
+          this.data.jornada = new Jornada(this.data.diaSeleccionado, this.data.empleadoSeleccionado);
         }
 
         //añadimos las tareas a la jornada

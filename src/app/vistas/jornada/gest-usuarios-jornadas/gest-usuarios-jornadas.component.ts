@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, SimpleChange} from '@angular/core';
 import {Empleado, Rol} from "../../../model/empleado/empleado";
 import {EmpleadosService} from "../../../servicios/empleados.service";
 import {JornadaService} from "../../../servicios/jornada.service";
@@ -11,6 +11,8 @@ import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 import {DialogDetallesJornada} from "../consultar-jornada/consultar-jornada.component";
 import {Situacion} from "../../../model/tarea/tarea_stop";
 import {NuevaTareaDialog} from "./nueva-tarea.component";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {DatePipe} from "@angular/common";
 
 
 @Component({
@@ -23,7 +25,6 @@ export class GestUsuariosJornadasComponent implements OnInit {
   empleados: Empleado[] = [];
   filtroUsuarios = '';
   diaSeleccionado: Date | null = null;
-  tareasJornada: Tarea[] = [];
   hasTarea: boolean = false;
   empleadoSeleccionado: Empleado | undefined = undefined;
   jornadasEmpleado: Jornada[] = [];
@@ -31,11 +32,15 @@ export class GestUsuariosJornadasComponent implements OnInit {
   tareas: {jornada:Jornada, tarea:Tarea}[]=[];
   displayedColumns: string[] = ['descripcion', 'fecha', 'horario', 'empleado','accion'];
 
+  empleadoActual:Empleado;
+
   constructor(
     private empleadosService: EmpleadosService,
     private jornadaService: JornadaService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar) {
+
+    this.empleadoActual=JSON.parse(localStorage.getItem("usuario") || '{}');
 
   }
 
@@ -45,18 +50,21 @@ export class GestUsuariosJornadasComponent implements OnInit {
   }
 
   public mostrarUsuarios() {
-    this.empleadosService.findAllEmpleados().subscribe(data => this.empleados = data)
+    this.empleadosService.findAllEmpleados().subscribe(data => {
+      this.empleados = data
+      this.empleados=this.empleados.filter(e=>e.id!=this.empleadoActual.id)
+    })
   }
 
   seleccionarEmpleado(id: any) {
-    this.tareasJornada = [];
+    this.tareas = [];
     this.jornadasEmpleado = [];
     this.empleadosService.findEmpleadoById(id).subscribe(data => {
       this.empleadoSeleccionado = data;
       if (this.diaSeleccionado == null)
         this.jornadaService.findJornadaByEmployee(this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data;
-          this.jornadasEmpleado.forEach(j=> j.tareas.forEach(t=>this.tareas.push({jornada:j,tarea:t})))
+          this.formatearFecha(this.jornadasEmpleado)
           this.guardarTareas();
         })
       else
@@ -66,30 +74,40 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
   seleccionarDia() {
     if (this.diaSeleccionado) {
-      this.tareasJornada = [];
+      this.tareas = [];
       this.jornadasEmpleado = [];
       //si hay un empelado seleccionado se muestrasn solo las de ese empleado, sino se muestran todas las de esa fecha
       if (this.empleadoSeleccionado) {
         this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data
+          this.formatearFecha(this.jornadasEmpleado)
           this.guardarTareas();
         });
       } else {
-        console.log(new Date(this.diaSeleccionado))
-        console.log(new Date(this.diaSeleccionado).toUTCString())
         this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
           this.jornadasEmpleado = data
+          this.formatearFecha(this.jornadasEmpleado)
           this.guardarTareas();
         });
       }
     }
   }
 
-  public guardarTareas() {
-    let i;
-    for (i = 0; i < this.jornadasEmpleado.length; i++)
-      this.jornadasEmpleado[i].tareas.forEach(l => this.tareasJornada.push(l))
-    this.hasTarea = this.tareasJornada.length > 0;
+  private formatearFecha(jornadas:Jornada[]) {
+    let pipe = new DatePipe('en-US')
+    this.jornadasEmpleado.forEach(j=> {
+      let fecha_seleccionada = pipe.transform(new Date(j.date), 'yyyy-MM-dd')
+      if (fecha_seleccionada)
+        j.date = fecha_seleccionada
+    })
+
+
+  }
+
+   guardarTareas() {
+    this.jornadasEmpleado.forEach(j=> j.tareas.forEach(t=>this.tareas.push({jornada:j,tarea:t})))
+    this.hasTarea = this.tareas.length > 0;
+
   }
 
   deleteEmpleadoFiltro() {
@@ -125,7 +143,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
         this.dialog.open(NuevaTareaDialog, {
           width: '450px',
           data: {
-            diaSeleccionado: this.diaSeleccionado,
+            diaSeleccionado: this.diaSeleccionado?.toDateString(),
             empleadoSeleccionado: this.empleadoSeleccionado,
             jornada: jornada,
             gestorUsuariosJornadas: this
@@ -225,7 +243,3 @@ export class NuevoUsuarioDialog {
   }
 }
 
-
-// let tarea_stop: Tarea_stop = new Tarea_stop();
-// this.jornadaService.addTareaStop(origen, "INICIO").subscribe(data => tarea_stop = data);
-// this.jornadaService.assignTareaStop(tarea_stop.id, this.tarea).subscribe();

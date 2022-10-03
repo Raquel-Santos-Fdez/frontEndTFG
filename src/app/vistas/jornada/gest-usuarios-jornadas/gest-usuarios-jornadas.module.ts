@@ -33,7 +33,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     GestUsuariosJornadasRouting,
     FormsModule,
     MatTableModule,
-    MatGridListModule
+    MatGridListModule,
 
   ]
 })

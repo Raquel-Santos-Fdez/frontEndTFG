@@ -4,13 +4,14 @@ import {Tarea} from "../tarea/tarea";
 export class Jornada {
 
   id: bigint;
-  date:Date;
+  date:string;
+  isDiaLibre:boolean;
 
   tareas: Tarea[]=[];
   empleado:Empleado;
 
-  constructor(date:Date, empleado:Empleado) {
-    this.date=date;
+  constructor(date:string, empleado:Empleado) {
+    this.date= date;
     this.empleado=empleado
   }
 }

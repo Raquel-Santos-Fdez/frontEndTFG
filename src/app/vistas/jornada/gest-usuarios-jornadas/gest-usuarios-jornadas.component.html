@@ -47,7 +47,7 @@
   <ng-container class="filtro" *ngIf="diaSeleccionado">
     <button (click)="deleteFechaFiltro()" mat-stroked-button>
       <mat-icon>clear</mat-icon>
-      {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth()}}/{{diaSeleccionado.getFullYear()}}
+      {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth()+1}}/{{diaSeleccionado.getFullYear()}}
     </button>
   </ng-container>
 </div>
@@ -64,7 +64,7 @@
 
     <ng-container matColumnDef="fecha">
       <th *matHeaderCellDef mat-header-cell>Fecha</th>
-      <td *matCellDef="let element" mat-cell>{{element.jornada.date.split('T')[0]}}</td>
+      <td *matCellDef="let element" mat-cell>{{element.jornada.date}}</td>
     </ng-container>
 
     <ng-container matColumnDef="horario">

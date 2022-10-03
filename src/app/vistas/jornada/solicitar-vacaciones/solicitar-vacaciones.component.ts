@@ -52,31 +52,6 @@ export class SolicitarVacacionesComponent implements OnInit {
 
   }
 
-
-  // console.log(this.periodoSeleccionado.invierno.split('-'))
-
-  // this.solicitud.motivo=this.selected;
-  // this.solicitud.empleado=JSON.parse(localStorage.getItem("usuario")||'{}');
-  //
-  //
-  // if(this.solicitud.fecha!=undefined && this.solicitud.motivo!=undefined) {
-  //   //si el empleado no tiene una jornada asignada ese dia mostrar un aviso
-  //   this.service.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data=>{
-  //     if(data)
-  //       this.service.enviarSolicitud(this.solicitud).subscribe(()=>
-  //         this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-  //       );
-  //     else
-  //       this._snackBar.open("No tiene una jornada asignada para el día seleccionado. Inténtelo de nuevo", undefined, {duration: 2000})
-  //   })
-  //
-  //
-  // }
-
-  // saveDate(event: MatDatepickerInputEvent<Date>) {
-  //   this.solicitud.fecha=new Date(`${event.value}`).toISOString().split('T')[0];
-  // }
-
   private solicitarPeriodo(periodo: string) {
     let veranoString = periodo.split(' - ');
 

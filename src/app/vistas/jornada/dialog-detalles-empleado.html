@@ -4,16 +4,30 @@
 <ng-container>
   <div>
     <label>Nombre, Apellidos</label>
-    <input [(ngModel)]="employee.name +' '+employee.surname">
+    <mat-form-field appearance="fill">
+      <input [(ngModel)]="employee.name +' '+employee.surname" matInput name="nombreApellido" readonly>
+    </mat-form-field>
   </div>
+
   <div>
     <label>Nombre de usuario</label>
-    <input [(ngModel)]="employee.username">
+    <mat-form-field appearance="fill">
+      <input [(ngModel)]="employee.username" matInput name="username" readonly>
+    </mat-form-field>
   </div>
 
   <div>
     <label>Rol</label>
-    <input [(ngModel)]="employee.role">
+    <mat-form-field appearance="fill">
+      <input [(ngModel)]="employee.role" matInput name="rol" readonly>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <label>Días libres disponibles</label>
+    <mat-form-field appearance="fill">
+      <input [(ngModel)]="employee.nDiasLibres" matInput name="nDiasLibres" readonly>
+    </mat-form-field>
   </div>
 </ng-container>
 

@@ -9,7 +9,7 @@ td {
 
 
 .container {
-  position: absolute;
+  position:absolute;
   top: 120px;
   left: 100px;
   display: flex;
@@ -31,7 +31,7 @@ td {
 }
 
 #tablaUsuarios {
-
+  overflow: scroll;
   align-self: flex-start;
   width: 50%;
 }

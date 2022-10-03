@@ -42,9 +42,9 @@ export class ConsultarJornadaComponent implements OnInit {
 
   solicitud: Solicitud = new SolicitudSimple();
   motivoSeleccionado: string;
-  isSolicitado: boolean=false;
+  isSolicitado: boolean = false;
   horaInicio: any;
-  horaFin:any;
+  horaFin: any;
 
   constructor(private service: JornadaService, private trenService: TrenService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
 
@@ -120,13 +120,16 @@ export class ConsultarJornadaComponent implements OnInit {
       this.solicitud.fecha = fecha_seleccionada
     this.solicitud.motivo = this.motivoSeleccionado;
     this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+    if (this.selected)
+      this.service.enviarSolicitud(this.solicitud).subscribe(() => {
+          this.motivoSeleccionado = "";
+          this.isSolicitado = false;
+          this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+        }
+      );
+    else
+      this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
 
-    this.service.enviarSolicitud(this.solicitud).subscribe(() => {
-        this.motivoSeleccionado = "";
-        this.isSolicitado=false;
-        this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-      }
-    );
   }
 }
 

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {DetallesEmpleadoComponent} from "./detalles-empleado.component";
 import {FormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {FormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatInputModule
 
   ],
   providers: [

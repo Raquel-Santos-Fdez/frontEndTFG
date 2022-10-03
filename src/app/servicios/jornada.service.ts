@@ -45,8 +45,8 @@ export class JornadaService {
     return this.httpClient.get<Estacion>(`${this.backendURL}` + "tareaStop/" + id);
   }
 
-  findNotOwnSolicitudes(id: bigint) {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" + id);
+  findNotOwnSolicitudes(id: bigint):Observable<SolicitudIntercambio[]> {
+    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" +id);
   }
 
   findOwnSolicitudes(id: bigint) {
@@ -55,21 +55,6 @@ export class JornadaService {
 
   addJornada(jornada: Jornada) {
     return this.httpClient.post<Jornada>(`${this.backendURL}` + "jornada/addJornada/", jornada)
-  }
-
-
-  checkCambioJornada(id: bigint, fecha: string, fechaDescanso: string) {
-
-    let jornadas = this.httpClient.get<Jornada[]>(`${this.backendURL}` + "jornada/checkCambioJornada/" + id + "/" + fecha + "/" + fechaDescanso)
-    let listJornadas: Jornada[] = [];
-    jornadas.subscribe(jornada => {
-      listJornadas = jornada as Jornada[]
-
-    })
-
-    return listJornadas.length != 0;
-
-
   }
 
   aceptarSolicitud(solicitud:Solicitud) {
@@ -91,10 +76,6 @@ export class JornadaService {
 
   reasignar(solicitud: SolicitudIntercambio) {
     return this.httpClient.put(`${this.backendURL}` + "jornada/reasignar", solicitud)
-  }
-
-  realizarCambio(id: bigint, idEmployee: bigint) {
-    return this.httpClient.put(`${this.backendURL}` + "jornada/realizarCambio", {id, idEmployee})
   }
 
   addTarea(tarea: Tarea): Observable<Tarea> {
@@ -131,4 +112,5 @@ export class JornadaService {
   gestionarSolicitudAceptada(id:Solicitud) {
      return this.httpClient.put(`${this.backendURL}` + 'solicitudes/gestionarSolicitudAceptada', id)
   }
+
 }

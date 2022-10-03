@@ -5,6 +5,7 @@ export abstract class Solicitud {
   id: bigint;
   fecha:string;
   motivo:string;
+  type:string;
 
   estado:EstadoEnum=EstadoEnum.PENDIENTE;
 
