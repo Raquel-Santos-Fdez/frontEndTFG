@@ -23,21 +23,23 @@ export class PortalSolicitudesComponent implements OnInit {
 
   colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "aceptar"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
-  todasSolicitudes: SolicitudIntercambio[];
-  misSolicitudes: Solicitud[]
-  empleado: Empleado;
+  columnsVacaciones: string[] = ["periodoInvierno", "estado"];
+  misSolicitudes: Solicitud[];
   solicitudesIntercambio: Solicitud[] = [];
+  solicitudesVacaciones:Solicitud[]=[];
+  empleado: Empleado;
   isReady: boolean = false;
+
 
   constructor(public dialog: MatDialog, private service: JornadaService) {
     this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-    this.todasSolicitudes=[];
 
   }
 
   ngOnInit(): void {
     this.cargarSolicitudes();
     this.cargarMisSolicitudes();
+    this.cargarSolicitudesVacaciones()
   }
 
   openDialog(): void {
@@ -59,11 +61,26 @@ export class PortalSolicitudesComponent implements OnInit {
     });
   }
 
+  public cargarSolicitudesVacaciones(){
+    this.service.findSolicitudesVacaciones(this.empleado.id).subscribe(data=>{
+      this.solicitudesVacaciones=data;
+    })
+  }
+
   aceptarSolicitud(solicitud: SolicitudIntercambio) {
     solicitud.nuevoEmpleado = this.empleado;
     this.service.reasignar(solicitud).subscribe(() =>
       this.cargarSolicitudes()
     );
+  }
+
+  getFinVacaciones(fechaFinVacaciones: any) {
+    let pipe = new DatePipe('en-US')
+    let fecha_seleccionada = pipe.transform(new Date(fechaFinVacaciones), 'yyyy-MM-dd')
+    if (fecha_seleccionada)
+      return fecha_seleccionada
+
+    return "";
   }
 }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {JornadaService} from "../../../servicios/jornada.service";
 import {Solicitud} from "../../../model/solicitud/solicitud";
-import {SolicitudIntercambio} from "../../../model/solicitud/solicituIntercambio";
-import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
+import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-ver-solicitudes',
@@ -20,21 +20,14 @@ export class VerSolicitudesComponent implements OnInit {
   ngOnInit(): void {
     this.service.getAllSolicitudesPendientes().subscribe(data => {
       this.solicitudes=data;
-      // this.solicitudes[0]=data[0]
-      // let sol=new Solicitud()
-      console.log( this.solicitudes[0])
-      // console.log(typeof this.solicitudes.values()Array.prototype.forEach()dexOf(this.solicitudes,0))
-      console.log(typeof this.solicitudes[0])
     });
-
-
   }
 
 
   aceptarSolicitud(solicitud:Solicitud) {
     this.service.aceptarSolicitud(solicitud).subscribe(()=> {
       this.borrarSolicitud(solicitud.id);
-      this.service.gestionarSolicitudAceptada(solicitud).subscribe();
+      // this.service.gestionarSolicitudAceptada(solicitud).subscribe();
     });
 
 
@@ -49,5 +42,14 @@ export class VerSolicitudesComponent implements OnInit {
 
   rechazarSolicitud(id:bigint) {
     this.service.rechazarSolicitud(id).subscribe(()=>this.borrarSolicitud(id) );
+  }
+
+  getFinVacaciones(solicitud:Solicitud) {
+    if(solicitud.type=="solicitudVacaciones") {
+      let pipe = new DatePipe('en-US')
+      let fecha = pipe.transform((solicitud as SolicitudVacaciones).fechaFinVacaciones, 'yyyy-MM-dd')
+      return " - " + fecha;
+    }
+    return "";
   }
 }

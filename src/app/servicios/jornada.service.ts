@@ -9,6 +9,7 @@ import {SolicitudSimple} from "../model/solicitud/solicitudSimple";
 import {Jornada} from "../model/jornada/jornada";
 import {Tarea_stop} from "../model/tarea/tarea_stop";
 import {map} from "rxjs/operators"
+import {SolicitudVacaciones} from "../model/solicitud/solicitudVacaciones";
 
 
 @Injectable({
@@ -66,7 +67,7 @@ export class JornadaService {
   }
 
   enviarSolicitud(solicitud: SolicitudSimple){
-    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-vacaciones/", solicitud)
+    return this.httpClient.post(`${this.backendURL}` + "jornada/enviar-solicitud/", solicitud)
   }
 
   addSolicitudIntercambio(solicitudIntercambio: Solicitud): Observable<any> {
@@ -82,19 +83,6 @@ export class JornadaService {
     return this.httpClient.post<Tarea>(`${this.backendURL}` + "tarea/addTarea/", tarea)
   }
 
-  // addTareaStop( origen: Estacion, inicio: string): Observable<any> {
-  //   return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio})
-  // }
-  //
-  // assignTareaStop(id:bigint, tarea: Tarea) {
-  //   return this.httpClient.put(`${this.backendURL}` + "tarea-stop/asignarTareaStop", {id, tarea})
-  //
-  // }
-
-  // addTareaStop( origen: Estacion, inicio: string, tarea:Tarea): Observable<any> {
-  //   return this.httpClient.post(`${this.backendURL}` + "tarea-stop/addTareaStop", {origen, inicio, tarea})
-  // }
-
   findTareaById(id: BigInt): Observable<Tarea> {
     return this.httpClient.get<Tarea>(`${this.backendURL}` + "tarea/" + id)
 
@@ -106,11 +94,14 @@ export class JornadaService {
 
   findSolicitudByFechaEmpleado(date: string, id: bigint) {
     return this.httpClient.get(`${this.backendURL}` + "solicitudes/findSolicitudByFechaEmpleado/"+date+"/"+id)
-
   }
 
-  gestionarSolicitudAceptada(id:Solicitud) {
-     return this.httpClient.put(`${this.backendURL}` + 'solicitudes/gestionarSolicitudAceptada', id)
+  findSolicitudesVacaciones(idEmpleado: bigint) {
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-solicitudes-vacaciones/" +idEmpleado);
+  }
+
+  solicitarVacaciones(solicitud: SolicitudVacaciones){
+    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-vacaciones/", solicitud)
   }
 
 }

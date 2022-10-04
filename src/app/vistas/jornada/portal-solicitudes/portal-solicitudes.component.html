@@ -56,6 +56,26 @@
     </table>
 
   </mat-tab>
+
+  <mat-tab label="Vacaciones">
+    <table mat-table [dataSource]="solicitudesVacaciones">
+
+      <ng-container matColumnDef="periodoInvierno">
+        <th mat-header-cell *matHeaderCellDef> Periodo </th>
+        <td mat-cell *matCellDef="let element"> {{element.fecha}}  --  {{getFinVacaciones(element.fechaFinVacaciones)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsVacaciones"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsVacaciones;"></tr>
+
+    </table>
+
+  </mat-tab>
 </mat-tab-group>
 
 

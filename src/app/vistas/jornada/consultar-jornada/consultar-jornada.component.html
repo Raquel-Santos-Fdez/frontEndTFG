@@ -1,13 +1,13 @@
 <h1>Consultar jornada</h1>
 
 <mat-card class="calendar-card">
-  <mat-calendar [(selected)]="selected" (click)="verJornada()"></mat-calendar>
+  <mat-calendar (click)="verJornada()" [(selected)]="selected"></mat-calendar>
 </mat-card>
 
 
 <br/>
 
-<mat-accordion >
+<mat-accordion>
   <mat-expansion-panel [expanded]="isSolicitado" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -15,23 +15,27 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <mat-form-field >
-      <mat-label>Hora inicio</mat-label>
-      <input matInput type="time" [(ngModel)]="horaInicio" required>
-    </mat-form-field>
-    <mat-form-field >
-      <mat-label>Hora fin</mat-label>
-      <input matInput type="time" [(ngModel)]="horaFin" required>
-    </mat-form-field>
-    <br>
-   <mat-form-field appearance="fill">
-      <mat-label>Motivo de la ausencia</mat-label>
-      <mat-select [(value)]="motivoSeleccionado">
-        <mat-option value="Visita médica">Visita médica</mat-option>
-        <mat-option value="Otro motivo">Otro motivo</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-button type="submit" *ngIf="motivoSeleccionado" (click)="solicitarDiaLibre()">Solicitar</button>
+    <form (ngSubmit)="solicitarDiaLibre()" id="formulario">
+      <div class="row">
+      <mat-form-field>
+        <mat-label>Hora inicio</mat-label>
+        <input [(ngModel)]="horaInicio" matInput name="horaInicio" required type="time">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Hora fin</mat-label>
+        <input [(ngModel)]="horaFin" matInput name="horaFin" required type="time">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Motivo de la ausencia</mat-label>
+        <mat-select [(value)]="motivoSeleccionado">
+          <mat-option value="Visita médica">Visita médica</mat-option>
+          <mat-option value="Otro motivo">Otro motivo</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button *ngIf="motivoSeleccionado" mat-button type="submit">Solicitar</button>
+      </div>
+    </form>
   </mat-expansion-panel>
 </mat-accordion>
 
@@ -40,7 +44,7 @@
   <tr *ngFor="let t of tareas">
     <td>{{t.descripcion}}</td>
     <td>
-      <button mat-button (click)="verDetalles(t.id)">Detalles</button>
+      <button (click)="verDetalles(t.id)" mat-button>Detalles</button>
     </td>
   </tr>
 </table>

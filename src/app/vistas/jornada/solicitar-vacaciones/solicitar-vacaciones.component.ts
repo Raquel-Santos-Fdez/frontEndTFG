@@ -4,6 +4,7 @@ import {EstadoEnum, Solicitud} from "../../../model/solicitud/solicitud";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
 import {DatePipe} from "@angular/common";
+import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 
 
 export interface PeriodoVacaciones {
@@ -30,7 +31,7 @@ const ELEMENT_DATA: PeriodoVacaciones[] = [
 })
 export class SolicitarVacacionesComponent implements OnInit {
 
-  solicitud: SolicitudSimple = new SolicitudSimple();
+  solicitud: SolicitudVacaciones = new SolicitudVacaciones();
   selected: string;
   displayedColumns: string[] = ['invierno', 'verano'];
   dataSource = ELEMENT_DATA;
@@ -48,42 +49,41 @@ export class SolicitarVacacionesComponent implements OnInit {
     this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
 
     this.solicitarPeriodo(this.periodoSeleccionado.invierno);
-    this.solicitarPeriodo(this.periodoSeleccionado.verano);
 
+    setTimeout(()=>this.solicitarPeriodo(this.periodoSeleccionado.verano),500);
   }
 
   private solicitarPeriodo(periodo: string) {
-    let veranoString = periodo.split(' - ');
+    let vacacionesString = periodo.split(' - ');
 
     let i;
-    let veranoDate: Date[] = [];
-    let j;
+    let vacacionesDate: Date[] = [];
     let pipe = new DatePipe('en-US')
     const UN_DIA_EN_MILISEGUNDOS = 1000 * 60 * 60 * 24;
 
-    for (i = 0; i < veranoString.length; i++) {
-      let [dia, mes, year] = veranoString[i].split('/')
-      veranoDate.push(new Date(+year, +mes - 1, +dia))
+    for (i = 0; i < vacacionesString.length; i++) {
+      let [dia, mes, year] = vacacionesString[i].split('/')
+      vacacionesDate.push(new Date(+year, +mes - 1, +dia))
+    }
 
-      for (j = veranoDate[0]; j <= veranoDate[i]; j = new Date(j.getTime() + UN_DIA_EN_MILISEGUNDOS)) {
+    this.solicitud.fechaFinVacaciones=vacacionesString[1];
 
-        let fecha_seleccionada = pipe.transform(j, 'yyyy-MM-dd')
-        if (fecha_seleccionada) {
+    let fecha_seleccionada = pipe.transform(vacacionesDate[0], 'yyyy-MM-dd')
+    if (fecha_seleccionada) {
 
-          //comprobamos que no existe ya una solicitud para esa fecha y ese empleado
-          this.service.findSolicitudByFechaEmpleado(fecha_seleccionada, this.solicitud.empleado.id).subscribe(data => {
-            if (fecha_seleccionada)
-              this.solicitud.fecha = fecha_seleccionada
-            if ((data as Solicitud[]).length == 0) {
-              this.service.enviarSolicitud(this.solicitud).subscribe(() =>
-                this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-              );
-            } else {
-              this._snackBar.open("Ya existe una solicitud para esta fecha", undefined, {duration: 2000})
-            }
-          })
+      //comprobamos que no existe ya una solicitud para esa fecha y ese empleado
+      this.service.findSolicitudByFechaEmpleado(fecha_seleccionada, this.solicitud.empleado.id).subscribe(data => {
+        if (fecha_seleccionada)
+          this.solicitud.fecha = fecha_seleccionada
+        if ((data as Solicitud[]).length == 0) {
+          this.service.solicitarVacaciones(this.solicitud).subscribe(() => {
+              this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+          });
+        } else {
+          this._snackBar.open("Ya existe una solicitud para esta fecha", undefined, {duration: 2000})
         }
-      }
+      })
     }
   }
+
 }

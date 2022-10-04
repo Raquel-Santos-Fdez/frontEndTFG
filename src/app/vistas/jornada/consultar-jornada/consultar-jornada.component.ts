@@ -114,21 +114,26 @@ export class ConsultarJornadaComponent implements OnInit {
   }
 
   solicitarDiaLibre() {
-    let pipe = new DatePipe('en-US')
-    let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
-    if (fecha_seleccionada)
-      this.solicitud.fecha = fecha_seleccionada
-    this.solicitud.motivo = this.motivoSeleccionado;
-    this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-    if (this.selected)
-      this.service.enviarSolicitud(this.solicitud).subscribe(() => {
-          this.motivoSeleccionado = "";
-          this.isSolicitado = false;
-          this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-        }
-      );
-    else
-      this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
+    let formulario: any = document.getElementById("formulario");
+    let formularioValido: boolean = formulario.reportValidity();
+    if (formularioValido) {
+      let pipe = new DatePipe('en-US')
+      let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
+      if (fecha_seleccionada)
+        this.solicitud.fecha = fecha_seleccionada
+      this.solicitud.motivo = this.motivoSeleccionado;
+      this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+      if (this.selected)
+        this.service.enviarSolicitud(this.solicitud).subscribe(() => {
+            this.motivoSeleccionado = "";
+            this.isSolicitado = false;
+            this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+          }
+        );
+      else
+        this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
+
+    }
 
   }
 }

@@ -6,7 +6,7 @@
   <th>Empleado</th>
   <tr *ngFor="let solicitud of solicitudes">
 
-    <td>{{solicitud.fecha}}</td>
+    <td>{{solicitud.fecha}} {{getFinVacaciones(solicitud)}}</td>
     <td>{{solicitud.motivo}}</td>
     <td>{{solicitud.empleado.username}}</td>
     <button mat-button (click)="aceptarSolicitud(solicitud)">Aceptar</button>
