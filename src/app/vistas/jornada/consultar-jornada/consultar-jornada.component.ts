@@ -46,10 +46,10 @@ export class ConsultarJornadaComponent implements OnInit {
   horaInicio: any;
   horaFin: any;
 
+  isDiaLibre:boolean=false;
+
   constructor(private service: JornadaService, private trenService: TrenService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
 
-    // var employeeJson=JSON.parse(localStorage.string)
-    // this.employee=service.find
   }
 
   ngOnInit(): void {
@@ -63,14 +63,24 @@ export class ConsultarJornadaComponent implements OnInit {
     this.incidencias = [];
     this.origen = undefined;
     this.final = undefined;
-    if (this.selected != null)
+
+    let jornada;
+
+    if (this.selected != null) {
+      this.service.findJornadaByDateEmpleado(this.selected,this.employee.id).subscribe(data=> {
+        if(data[0]) {
+          jornada = data[0];
+          this.isDiaLibre = jornada.diaLibre;
+        }
+        else
+          this.isDiaLibre=false;
+      })
+
       this.service.findTareasByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
         this.tareas = data
-        if (this.tareas.length > 0)
-          this.isSelected = true
-        else
-          this.isSelected = false
+        this.isSelected = this.tareas.length > 0;
       });
+    }
 
   }
 

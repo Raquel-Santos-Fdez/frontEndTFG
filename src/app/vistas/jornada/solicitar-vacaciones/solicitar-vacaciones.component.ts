@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {JornadaService} from "../../../servicios/jornada.service";
-import {EstadoEnum, Solicitud} from "../../../model/solicitud/solicitud";
+import { Solicitud} from "../../../model/solicitud/solicitud";
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
 import {DatePipe} from "@angular/common";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 
@@ -59,7 +58,6 @@ export class SolicitarVacacionesComponent implements OnInit {
     let i;
     let vacacionesDate: Date[] = [];
     let pipe = new DatePipe('en-US')
-    const UN_DIA_EN_MILISEGUNDOS = 1000 * 60 * 60 * 24;
 
     for (i = 0; i < vacacionesString.length; i++) {
       let [dia, mes, year] = vacacionesString[i].split('/')

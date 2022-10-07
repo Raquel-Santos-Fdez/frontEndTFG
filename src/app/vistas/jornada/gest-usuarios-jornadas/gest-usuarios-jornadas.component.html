@@ -53,8 +53,6 @@
 </div>
 
 
-
-
   <table id="tablaTareas" *ngIf="hasTarea" [dataSource]="tareas" mat-table>
 
     <ng-container matColumnDef="descripcion">
@@ -90,9 +88,10 @@
 
   </table>
 
-  <p *ngIf="!hasTarea && diaSeleccionado">Aún no se ha asignado una jornada para el día seleccionado</p>
+  <p *ngIf="isDiaLibre">DÍA LIBRE</p>
+  <p *ngIf="!hasTarea && diaSeleccionado && !isDiaLibre">Aún no se ha asignado una jornada para el día seleccionado</p>
 
-  <button id="btnNuevaTarea"(click)="addTarea()" mat-button>
+  <button id="btnNuevaTarea"(click)="addTarea()" *ngIf="!isDiaLibre" mat-button>
     Nueva tarea
   </button>
 

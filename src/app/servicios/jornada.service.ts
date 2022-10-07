@@ -10,6 +10,7 @@ import {Jornada} from "../model/jornada/jornada";
 import {Tarea_stop} from "../model/tarea/tarea_stop";
 import {map} from "rxjs/operators"
 import {SolicitudVacaciones} from "../model/solicitud/solicitudVacaciones";
+import {Empleado} from "../model/empleado/empleado";
 
 
 @Injectable({
@@ -38,16 +39,12 @@ export class JornadaService {
     return this.httpClient.get<Jornada[]>(`${this.backendURL}` + "jornada/findJornadaByDateEmpleado/" + date + "/" + idEmployee);
   }
 
-  getAllSolicitudesPendientes(): Observable<Solicitud[]> {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "jornada/ver-solicitudes-vacaciones/");
-  }
-
   findStopByTareaStop(id: bigint) {
     return this.httpClient.get<Estacion>(`${this.backendURL}` + "tareaStop/" + id);
   }
 
-  findNotOwnSolicitudes(id: bigint):Observable<SolicitudIntercambio[]> {
-    return this.httpClient.get<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" +id);
+  findNotOwnSolicitudes(empleado: Empleado):Observable<SolicitudIntercambio[]> {
+    return this.httpClient.put<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" ,empleado);
   }
 
   findOwnSolicitudes(id: bigint) {
@@ -56,14 +53,6 @@ export class JornadaService {
 
   addJornada(jornada: Jornada) {
     return this.httpClient.post<Jornada>(`${this.backendURL}` + "jornada/addJornada/", jornada)
-  }
-
-  aceptarSolicitud(solicitud:Solicitud) {
-    return this.httpClient.put(`${this.backendURL}` + "solicitudes/aceptar-solicitud", solicitud)
-  }
-
-  rechazarSolicitud(id: bigint) {
-    return this.httpClient.put(`${this.backendURL}` + "solicitudes/rechazar-solicitud", id)
   }
 
   enviarSolicitud(solicitud: SolicitudSimple){

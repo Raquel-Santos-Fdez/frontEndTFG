@@ -21,12 +21,12 @@ export interface DialogData {
 })
 export class PortalSolicitudesComponent implements OnInit {
 
-  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "aceptar"];
+  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "empleado","aceptar"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
   columnsVacaciones: string[] = ["periodoInvierno", "estado"];
   misSolicitudes: Solicitud[];
   solicitudesIntercambio: Solicitud[] = [];
-  solicitudesVacaciones:Solicitud[]=[];
+  solicitudesVacaciones: Solicitud[] = [];
   empleado: Empleado;
   isReady: boolean = false;
 
@@ -43,14 +43,14 @@ export class PortalSolicitudesComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogNuevaSolicitud, {
+    this.dialog.open(DialogNuevaSolicitud, {
       width: '500px',
       data: {portalSolicitudes: this}
     });
   }
 
   private cargarSolicitudes() {
-    this.service.findNotOwnSolicitudes(this.empleado.id).subscribe(data => {
+    this.service.findNotOwnSolicitudes(this.empleado).subscribe(data => {
       this.solicitudesIntercambio = data;
     });
   }
@@ -61,9 +61,9 @@ export class PortalSolicitudesComponent implements OnInit {
     });
   }
 
-  public cargarSolicitudesVacaciones(){
-    this.service.findSolicitudesVacaciones(this.empleado.id).subscribe(data=>{
-      this.solicitudesVacaciones=data;
+  public cargarSolicitudesVacaciones() {
+    this.service.findSolicitudesVacaciones(this.empleado.id).subscribe(data => {
+      this.solicitudesVacaciones = data;
     })
   }
 
@@ -107,28 +107,33 @@ export class DialogNuevaSolicitud {
   }
 
   enviar() {
-    this.solicitud.motivo = this.selected;
-    this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-    let jornada: Jornada;
-    if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {
-      //El empleado debe tener asignada una jornada de trabajo para la fecha seleccionada
-      this.service.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
-        jornada = data[0];
-        if (data.length != 0 && !jornada.isDiaLibre) {
-          //El empleado no deebe tener asignada ninguna jornada de trabajo para la fecha a cubrir
-          this.service.findJornadaByDateEmpleado(new Date(this.solicitud.fechaDescanso), this.solicitud.empleado.id).subscribe(data => {
-            if (data.length == 0 || jornada.isDiaLibre)
-              this.service.addSolicitudIntercambio(this.solicitud).subscribe(() => {
-                this.data.portalSolicitudes.cargarMisSolicitudes()
-                this.dialogRef.close();
-              });
-            else
-              this._snackBar.open("Debe seleccionar un día a cubrir sin jornada asignada", undefined, {duration: 2000})
-          });
-        } else
-          this._snackBar.open("Debe seleccionar una intercambio para un día con una jornada asignada", undefined, {duration: 2000})
-      })
 
+    let formulario: any = document.getElementById("formulario");
+    let formularioValido: boolean = formulario.reportValidity();
+    if (formularioValido) {
+      this.solicitud.motivo = this.selected;
+      this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+      let jornada: Jornada;
+      if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {
+        //El empleado debe tener asignada una jornada de trabajo para la fecha seleccionada
+        this.service.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
+          jornada = data[0];
+          if (data.length != 0 && !jornada.diaLibre) {
+            //El empleado no deebe tener asignada ninguna jornada de trabajo para la fecha a cubrir
+            this.service.findJornadaByDateEmpleado(new Date(this.solicitud.fechaDescanso), this.solicitud.empleado.id).subscribe(data => {
+              if (data.length == 0 || jornada.diaLibre)
+                this.service.addSolicitudIntercambio(this.solicitud).subscribe(() => {
+                  this.data.portalSolicitudes.cargarMisSolicitudes()
+                  this.dialogRef.close();
+                });
+              else
+                this._snackBar.open("Debe seleccionar un día a cubrir sin jornada asignada", undefined, {duration: 2000})
+            });
+          } else
+            this._snackBar.open("Debe seleccionar una intercambio para un día con una jornada asignada", undefined, {duration: 2000})
+        })
+
+      }
     }
 
   }

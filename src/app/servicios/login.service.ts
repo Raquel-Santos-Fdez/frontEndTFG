@@ -12,11 +12,6 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(employee: Empleado) {
-    // var httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json'
-    //   })
-    // }
     return this.http.post<any>(`${this.backendURL}` +"login", employee);
   }
 }

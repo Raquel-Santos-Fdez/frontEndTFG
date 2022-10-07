@@ -5,7 +5,7 @@ export class Jornada {
 
   id: bigint;
   date:string;
-  isDiaLibre:boolean;
+  diaLibre:boolean;
 
   tareas: Tarea[]=[];
   empleado:Empleado;

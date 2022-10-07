@@ -7,6 +7,7 @@
 
 <br/>
 
+<div *ngIf="isDiaLibre==false" id="contenedor">
 <mat-accordion>
   <mat-expansion-panel [expanded]="isSolicitado" hideToggle>
     <mat-expansion-panel-header>
@@ -39,16 +40,24 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<table *ngIf="isSelected">
-  <th>Descripción</th>
-  <tr *ngFor="let t of tareas">
-    <td>{{t.descripcion}}</td>
-    <td>
-      <button (click)="verDetalles(t.id)" mat-button>Detalles</button>
-    </td>
-  </tr>
-</table>
+  <table *ngIf="isSelected">
+    <th>Descripción</th>
+    <tr *ngFor="let t of tareas">
+      <td>{{t.descripcion}}</td>
+      <td>
+        <button (click)="verDetalles(t.id)" mat-button>Detalles</button>
+      </td>
+    </tr>
+  </table>
 
-<p *ngIf="!isSelected">Aún no se ha asignado una jornada para el día seleccionado</p>
+  <p *ngIf="!isSelected">Aún no se ha asignado una jornada para el día seleccionado</p>
+
+</div>
+
+
+
+<p *ngIf="isDiaLibre">DÍA LIBRE</p>
+
+
 
 

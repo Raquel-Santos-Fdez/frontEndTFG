@@ -3,6 +3,7 @@ import {JornadaService} from "../../../servicios/jornada.service";
 import {Solicitud} from "../../../model/solicitud/solicitud";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 import {DatePipe} from "@angular/common";
+import {SolicitudService} from "../../../servicios/solicitud.service";
 
 @Component({
   selector: 'app-ver-solicitudes',
@@ -13,21 +14,20 @@ export class VerSolicitudesComponent implements OnInit {
 
   solicitudes:Solicitud[]=[];
 
-  constructor(private service:JornadaService) {
+  constructor(private solicitudService:SolicitudService) {
 
   }
 
   ngOnInit(): void {
-    this.service.getAllSolicitudesPendientes().subscribe(data => {
+    this.solicitudService.getAllSolicitudesPendientes().subscribe(data => {
       this.solicitudes=data;
     });
   }
 
 
   aceptarSolicitud(solicitud:Solicitud) {
-    this.service.aceptarSolicitud(solicitud).subscribe(()=> {
+    this.solicitudService.aceptarSolicitud(solicitud).subscribe(()=> {
       this.borrarSolicitud(solicitud.id);
-      // this.service.gestionarSolicitudAceptada(solicitud).subscribe();
     });
 
 
@@ -41,7 +41,7 @@ export class VerSolicitudesComponent implements OnInit {
   }
 
   rechazarSolicitud(id:bigint) {
-    this.service.rechazarSolicitud(id).subscribe(()=>this.borrarSolicitud(id) );
+    this.solicitudService.rechazarSolicitud(id).subscribe(()=>this.borrarSolicitud(id) );
   }
 
   getFinVacaciones(solicitud:Solicitud) {
