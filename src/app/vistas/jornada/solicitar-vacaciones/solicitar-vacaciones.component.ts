@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {JornadaService} from "../../../servicios/jornada.service";
-import { Solicitud} from "../../../model/solicitud/solicitud";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DatePipe} from "@angular/common";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
+import {SolicitudService} from "../../../servicios/solicitud.service";
+import {Empleado} from "../../../model/empleado/empleado";
 
 
 export interface PeriodoVacaciones {
@@ -23,6 +23,7 @@ const ELEMENT_DATA: PeriodoVacaciones[] = [
 
 ];
 
+
 @Component({
   selector: 'app-solicitar-vacaciones',
   templateUrl: './solicitar-vacaciones.component.html',
@@ -35,21 +36,47 @@ export class SolicitarVacacionesComponent implements OnInit {
   displayedColumns: string[] = ['invierno', 'verano'];
   dataSource = ELEMENT_DATA;
   periodoSeleccionado: PeriodoVacaciones;
+  empleado: Empleado;
+  existeSolicitud: boolean = false;
+  solicitudExistente: SolicitudVacaciones[];
 
-  constructor(private service: JornadaService, private _snackBar: MatSnackBar) {
+  constructor(private _snackBar: MatSnackBar, private solicitudService: SolicitudService) {
   }
 
   ngOnInit(): void {
+    this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+
+    this.comprobarSolicitudExistente();
+  }
+
+  comprobarSolicitudExistente() {
+
+    this.solicitudService.findSolicitudesVacaciones(this.empleado.id).subscribe(data => {
+        if (data.length > 0)
+          this.existeSolicitud = true;
+        else this.existeSolicitud = false;
+        this.solicitudExistente = data;
+      }
+    )
+
+  }
+
+  public formatearFecha(fechaFin: string): string {
+    let pipe = new DatePipe('en-US')
+    let fecha = pipe.transform(fechaFin, 'yyyy-MM-dd')
+    if (fecha)
+      return fecha;
+    return ""
   }
 
   enviarSolicitud() {
 
     this.solicitud.motivo = "Vacaciones";
-    this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+    this.solicitud.empleado = this.empleado;
 
     this.solicitarPeriodo(this.periodoSeleccionado.invierno);
 
-    setTimeout(()=>this.solicitarPeriodo(this.periodoSeleccionado.verano),500);
+    setTimeout(() => this.solicitarPeriodo(this.periodoSeleccionado.verano), 500);
   }
 
   private solicitarPeriodo(periodo: string) {
@@ -64,23 +91,19 @@ export class SolicitarVacacionesComponent implements OnInit {
       vacacionesDate.push(new Date(+year, +mes - 1, +dia))
     }
 
-    this.solicitud.fechaFinVacaciones=vacacionesString[1];
+    // this.solicitud.fechaFinVacaciones = vacacionesString[1];
 
     let fecha_seleccionada = pipe.transform(vacacionesDate[0], 'yyyy-MM-dd')
-    if (fecha_seleccionada) {
+    let fecha_fin = pipe.transform(vacacionesDate[1], 'yyyy-MM-dd')
 
-      //comprobamos que no existe ya una solicitud para esa fecha y ese empleado
-      this.service.findSolicitudByFechaEmpleado(fecha_seleccionada, this.solicitud.empleado.id).subscribe(data => {
-        if (fecha_seleccionada)
-          this.solicitud.fecha = fecha_seleccionada
-        if ((data as Solicitud[]).length == 0) {
-          this.service.solicitarVacaciones(this.solicitud).subscribe(() => {
-              this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-          });
-        } else {
-          this._snackBar.open("Ya existe una solicitud para esta fecha", undefined, {duration: 2000})
-        }
-      })
+
+
+    if (fecha_seleccionada && fecha_fin) {
+      this.solicitud.fechaFinVacaciones = fecha_fin;
+      this.solicitud.fecha = fecha_seleccionada
+      this.solicitudService.solicitarVacaciones(this.solicitud).subscribe(() => {
+        this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+      });
     }
   }
 

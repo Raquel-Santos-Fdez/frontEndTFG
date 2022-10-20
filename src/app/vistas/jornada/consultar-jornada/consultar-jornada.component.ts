@@ -48,7 +48,7 @@ export class ConsultarJornadaComponent implements OnInit {
 
   isDiaLibre:boolean=false;
 
-  constructor(private service: JornadaService, private trenService: TrenService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(private jornadaService: JornadaService, private trenService: TrenService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
 
   }
 
@@ -67,7 +67,7 @@ export class ConsultarJornadaComponent implements OnInit {
     let jornada;
 
     if (this.selected != null) {
-      this.service.findJornadaByDateEmpleado(this.selected,this.employee.id).subscribe(data=> {
+      this.jornadaService.findJornadaByDateEmpleado(this.selected,this.employee.id).subscribe(data=> {
         if(data[0]) {
           jornada = data[0];
           this.isDiaLibre = jornada.diaLibre;
@@ -76,7 +76,7 @@ export class ConsultarJornadaComponent implements OnInit {
           this.isDiaLibre=false;
       })
 
-      this.service.findTareasByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
+      this.jornadaService.findTareasByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
         this.tareas = data
         this.isSelected = this.tareas.length > 0;
       });
@@ -103,22 +103,21 @@ export class ConsultarJornadaComponent implements OnInit {
   }
 
   private loadData(id: bigint) {
+    //mostramos la tarea seleccionada
     let i
     for (i = 0; i < this.tareas.length; i++)
       if (this.tareas[i].id == id)
         this.tareaDetalle = this.tareas[i]
-    this.tareaDetalle.stops.forEach((s) => {
-      let stop
-      this.service.findStopByTareaStop(s.id).subscribe(data => {
-        stop = data;
-        if (s.situacion == Situacion.INICIO)
-          this.origen = stop
-        else
-          this.final = stop
-      })
-    })
 
-    this.trenService.getIncidenciasPending(this.tareaDetalle.id).subscribe((data: Incidencia[]) => {
+    let j
+    for(j=0; j<this.tareaDetalle.stops.length; j++){
+      if (this.tareaDetalle.stops[j].situacion.toString() == "INICIO")
+        this.origen = this.tareaDetalle.stops[j].estacion
+      else
+        this.final = this.tareaDetalle.stops[j].estacion
+    }
+
+    this.trenService.getIncidenciasPending(this.tareaDetalle.tren.id).subscribe((data: Incidencia[]) => {
       this.incidencias = data;
     })
   }
@@ -134,7 +133,7 @@ export class ConsultarJornadaComponent implements OnInit {
       this.solicitud.motivo = this.motivoSeleccionado;
       this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
       if (this.selected)
-        this.service.enviarSolicitud(this.solicitud).subscribe(() => {
+        this.jornadaService.enviarSolicitud(this.solicitud).subscribe(() => {
             this.motivoSeleccionado = "";
             this.isSolicitado = false;
             this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})

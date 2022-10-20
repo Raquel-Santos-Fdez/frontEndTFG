@@ -13,8 +13,6 @@ export class NavComponent implements OnInit {
   empleado:Empleado;
   isLogin:boolean=false;
 
-
-
   constructor( private http:HttpClient) {
   }
 

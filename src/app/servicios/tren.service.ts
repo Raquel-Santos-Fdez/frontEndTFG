@@ -24,4 +24,8 @@ export class TrenService {
     return this.httpClient.get<Tren>(`${this.backendURL}` + "tren/findTrenById/" + idTren);
 
   }
+
+  getAllTrenes() {
+    return this.httpClient.get<Tren[]>(`${this.backendURL}` + "tren/findAll");
+  }
 }

@@ -39,16 +39,8 @@ export class JornadaService {
     return this.httpClient.get<Jornada[]>(`${this.backendURL}` + "jornada/findJornadaByDateEmpleado/" + date + "/" + idEmployee);
   }
 
-  findStopByTareaStop(id: bigint) {
-    return this.httpClient.get<Estacion>(`${this.backendURL}` + "tareaStop/" + id);
-  }
-
-  findNotOwnSolicitudes(empleado: Empleado):Observable<SolicitudIntercambio[]> {
-    return this.httpClient.put<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" ,empleado);
-  }
-
-  findOwnSolicitudes(id: bigint) {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-own-solicitudes/" + id);
+  findTareaById(id: bigint)  {
+    return this.httpClient.get<Tarea>(`${this.backendURL}` + "tarea/" + id)
   }
 
   addJornada(jornada: Jornada) {
@@ -56,41 +48,22 @@ export class JornadaService {
   }
 
   enviarSolicitud(solicitud: SolicitudSimple){
-    return this.httpClient.post(`${this.backendURL}` + "jornada/enviar-solicitud/", solicitud)
+    return this.httpClient.post(`${this.backendURL}` + "solicitudes/enviar-solicitud/", solicitud)
   }
 
   addSolicitudIntercambio(solicitudIntercambio: Solicitud): Observable<any> {
-    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-intercambio/", solicitudIntercambio)
+    return this.httpClient.post(`${this.backendURL}` + "solicitudes/solicitar-intercambio/", solicitudIntercambio)
   }
-
 
   reasignar(solicitud: SolicitudIntercambio) {
     return this.httpClient.put(`${this.backendURL}` + "jornada/reasignar", solicitud)
-  }
-
-  addTarea(tarea: Tarea): Observable<Tarea> {
-    return this.httpClient.post<Tarea>(`${this.backendURL}` + "tarea/addTarea/", tarea)
-  }
-
-  findTareaById(id: BigInt): Observable<Tarea> {
-    return this.httpClient.get<Tarea>(`${this.backendURL}` + "tarea/" + id)
-
   }
 
   addNuevaTareaStop(tareaStop: Tarea_stop) {
     return this.httpClient.post(`${this.backendURL}` + "tareaStop/addNuevaTareaStop", tareaStop)
   }
 
-  findSolicitudByFechaEmpleado(date: string, id: bigint) {
-    return this.httpClient.get(`${this.backendURL}` + "solicitudes/findSolicitudByFechaEmpleado/"+date+"/"+id)
-  }
 
-  findSolicitudesVacaciones(idEmpleado: bigint) {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-solicitudes-vacaciones/" +idEmpleado);
-  }
 
-  solicitarVacaciones(solicitud: SolicitudVacaciones){
-    return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-vacaciones/", solicitud)
-  }
 
 }

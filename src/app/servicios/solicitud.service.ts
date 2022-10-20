@@ -19,16 +19,8 @@ export class SolicitudService {
   }
 
   getAllSolicitudesPendientes(): Observable<Solicitud[]> {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/ver-solicitudes-vacaciones/");
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/ver-solicitudes-pendientes/");
   }
-
-  // findNotOwnSolicitudes(empleado: Empleado):Observable<SolicitudIntercambio[]> {
-  //   return this.httpClient.put<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" ,empleado);
-  // }
-  //
-  // findOwnSolicitudes(id: bigint) {
-  //   return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-own-solicitudes/" + id);
-  // }
 
   aceptarSolicitud(solicitud:Solicitud) {
     return this.httpClient.put(`${this.backendURL}` + "solicitudes/aceptar-solicitud", solicitud)
@@ -45,15 +37,26 @@ export class SolicitudService {
   // addSolicitudIntercambio(solicitudIntercambio: Solicitud): Observable<any> {
   //   return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-intercambio/", solicitudIntercambio)
   // }
-  //
-  //
-  // reasignar(solicitud: SolicitudIntercambio) {
-  //   return this.httpClient.put(`${this.backendURL}` + "jornada/reasignar", solicitud)
-  // }
 
 
-  // solicitarVacaciones(solicitud: SolicitudVacaciones){
-  //   return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-vacaciones/", solicitud)
-  // }
+  solicitarVacaciones(solicitud: SolicitudVacaciones){
+    return this.httpClient.post(`${this.backendURL}` + "solicitudes/solicitar-vacaciones/", solicitud)
+  }
 
+  findNotOwnSolicitudes(empleado: Empleado):Observable<SolicitudIntercambio[]> {
+    return this.httpClient.put<SolicitudIntercambio[]>(`${this.backendURL}` + "solicitudes/find-others-solicitudes/" ,empleado);
+  }
+
+  findOwnSolicitudes(id: bigint) {
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-own-solicitudes/" + id);
+  }
+
+  findSolicitudesVacaciones(idEmpleado: bigint) {
+    return this.httpClient.get<SolicitudVacaciones[]>(`${this.backendURL}` + "solicitudes/find-solicitudes-vacaciones/" +idEmpleado);
+  }
+
+  findSolicitudVacacionesNoRechazada(idEmpleado: bigint) {
+    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-solicitud-vacaciones-no-rechazada/" +idEmpleado);
+
+  }
 }

@@ -9,3 +9,7 @@ input{
 #incidencias{
   width: 400px;
 }
+
+.calendario{
+  /*position: fixed;*/
+}

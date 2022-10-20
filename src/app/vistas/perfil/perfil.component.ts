@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Empleado} from "../../model/empleado/empleado";
 import {EmpleadosService} from "../../servicios/empleados.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -78,4 +77,6 @@ export class PasswordDialog {
 
 
   }
+
+
 }

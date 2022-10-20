@@ -62,7 +62,7 @@
 
     <ng-container matColumnDef="fecha">
       <th *matHeaderCellDef mat-header-cell>Fecha</th>
-      <td *matCellDef="let element" mat-cell>{{element.jornada.date}}</td>
+      <td *matCellDef="let element" mat-cell>{{formatearFecha(element.jornada.date)}}</td>
     </ng-container>
 
     <ng-container matColumnDef="horario">
@@ -78,7 +78,7 @@
     <ng-container matColumnDef="accion">
       <th *matHeaderCellDef mat-header-cell>Accion</th>
       <td *matCellDef="let element" mat-cell>
-        <button (click)="verDetallesTarea(element.tarea.id)" href="/ver-solicitudes" mat-button>Detalles Tarea
+        <button (click)="verDetallesTarea(element.tarea)" href="/ver-solicitudes" mat-button>Detalles Tarea
         </button>
       </td>
     </ng-container>

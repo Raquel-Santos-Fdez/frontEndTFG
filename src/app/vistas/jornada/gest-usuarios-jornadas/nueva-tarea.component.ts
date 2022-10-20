@@ -11,6 +11,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {GestUsuariosJornadasComponent} from "./gest-usuarios-jornadas.component";
 import {Empleado} from "../../../model/empleado/empleado";
 import {Situacion, Tarea_stop} from "../../../model/tarea/tarea_stop";
+import {Tren} from "../../../model/tren/tren";
 
 export interface DialogData {
   jornada: Jornada,
@@ -28,18 +29,18 @@ export class NuevaTareaDialog {
 
   tarea: Tarea = new Tarea();
   time = {hour: 13, minute: 30};
-  idTren: number;
   estaciones: Estacion[] = []
   origen: Estacion;
   destino: Estacion;
+  tren: Tren;
   tareaStop: Tarea_stop;
+  trenes: Tren[] = []
 
   formulario = new FormGroup({
     anden: new FormControl('', [Validators.required, Validators.maxLength(2)]),
     descripcion: new FormControl('', [Validators.required]),
     horaInicio: new FormControl('', [Validators.required]),
     horaFin: new FormControl('', [Validators.required]),
-    idTren: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -53,39 +54,29 @@ export class NuevaTareaDialog {
     this.paradaService.findAllStops().subscribe(data => {
       this.estaciones = data
     });
+
+    this.trenService.getAllTrenes().subscribe(data => this.trenes = data);
   }
 
   addNuevaTarea() {
     if (this.formulario.valid) {
-      this.trenService.findTrenById(BigInt(this.idTren)).subscribe(data => {
-        this.tarea.tren = data
+      this.tarea.tren = this.tren;
 
-        if (!this.data.jornada) {
-          let fecha2=new Date(this.data.diaSeleccionado)
-          this.data.jornada = new Jornada(this.data.diaSeleccionado, this.data.empleadoSeleccionado);
-        }
+      if (!this.data.jornada) {
+        let fecha2 = new Date(this.data.diaSeleccionado)
+        this.data.jornada = new Jornada(fecha2, this.data.empleadoSeleccionado);
+      }
 
-        //añadimos las tareas a la jornada
-        this.data.jornada.tareas.push(this.tarea);
+      this.tarea.stops.push(new Tarea_stop(Situacion.FINAL, this.destino));
+      this.tarea.stops.push(new Tarea_stop(Situacion.INICIO, this.origen));
 
-        this.jornadaService.addJornada(this.data.jornada).subscribe(data => {
+      this.data.jornada.tareas.push(this.tarea);
+      this.jornadaService.addJornada(this.data.jornada).subscribe();
 
-          this.jornadaService.findTareaById(data.tareas[data.tareas.length - 1].id).subscribe(data2 => {
+      this.dialogRef.close()
+      this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
+      setTimeout(() => this.data.gestorUsuariosJornadas.seleccionarDia(), 200);
 
-              //añadimos el origen y el destno de la tarea
-              this.tareaStop = new Tarea_stop(Situacion.FINAL, this.destino, data2)
-              this.jornadaService.addNuevaTareaStop(this.tareaStop).subscribe();
-
-              this.tareaStop = new Tarea_stop(Situacion.INICIO, this.origen, data2)
-              this.jornadaService.addNuevaTareaStop(this.tareaStop).subscribe();
-
-              this.dialogRef.close()
-              this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
-              setTimeout(() => this.data.gestorUsuariosJornadas.guardarTareas(), 200);
-            }
-          )
-        });
-      })
     }
   }
 }

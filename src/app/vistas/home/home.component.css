@@ -1,3 +1,28 @@
 .slider{
+  position: absolute;
+  width:60%;
+  left: 20%;
+}
+
+#titulo{
+  padding: 5% 45% 0 45%;
+  position: absolute;
+  text-align: center;
+  color:#820e50;
+  font-family: fantasy;
+  font-style:normal;
 
 }
+
+#logo{
+  /*position: relative;*/
+  margin: 20px;
+  width: 200px;
+}
+
+.divContainer{
+  display: flex;
+  position: relative;
+}
+
+

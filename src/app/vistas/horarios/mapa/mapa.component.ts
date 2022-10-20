@@ -12,7 +12,7 @@ export class MapaComponent implements OnInit {
   //Markers: Estaciones
   marker: Marker;
   markers: Marker[]=[];
-  stops:Estacion[];
+  stops:Estacion[]=[];
 
   located: boolean = false;
 

@@ -6,7 +6,6 @@ import {HomeComponent} from './vistas/home/home.component';
 import {LoginComponent} from './vistas/login/login.component';
 import {NavComponent} from './fragments/nav/nav.component';
 import {FooterComponent} from './fragments/footer/footer.component';
-import {InicioComponent} from './vistas/inicio/inicio.component';
 
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {routing} from './app.routing';
@@ -63,7 +62,6 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     LoginComponent,
     NavComponent,
     FooterComponent,
-    InicioComponent,
     HorariosComponent,
     MapaComponent,
     TablaHorariosComponent,

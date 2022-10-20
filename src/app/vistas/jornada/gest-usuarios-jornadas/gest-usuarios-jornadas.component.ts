@@ -9,9 +9,11 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 import {DialogDetallesJornada} from "../consultar-jornada/consultar-jornada.component";
-import {Situacion} from "../../../model/tarea/tarea_stop";
 import {NuevaTareaDialog} from "./nueva-tarea.component";
 import {DatePipe} from "@angular/common";
+import {TrenService} from "../../../servicios/tren.service";
+import {Estacion} from "../../../model/estacion/estacion";
+import {Incidencia} from "../../../model/incidencia/incidencia";
 
 
 @Component({
@@ -38,6 +40,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
   constructor(
     private empleadosService: EmpleadosService,
     private jornadaService: JornadaService,
+    private trenService: TrenService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar) {
 
@@ -64,7 +67,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
       if (this.diaSeleccionado == null)
         this.jornadaService.findJornadaByEmployee(this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data;
-          this.formatearFecha()
+          // this.formatearFecha()
           this.guardarTareas();
         })
       else
@@ -82,13 +85,13 @@ export class GestUsuariosJornadasComponent implements OnInit {
           if (this.jornadasEmpleado.length > 0)
             if (this.jornadasEmpleado[0].diaLibre)
               this.isDiaLibre = true;
-          this.formatearFecha();
+          // this.formatearFecha();
           this.guardarTareas();
         });
       } else {
         this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
           this.jornadasEmpleado = data;
-          this.formatearFecha();
+          // this.formatearFecha();
           this.guardarTareas();
         });
       }
@@ -102,20 +105,10 @@ export class GestUsuariosJornadasComponent implements OnInit {
     this.isDiaLibre = false;
   }
 
-  private formatearFecha() {
-    let pipe = new DatePipe('en-US')
-    this.jornadasEmpleado.forEach(j => {
-      let fecha_seleccionada = pipe.transform(new Date(j.date), 'yyyy-MM-dd')
-      if (fecha_seleccionada)
-        j.date = fecha_seleccionada
-    })
-
-
-  }
 
   guardarTareas() {
     this.jornadasEmpleado.forEach(j => {
-        j.tareas.forEach(t => this.tareas.push({jornada: j, tarea: t}))
+      j.tareas.forEach(t => this.tareas.push({jornada: j, tarea: t}))
     })
     this.hasTarea = this.tareas.length > 0;
 
@@ -173,17 +166,28 @@ export class GestUsuariosJornadasComponent implements OnInit {
     })
   }
 
-  verDetallesTarea(id: BigInt) {
-    let tarea;
-    this.jornadaService.findTareaById(id).subscribe(data => {
+  verDetallesTarea(tarea:Tarea) {
+    console.log(tarea)
+    let incidencias:Incidencia[]=[]
+    let inicio: Estacion;
+    let final: Estacion;
+    this.jornadaService.findTareaById(tarea.id).subscribe(data => {
       tarea = data
+      let j;
+      for (j = 0; j < tarea.stops.length; j++) {
+        if (tarea.stops[j].situacion.toString() == "INICIO")
+          inicio = tarea.stops[j].estacion
+        else
+          final = tarea.stops[j].estacion
+      }
+      this.trenService.getIncidenciasPending(tarea.tren.id).subscribe(data=>incidencias=data);
       this.dialog.open(DialogDetallesJornada, {
         width: '450px',
         data: {
           tarea: tarea,
-          origen: tarea.stops.forEach(s => s.situacion == Situacion.INICIO),
-          final: tarea.stops.forEach(s => s.situacion == Situacion.FINAL),
-          incidencias: tarea.tren.incidencias
+          origen: inicio,
+          final: final,
+          incidencias: incidencias
 
         }
       })
@@ -197,6 +201,15 @@ export class GestUsuariosJornadasComponent implements OnInit {
       this.empleados = this.empleados.filter((e) => e.id != empleado.id)
       this.empleadoSeleccionado = undefined
     });
+
+  }
+
+  formatearFecha(date: string) {
+    let pipe = new DatePipe('en-US')
+    let fecha = pipe.transform(date, 'yyyy-MM-dd')
+    if (fecha)
+      return fecha;
+    return ""
 
   }
 }

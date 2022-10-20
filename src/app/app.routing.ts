@@ -1,7 +1,6 @@
 import {Routes, RouterModule} from '@angular/router';
 import {HomeComponent} from "./vistas/home/home.component";
 import {LoginComponent} from "./vistas/login/login.component";
-import {InicioComponent} from "./vistas/inicio/inicio.component";
 import {HorariosComponent} from "./vistas/horarios/horarios.component";
 import {ConsultarJornadaComponent} from "./vistas/jornada/consultar-jornada/consultar-jornada.component";
 import {SolicitarVacacionesComponent} from "./vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component";
@@ -18,10 +17,6 @@ const routes:Routes =[
   {
     path:'login',
     component: LoginComponent
-  },
-  {
-    path:'inicio',
-    component: InicioComponent
   },
   {
     path:'horarios',

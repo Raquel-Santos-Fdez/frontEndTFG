@@ -40,8 +40,14 @@
     </mat-form-field>
   </p>
   <p>
+
     <mat-form-field>
-      <input [(ngModel)]="idTren" matInput placeholder="Id tren" formControlName="idTren" required type="number"/>
+      <mat-select [(value)]="tren" required>
+        <mat-option *ngFor="let t of trenes" [value]="t" >
+          {{t.id}}
+        </mat-option>
+      </mat-select>
+<!--      <input [(ngModel)]="idTren" matInput placeholder="Id tren" formControlName="idTren" required type="number"/>-->
     </mat-form-field>
   </p>
   <div mat-dialog-actions>

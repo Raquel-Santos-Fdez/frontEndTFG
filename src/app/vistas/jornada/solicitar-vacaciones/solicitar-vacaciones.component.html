@@ -1,51 +1,39 @@
 <h1>Solicitud de vacaciones
 </h1>
 
-<!--<div>-->
-<!--<mat-form-field appearance="fill">-->
-<!--  <mat-label>Selecciona un día</mat-label>-->
-<!--  <input matInput [matDatepicker]="picker" (dateInput)="saveDate($event)">-->
-<!--  <mat-hint>MM/DD/YYYY</mat-hint>-->
-<!--  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--  <mat-datepicker #picker></mat-datepicker>-->
-<!--</mat-form-field>-->
-<!--</div>-->
+<div *ngIf="!existeSolicitud">
+  <table [dataSource]="dataSource" mat-table>
+    <!-- Position Column -->
+    <ng-container matColumnDef="invierno">
+      <th *matHeaderCellDef mat-header-cell>Periodo de invierno</th>
+      <td *matCellDef="let element" mat-cell>{{element.invierno}}</td>
+    </ng-container>
 
-<!--<mat-form-field appearance="fill">-->
-<!--  <mat-label>Motivo de la ausencia</mat-label>-->
-<!--  <mat-select [(value)]="selected">-->
-<!--    <mat-option value="Visita médica">Visita médica</mat-option>-->
-<!--    <mat-option value="Otro motivo">Otro motivo</mat-option>-->
-<!--  </mat-select>-->
-<!--</mat-form-field>-->
+    <br>
 
+    <!-- Name Column -->
+    <ng-container matColumnDef="verano">
+      <th *matHeaderCellDef mat-header-cell>Periodo de verano</th>
+      <td *matCellDef="let element" mat-cell>{{element.verano}}</td>
+    </ng-container>
 
-<table mat-table [dataSource]="dataSource">
-  <!-- Position Column -->
-  <ng-container matColumnDef="invierno">
-    <th mat-header-cell *matHeaderCellDef>Periodo de invierno</th>
-    <td mat-cell *matCellDef="let element">{{element.invierno}}</td>
-  </ng-container>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr
+      (click)="periodoSeleccionado= row"
+      *matRowDef="let row; columns: displayedColumns;"
+      [class.filaClicada]="periodoSeleccionado==row"
+      mat-row
+    ></tr>
+  </table>
 
-  <br>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="verano">
-    <th mat-header-cell *matHeaderCellDef>Periodo de verano</th>
-    <td mat-cell *matCellDef="let element">{{element.verano}}</td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr
-    mat-row
-    (click)="periodoSeleccionado= row"
-    [class.filaClicada]="periodoSeleccionado==row"
-    *matRowDef="let row; columns: displayedColumns;"
-  ></tr>
-</table>
-
-<div>
-  <button (click)="enviarSolicitud()" mat-stroked-button>Solicitar</button>
+  <div>
+    <button (click)="enviarSolicitud()" mat-stroked-button>Solicitar</button>
+  </div>
 </div>
 
-
+<div *ngIf="existeSolicitud">
+  <p>Las solicitudes de vacaciones existentes son:</p>
+  <div *ngFor="let s of solicitudExistente">
+    <p> {{s.fecha}} - {{formatearFecha(s.fechaFinVacaciones)}} Estado: {{s.estado}}</p>
+  </div>
+</div>
