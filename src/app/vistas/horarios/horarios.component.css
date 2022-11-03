@@ -7,3 +7,7 @@
 .horarios-mapa{
   display: flex;
 }
+
+#tabla-horarios{
+  padding: 0 50px;
+}

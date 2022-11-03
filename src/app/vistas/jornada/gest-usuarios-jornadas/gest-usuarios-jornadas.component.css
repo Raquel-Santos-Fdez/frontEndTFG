@@ -2,11 +2,14 @@ table {
   width: 100%;
 }
 
+h2{
+  color: #77104a;
+  font-weight: bold;
+}
+
 td {
   width: auto;
 }
-
-
 
 .container {
   position:absolute;
@@ -37,7 +40,8 @@ td {
 }
 
 .calendar-card {
-  width: 30%;
+  width: 25%;
+  position: relative;
 }
 
 #tablaTareas{

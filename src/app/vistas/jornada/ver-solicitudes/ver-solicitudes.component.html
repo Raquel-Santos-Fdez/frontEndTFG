@@ -1,16 +1,40 @@
 <h1> Solicitudes pendientes</h1>
-<table>
 
-  <th>Fecha</th>
-  <th>Motivo</th>
-  <th>Empleado</th>
-  <tr *ngFor="let solicitud of solicitudes">
+<ng-container *ngIf="solicitudes.length>0">
+  <table [dataSource]="solicitudes" mat-table>
 
-    <td>{{solicitud.fecha}}{{getFinVacaciones(solicitud)}}</td>
-    <td>{{solicitud.motivo}}</td>
-    <td>{{solicitud.empleado.username}}</td>
-    <button id="aceptarSolAdminBtn" mat-button (click)="aceptarSolicitud(solicitud)">Aceptar</button>
+    <ng-container matColumnDef="fecha">
+      <th *matHeaderCellDef mat-header-cell> Fecha</th>
+      <td *matCellDef="let element" mat-cell> {{element.fecha}}{{getFinVacaciones(element)}} </td>
+    </ng-container>
 
-    <button id="rechazarSolAdminBtn" mat-button (click)="rechazarSolicitud(solicitud)">Rechazar</button>
-  </tr>
-</table>
+    <ng-container matColumnDef="motivo">
+      <th *matHeaderCellDef mat-header-cell> Motivo</th>
+      <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="empleado">
+      <th *matHeaderCellDef mat-header-cell> Empleado</th>
+      <td *matCellDef="let element" mat-cell> {{element.empleado.username}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accion">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let element" mat-cell>
+
+        <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button>Aceptar</button>
+
+        <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button>Rechazar</button>
+
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+  </table>
+</ng-container>
+
+<ng-container *ngIf="solicitudes.length==0">
+  <p>No hay solicitudes pendientes</p>
+</ng-container>

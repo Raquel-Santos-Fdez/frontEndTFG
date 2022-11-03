@@ -2,10 +2,17 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 3%;
 }
 
-.loginButton{
+h1{
+  color: #77104a;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+#loginBtn{
   color:white;
-  background: #1976d2;
+  background: #77104a;
 }
 

@@ -1,8 +1,4 @@
 .footer {
-  position: absolute;
-  bottom:0;
-  width:100%;
-  line-height: 30px;
   background-color: darkgrey;
   color: black;
   font-weight: 600;

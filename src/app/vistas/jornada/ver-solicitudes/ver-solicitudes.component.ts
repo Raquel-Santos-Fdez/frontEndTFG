@@ -14,12 +14,18 @@ import {Empleado} from "../../../model/empleado/empleado";
 export class VerSolicitudesComponent implements OnInit {
 
   solicitudes: Solicitud[] = [];
+  displayedColumns: string[] = ["fecha", "motivo", "empleado", "accion"];
 
   constructor(private solicitudService: SolicitudService, public dialog: MatDialog,) {
 
   }
 
   ngOnInit(): void {
+    this.cargarSolicitudes();
+
+  }
+
+  cargarSolicitudes(){
     this.solicitudService.getAllSolicitudesPendientes().subscribe(data => {
       this.solicitudes = data;
     });
@@ -41,7 +47,8 @@ export class VerSolicitudesComponent implements OnInit {
       })
     } else {
       this.solicitudService.aceptarSolicitud(solicitud).subscribe(() => {
-        this.borrarSolicitud(solicitud.id);
+        this.cargarSolicitudes()
+
       });
     }
   }
