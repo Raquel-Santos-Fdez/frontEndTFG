@@ -18,7 +18,7 @@
     </ng-container>
 
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr
+    <tr id="filaVacaciones"
       (click)="periodoSeleccionado= row"
       *matRowDef="let row; columns: displayedColumns;"
       [class.filaClicada]="periodoSeleccionado==row"
@@ -27,7 +27,7 @@
   </table>
 
   <div>
-    <button (click)="enviarSolicitud()" mat-stroked-button>Solicitar</button>
+    <button id="solicitarV" (click)="enviarSolicitud()" mat-stroked-button>Solicitar</button>
   </div>
 </div>
 

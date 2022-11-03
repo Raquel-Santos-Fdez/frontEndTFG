@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Estacion} from "../../model/estacion/estacion";
 import {Ruta} from "../../model/ruta/ruta";
 import {Router} from "@angular/router";
-import {ProveedorService} from "../../servicios/proveedor.service";
+import {ProveedorService} from "../../services/proveedor.service";
 import {Route_stop} from "../../model/route_stop/route_stop";
-import {RutaService} from "../../servicios/ruta.service";
-import {EstacionService} from "../../servicios/estacion.service";
+import {RutaService} from "../../services/ruta.service";
+import {EstacionService} from "../../services/estacion.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -22,6 +22,7 @@ export class HorariosComponent implements OnInit {
   origen: Estacion;
   destino: Estacion;
   estaciones: Estacion[] = []
+  isReady: boolean=false;
 
   constructor(private rutaService: RutaService,
               private paradaService: EstacionService,
@@ -43,16 +44,6 @@ export class HorariosComponent implements OnInit {
     });
   }
 
-  // getByShortName(shortName: string) {
-  //   let estacionesEnRuta: Ruta[] = [];
-  //   let i;
-  //   for (i = 0; i < this.routes.length; i++) {
-  //     if (this.routes[i].route_short_name == shortName)
-  //       estacionesEnRuta.push(this.routes[i])
-  //   }
-  //   return estacionesEnRuta;
-  // }
-
   getRoutes() {
     let lineas: Ruta[] = [];
     let j = 0;
@@ -64,39 +55,23 @@ export class HorariosComponent implements OnInit {
   }
 
   consultarHorario(origen: Estacion, destino: Estacion) {
-    let rutasConjuntasOri: Route_stop[] = [];
-    let rutasConjuntasDestino: Route_stop[] = [];
     let rutasConjuntas: Route_stop[] = [];
     if (origen && destino) {
       this.rutaService.findRutaByEstacion(origen.id, destino.id).subscribe(data => {
-        rutasConjuntasOri = data
-        this.rutaService.findRutaByEstacion(this.destino.id, this.origen.id).subscribe(data2 => {
-          rutasConjuntasDestino = data2;
-          let i;
-          let j;
-          for (i = 0; i < rutasConjuntasOri.length; i++) {
-            for (j = 0; j < rutasConjuntasDestino.length; j++) {
-              if (rutasConjuntasOri[i].orderParada < rutasConjuntasDestino[j].orderParada && rutasConjuntasOri[i].ruta == rutasConjuntasOri[j].ruta) {
-                rutasConjuntas.push(rutasConjuntasOri[i])
-              }
-            }
-          }
+        rutasConjuntas = data;
 
-          if (rutasConjuntas.length > 0) {
-            this.proveedor.listRutas = rutasConjuntas;
-            this.proveedor.origen = origen;
-            this.router.navigate(['tabla-horarios']);
-          } else
-            alert("No existe recorrido entre esas dos estaciones");
+        if (rutasConjuntas.length > 0) {
+          this.proveedor.listRutas = rutasConjuntas;
+          this.proveedor.origen = origen;
+          this.isReady=true;
+          // this.router.navigate(['tabla-horarios']);
+        } else
+          alert("No existe recorrido entre esas dos estaciones");
+      })
 
-        })
-      });
-
-    }else{
+    } else {
       this._snackBar.open("Selecciona un origen y un destino", undefined, {duration: 2000});
     }
-
-
   }
 
   getAllEstaciones() {

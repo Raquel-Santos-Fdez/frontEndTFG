@@ -4,7 +4,6 @@
   <mat-card class="calendar-card">
     <mat-calendar (click)="verJornada()" [(selected)]="selected"></mat-calendar>
   </mat-card>
-
 </div>
 
 
@@ -12,8 +11,8 @@
 
 <div *ngIf="isDiaLibre==false" id="contenedor">
   <mat-accordion>
-    <mat-expansion-panel [expanded]="isSolicitado" hideToggle>
-      <mat-expansion-panel-header>
+    <mat-expansion-panel id="diaLibrePanel"  [expanded]="isSolicitado" hideToggle>
+      <mat-expansion-panel-header >
         <mat-panel-title>
           Solicitar día libre
         </mat-panel-title>
@@ -32,12 +31,12 @@
           <br>
           <mat-form-field appearance="fill">
             <mat-label>Motivo de la ausencia</mat-label>
-            <mat-select [(value)]="motivoSeleccionado">
-              <mat-option value="Visita médica">Visita médica</mat-option>
-              <mat-option value="Otro motivo">Otro motivo</mat-option>
+            <mat-select id="selectMotivo" [(value)]="motivoSeleccionado">
+              <mat-option class="motivo" value="Visita médica">Visita médica</mat-option>
+              <mat-option class="motivo" value="Otro motivo">Otro motivo</mat-option>
             </mat-select>
           </mat-form-field>
-          <button *ngIf="motivoSeleccionado" mat-button type="submit">Solicitar</button>
+          <button *ngIf="motivoSeleccionado" id="btnSelMotivo"mat-button type="submit">Solicitar</button>
         </div>
       </form>
     </mat-expansion-panel>
@@ -48,7 +47,7 @@
     <tr *ngFor="let t of tareas">
       <td>{{t.descripcion}}</td>
       <td>
-        <button (click)="verDetalles(t.id)" mat-button>Detalles</button>
+        <button id="verDetallesBtn" (click)="verDetalles(t.id)" mat-button>Detalles</button>
       </td>
     </tr>
   </table>

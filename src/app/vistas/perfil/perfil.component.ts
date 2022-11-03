@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Empleado} from "../../model/empleado/empleado";
-import {EmpleadosService} from "../../servicios/empleados.service";
+import {EmpleadosService} from "../../services/empleados.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
@@ -73,6 +73,8 @@ export class PasswordDialog {
           this._snackBar.open("Contraseña modificada correctamente", undefined, {duration: 2000})
         }
       )
+    }else {
+      this._snackBar.open("Las contraseñas no coinciden", undefined, {duration: 2000})
     }
 
 

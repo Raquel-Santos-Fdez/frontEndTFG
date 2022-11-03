@@ -43,7 +43,10 @@ import {
   DialogNuevaSolicitud,
   PortalSolicitudesComponent
 } from './vistas/jornada/portal-solicitudes/portal-solicitudes.component';
-import {VerSolicitudesComponent} from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
+import {
+  DialogSolVacaciones,
+  VerSolicitudesComponent
+} from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
 import {PerfilComponent} from './vistas/perfil/perfil.component';
 import {
   GestUsuariosJornadasComponent
@@ -73,7 +76,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     DialogDetallesJornada,
     PerfilComponent,
     GestUsuariosJornadasComponent,
-    FilterPipe
+    FilterPipe,
+    DialogSolVacaciones
   ],
   imports: [
     BrowserModule,

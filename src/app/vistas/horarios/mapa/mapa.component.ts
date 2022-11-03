@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Estacion} from "../../../model/estacion/estacion";
-import {EstacionService} from "../../../servicios/estacion.service";
+import {EstacionService} from "../../../services/estacion.service";
 
 @Component({
   selector: 'app-mapa',
@@ -50,17 +50,6 @@ export class MapaComponent implements OnInit {
         lng: position.coords.longitude,
       };
     });
-    this.getCenter();
-  }
-
-  getPosition(latitude: number, longitude: number) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: latitude,
-        lng: longitude,
-      };
-    });
-    this.getCenter();
   }
 
   getCenter() {

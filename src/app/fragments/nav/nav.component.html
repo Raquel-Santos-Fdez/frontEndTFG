@@ -9,17 +9,19 @@
 
   <div *ngIf="isLogin && this.empleado.role.toString() != 'ADMIN'">
     <div *ngIf="isLogin">
-      <button [matMenuTriggerFor]="menu" mat-button>Gestión de jornada</button>
+      <button id="menuGestionBtn" [matMenuTriggerFor]="menu" mat-button>
+        <mat-icon>menu</mat-icon>
+        Gestión de jornada</button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/consultar-jornada">Consultar jornada</button>
-        <button mat-menu-item routerLink="/solicitar-vacaciones">Solicitar vacaciones</button>
-        <button mat-menu-item routerLink="/portal-solicitudes">Portal de solicitudes</button>
+        <button id="consultarJornadaBtn" mat-menu-item routerLink="/consultar-jornada">Consultar jornada</button>
+        <button id="solVacacionesBtn" mat-menu-item routerLink="/solicitar-vacaciones">Solicitar vacaciones</button>
+        <button id="portalSolBtn" mat-menu-item routerLink="/portal-solicitudes">Portal de solicitudes</button>
       </mat-menu>
     </div>
   </div>
   <div *ngIf="isLogin && this.empleado.role.toString() == 'ADMIN' ">
-    <button mat-button routerLink="/ver-solicitudes">Ver solicitudes</button>
-    <button mat-button routerLink="/gestionar-usuarios-jornadas">Gestionar usuarios y jornadas</button>
+    <button mat-button id="verSolBtn" routerLink="/ver-solicitudes">Ver solicitudes</button>
+    <button mat-button id="gestUJBtn" routerLink="/gestionar-usuarios-jornadas">Gestionar usuarios y jornadas</button>
   </div>
 
   <div class="spacer"></div>
@@ -30,7 +32,7 @@
       Identificarse</a>
   </div>
   <div *ngIf="isLogin">
-    <a matTooltip="Ver perfil" routerLink="/ver-perfil">
+    <a class="verPerfil" matTooltip="Ver perfil" routerLink="/ver-perfil">
       <mat-icon>account_circle</mat-icon>
     </a>
     <a class="logout" (click)="logout()">Logout</a>

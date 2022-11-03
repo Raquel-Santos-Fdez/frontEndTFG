@@ -1,26 +1,30 @@
 <div>
-<mat-form-field appearance="fill">
-  <mat-label>Origen</mat-label>
-  <mat-select name="origen" [(value)]="origen" >
-    <mat-option id="optionsOrigen" *ngFor="let e of estaciones"  [value]="e" >
-        <span>{{e.nombre}}</span>
-      </mat-option>
-  </mat-select>
-</mat-form-field>
-
   <mat-form-field appearance="fill">
-    <mat-label>Destino</mat-label>
-    <mat-select name="destino" [(value)]="destino" >
-      <mat-option id="optionsDestino" *ngFor="let e of estaciones"  [value]="e" >
+    <mat-label>Origen</mat-label>
+    <mat-select [(value)]="origen" name="origen">
+      <mat-option *ngFor="let e of estaciones" [value]="e" id="optionsOrigen">
         <span>{{e.nombre}}</span>
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-<button id="consultarHorariosBtn" mat-button (click)="consultarHorario(origen, destino)">Consultar horarios</button>
+  <mat-form-field appearance="fill">
+    <mat-label>Destino</mat-label>
+    <mat-select [(value)]="destino" name="destino">
+      <mat-option *ngFor="let e of estaciones" [value]="e" id="optionsDestino">
+        <span>{{e.nombre}}</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button (click)="consultarHorario(origen, destino)" id="consultarHorariosBtn" mat-button>Consultar</button>
 </div>
 
-<app-mapa></app-mapa>
+<div class="horarios-mapa">
+  <app-tabla-horarios *ngIf="isReady"></app-tabla-horarios>
+
+  <app-mapa></app-mapa>
+</div>
 
 <router-outlet></router-outlet>
 

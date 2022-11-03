@@ -1,7 +1,7 @@
 <h1>PORTAL DE SOLICITUDES</h1>
 
 
-<button mat-raised-button (click)="openDialog()">Nueva solicitud</button>
+<button mat-raised-button id="btnNuevaSolI"(click)="openDialog()">Nueva solicitud</button>
 
 <br/>
 
@@ -37,7 +37,7 @@
     </table>
   </mat-tab>
 
-  <mat-tab label="Mis solicitudes">
+  <mat-tab name="misSolicitudesTab" label="Mis solicitudes">
     <table mat-table [dataSource]="misSolicitudes">
 
       <ng-container matColumnDef="fechaTrabajo">

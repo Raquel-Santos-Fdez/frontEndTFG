@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DatePipe} from "@angular/common";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
-import {SolicitudService} from "../../../servicios/solicitud.service";
+import {SolicitudService} from "../../../services/solicitud.service";
 import {Empleado} from "../../../model/empleado/empleado";
 
 
@@ -75,8 +75,8 @@ export class SolicitarVacacionesComponent implements OnInit {
     this.solicitud.empleado = this.empleado;
 
     this.solicitarPeriodo(this.periodoSeleccionado.invierno);
+    this.solicitarPeriodo(this.periodoSeleccionado.verano)
 
-    setTimeout(() => this.solicitarPeriodo(this.periodoSeleccionado.verano), 500);
   }
 
   private solicitarPeriodo(periodo: string) {
@@ -103,6 +103,7 @@ export class SolicitarVacacionesComponent implements OnInit {
       this.solicitud.fecha = fecha_seleccionada
       this.solicitudService.solicitarVacaciones(this.solicitud).subscribe(() => {
         this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+        this.existeSolicitud=true;
       });
     }
   }

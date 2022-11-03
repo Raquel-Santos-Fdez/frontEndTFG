@@ -1,60 +1,64 @@
-<h1 mat-dialog-title>Nueva tarea</h1>
+<div class="nueva-tarea">
+  <h1 mat-dialog-title>Nueva tarea</h1>
 
-<form [formGroup]="formulario">
-  <p>
-    <mat-form-field>
-      <input [(ngModel)]="tarea.anden" matInput placeholder="Anden" formControlName="anden" required type="number"/>
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field>
-      <input [(ngModel)]="tarea.descripcion" matInput placeholder="Descripcion" formControlName="descripcion" required type="text"/>
-    </mat-form-field>
-  </p>
-  <mat-form-field appearance="fill">
-    <mat-label>Estación de origen</mat-label>
-    <mat-select [(value)]="origen" required>
-      <mat-option *ngFor="let e of estaciones" [value]="e" >
-        {{e.nombre}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Estación de destino</mat-label>
-    <mat-select [(value)]="destino" required>
-      <mat-option *ngFor="let e of estaciones" [value]="e" >
-        {{e.nombre}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <p>
-    <mat-form-field>
-      <mat-label>Hora de inicio</mat-label>
-      <input [(ngModel)]="tarea.horaSalida" type="time" matInput name="horaInicio" formControlName="horaInicio" min="00:00" max="23:59">
-    </mat-form-field>
-  </p>
-  <p>
-    <mat-form-field>
-      <mat-label>Hora de finalización</mat-label>
-      <input [(ngModel)]="tarea.horaFin" type="time" matInput name="horaFin"  formControlName="horaFin" min="00:00" max="23:59">
-    </mat-form-field>
-  </p>
-  <p>
-
-    <mat-form-field>
-      <mat-select [(value)]="tren" required>
-        <mat-option *ngFor="let t of trenes" [value]="t" >
-          {{t.id}}
+  <form [formGroup]="formulario">
+    <p>
+      <mat-form-field>
+        <input [(ngModel)]="tarea.anden" name="anden" formControlName="anden" matInput placeholder="Anden" required type="number"/>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <input [(ngModel)]="tarea.descripcion" name="descripcion" formControlName="descripcion" matInput placeholder="Descripcion" required
+               type="text"/>
+      </mat-form-field>
+    </p>
+    <mat-form-field appearance="fill">
+      <mat-label>Estación de origen</mat-label>
+      <mat-select [(value)]="origen" name="selectOrigen" formControlName="origen" required>
+        <mat-option *ngFor="let e of estaciones"  id="origen" [value]="e">
+          {{e.nombre}}
         </mat-option>
       </mat-select>
-<!--      <input [(ngModel)]="idTren" matInput placeholder="Id tren" formControlName="idTren" required type="number"/>-->
     </mat-form-field>
-  </p>
-  <div mat-dialog-actions>
-    <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
-    <button (click)="addNuevaTarea()" mat-button type="submit">Añadir</button>
-  </div>
-</form>
+    <mat-form-field appearance="fill">
+      <mat-label>Estación de destino</mat-label>
+      <mat-select [(value)]="destino" name="selectDestino" formControlName="destino" required>
+        <mat-option *ngFor="let e of estaciones" id="destino" [value]="e">
+          {{e.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <p>
+      <mat-form-field>
+        <mat-label>Hora de inicio</mat-label>
+        <input [(ngModel)]="tarea.horaSalida" formControlName="horaInicio" matInput max="23:59" min="00:00"
+               name="horaInicio" type="time">
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Hora de finalización</mat-label>
+        <input [(ngModel)]="tarea.horaFin" formControlName="horaFin" matInput max="23:59" min="00:00" name="horaFin"
+               type="time">
+      </mat-form-field>
+    </p>
+    <p>
+
+      <mat-form-field>
+        <mat-select formControlName="tren" name="selectTrenes" [(value)]="tren" required>
+          <mat-option *ngFor="let t of trenes" [value]="t" id="tren">
+            {{t.id}}
+          </mat-option>
+        </mat-select>
+       </mat-form-field>
+    </p>
+    <div mat-dialog-actions>
+      <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
+      <button id="addTarea" (click)="addNuevaTarea()" mat-button type="submit">Añadir</button>
+    </div>
+  </form>
+</div>
 
 
 

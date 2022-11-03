@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {JornadaService} from "../../../servicios/jornada.service";
+import {JornadaService} from "../../../services/jornada.service";
 import {SolicitudIntercambio} from "../../../model/solicitud/solicituIntercambio";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {DatePipe} from "@angular/common";
@@ -8,7 +8,7 @@ import {Empleado} from "../../../model/empleado/empleado";
 import {Solicitud} from "../../../model/solicitud/solicitud";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Jornada} from "../../../model/jornada/jornada";
-import {SolicitudService} from "../../../servicios/solicitud.service";
+import {SolicitudService} from "../../../services/solicitud.service";
 
 export interface DialogData {
   portalSolicitudes: PortalSolicitudesComponent
@@ -125,13 +125,14 @@ export class DialogNuevaSolicitud {
               if (data.length == 0 || jornada.diaLibre)
                 this.jornadaService.addSolicitudIntercambio(this.solicitud).subscribe(() => {
                   this.data.portalSolicitudes.cargarMisSolicitudes()
+                  this._snackBar.open("La solicitud ha sido añadida correctamente", undefined, {duration: 2000})
                   this.dialogRef.close();
                 });
               else
                 this._snackBar.open("Debe seleccionar un día a cubrir sin jornada asignada", undefined, {duration: 2000})
             });
           } else
-            this._snackBar.open("Debe seleccionar una intercambio para un día con una jornada asignada", undefined, {duration: 2000})
+            this._snackBar.open("Debe seleccionar un intercambio para un día con una jornada asignada", undefined, {duration: 2000})
         })
 
       }

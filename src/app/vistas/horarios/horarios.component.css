@@ -3,3 +3,7 @@
   color:white;
   margin: 10px;
 }
+
+.horarios-mapa{
+  display: flex;
+}

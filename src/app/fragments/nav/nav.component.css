@@ -1,16 +1,3 @@
-/*:host {*/
-/*  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
-/*  font-size: 14px;*/
-/*  color: #333;*/
-/*  box-sizing: border-box;*/
-/*  -webkit-font-smoothing: antialiased;*/
-/*  -moz-osx-font-smoothing: grayscale;*/
-/*}*/
-
-/*p {*/
-/*  margin: 0;*/
-/*}*/
-
 .spacer {
   flex: 1;
 }
@@ -33,13 +20,16 @@
 }
 
 a,
-a:visited,
 a:hover {
   color: #FFFFFF;
   text-decoration: none;
 }
 
 a:hover {
+  color: #125699;
+}
+
+button:hover{
   color: #125699;
 }
 

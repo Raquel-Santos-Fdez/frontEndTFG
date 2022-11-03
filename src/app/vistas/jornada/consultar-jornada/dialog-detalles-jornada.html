@@ -39,13 +39,13 @@
   </mat-form-field>
 
 
-  <button title="Añadir nueva incidencia" (click)="addIncidencia()">
+  <button id="addIncidencia" title="Añadir nueva incidencia" (click)="addIncidencia()">
     <mat-icon>add</mat-icon>
   </button>
 
 
   <div mat-dialog-actions>
-    <button (click)="cerrar()" [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
+    <button id="cerrarDetallesJBtn" (click)="cerrar()" [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
 
   </div>
 </ng-container>

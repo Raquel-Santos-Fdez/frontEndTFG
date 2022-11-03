@@ -1,34 +1,35 @@
-<h1 mat-dialog-title>Nuevo cambio de turno</h1>
-<div mat-dialog-content>
-  <form (ngSubmit)="enviarSolicitud()" id="formulario">
-    <mat-form-field appearance="fill">
-      <mat-label>Día libre a solicitar</mat-label>
-      <input (dateInput)="saveDateLibrar($event)" [matDatepicker]="picker1" matInput required>
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle [for]="picker1" matSuffix></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
+<div class="nueva-solicitud">
+  <h1 mat-dialog-title>Nuevo cambio de turno</h1>
+  <div mat-dialog-content>
+    <form (ngSubmit)="enviarSolicitud()" id="formulario">
+      <mat-form-field appearance="fill">
+        <mat-label>Día libre a solicitar</mat-label>
+        <input name="diaSolicitar" (dateInput)="saveDateLibrar($event)" [matDatepicker]="picker1" matInput required>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle [for]="picker1" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Día trabajo a cubrir</mat-label>
-      <input (dateInput)="saveDateCubrir($event)" [matDatepicker]="picker2" matInput required>
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle [for]="picker2" matSuffix></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Día trabajo a cubrir</mat-label>
+        <input name="diaCubrir" (dateInput)="saveDateCubrir($event)" [matDatepicker]="picker2" matInput required>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle [for]="picker2" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Motivo de la ausencia</mat-label>
-      <mat-select [(value)]="selected">
-        <mat-option value="Visita médica">Visita médica</mat-option>
-        <mat-option value="Otro motivo">Otro motivo</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Motivo de la ausencia</mat-label>
+        <mat-select id="selectMotivo" [(value)]="selected">
+          <mat-option id="motivo" value="Visita médica">Visita médica</mat-option>
+          <mat-option id="motivo" value="Otro motivo">Otro motivo</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <button (click)="onNoClick()" mat-button>Cancelar</button>
-      <button mat-button type="submit">Enviar</button>
+      <button  (click)="onNoClick()" mat-button>Cancelar</button>
+      <button id="solIntercambioBtn" mat-button type="submit">Enviar</button>
 
-  </form>
+    </form>
+  </div>
 </div>
-
 

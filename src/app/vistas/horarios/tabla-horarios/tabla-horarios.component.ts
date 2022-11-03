@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {BackendService} from "../../../servicios/backend.service";
+import {BackendService} from "../../../services/backend.service";
 import {StopTime} from "../../../model/stop_time/stop-time";
-import {ProveedorService} from "../../../servicios/proveedor.service";
+import {ProveedorService} from "../../../services/proveedor.service";
 
 @Component({
   selector: 'app-tabla-horarios',
@@ -14,7 +14,7 @@ export class TablaHorariosComponent implements OnInit {
   stopTimes:StopTime[]=[];
   displayedColumns: string[] = ["horario"];
 
-  constructor(private service:BackendService, private _route:ActivatedRoute, private proveedor:ProveedorService) {
+  constructor(private service:BackendService, private proveedor:ProveedorService) {
 
   }
 
@@ -29,16 +29,12 @@ export class TablaHorariosComponent implements OnInit {
 
   }
 
-  async addStopTime(route_id: string, stop_id: string){
-    let stopTimesAux:StopTime[]=[];
-    await this.service.findTimeByRutaStop(route_id,stop_id).toPromise().then((response)=>
+   addStopTime(route_id: string, stop_id: string){
+
+    this.service.findTimeByRutaStop(route_id, stop_id).subscribe(data=>
     {
-      if(response)
-        stopTimesAux=response;
-    }).catch(e=> console.error(e))
-    let i;
-    for(i=0; i<stopTimesAux.length; i++)
-      this.stopTimes.push(stopTimesAux[i])
+      this.stopTimes=data
+    })
 
   }
 

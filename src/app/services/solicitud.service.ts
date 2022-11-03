@@ -30,15 +30,6 @@ export class SolicitudService {
     return this.httpClient.put(`${this.backendURL}` + "solicitudes/rechazar-solicitud", id)
   }
 
-  // enviarSolicitud(solicitud: SolicitudSimple){
-  //   return this.httpClient.post(`${this.backendURL}` + "jornada/enviar-solicitud/", solicitud)
-  // }
-  //
-  // addSolicitudIntercambio(solicitudIntercambio: Solicitud): Observable<any> {
-  //   return this.httpClient.post(`${this.backendURL}` + "jornada/solicitar-intercambio/", solicitudIntercambio)
-  // }
-
-
   solicitarVacaciones(solicitud: SolicitudVacaciones){
     return this.httpClient.post(`${this.backendURL}` + "solicitudes/solicitar-vacaciones/", solicitud)
   }
@@ -55,8 +46,4 @@ export class SolicitudService {
     return this.httpClient.get<SolicitudVacaciones[]>(`${this.backendURL}` + "solicitudes/find-solicitudes-vacaciones/" +idEmpleado);
   }
 
-  findSolicitudVacacionesNoRechazada(idEmpleado: bigint) {
-    return this.httpClient.get<Solicitud[]>(`${this.backendURL}` + "solicitudes/find-solicitud-vacaciones-no-rechazada/" +idEmpleado);
-
-  }
 }

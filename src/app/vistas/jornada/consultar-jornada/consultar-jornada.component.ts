@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {JornadaService} from "../../../servicios/jornada.service";
+import {JornadaService} from "../../../services/jornada.service";
 import {Tarea} from "../../../model/tarea/tarea";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Estacion} from "../../../model/estacion/estacion";
 import {Incidencia} from "../../../model/incidencia/incidencia";
 import {Empleado} from "../../../model/empleado/empleado";
-import {TrenService} from "../../../servicios/tren.service";
+import {TrenService} from "../../../services/tren.service";
 import {Situacion} from "../../../model/tarea/tarea_stop";
 import {Solicitud} from "../../../model/solicitud/solicitud";
 import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";

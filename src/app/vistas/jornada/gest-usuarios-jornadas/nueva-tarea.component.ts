@@ -4,9 +4,9 @@ import {Tarea} from "../../../model/tarea/tarea";
 import {Estacion} from "../../../model/estacion/estacion";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {JornadaService} from "../../../servicios/jornada.service";
-import {TrenService} from "../../../servicios/tren.service";
-import {EstacionService} from "../../../servicios/estacion.service";
+import {JornadaService} from "../../../services/jornada.service";
+import {TrenService} from "../../../services/tren.service";
+import {EstacionService} from "../../../services/estacion.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {GestUsuariosJornadasComponent} from "./gest-usuarios-jornadas.component";
 import {Empleado} from "../../../model/empleado/empleado";
@@ -41,6 +41,9 @@ export class NuevaTareaDialog {
     descripcion: new FormControl('', [Validators.required]),
     horaInicio: new FormControl('', [Validators.required]),
     horaFin: new FormControl('', [Validators.required]),
+    origen:  new FormControl('', [Validators.required]),
+    destino: new FormControl('', [Validators.required]),
+    tren: new FormControl('', [Validators.required]),
   });
 
   constructor(

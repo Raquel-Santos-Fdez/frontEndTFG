@@ -5,14 +5,12 @@
   <div id="filtroUsuarios">
     <input [(ngModel)]="filtroUsuarios" matInput name="filtroUsuarios" placeholder="Buscar por nombre de usuario">
 
-    <a matTooltip="añadir nuevo usuario">
-      <a (click)="addUsuario()">
-        <mat-icon>person_add</mat-icon>
-      </a>
-    </a>
+    <button mat-button (click)="addUsuario()" id="addUsuario" matTooltip="añadir nuevo usuario">
+      <mat-icon>person_add</mat-icon>
+    </button>
   </div>
 
-    <table id="tablaUsuarios">
+  <table id="tablaUsuarios">
     <tr>
       <th>Nombre de usuario</th>
       <th>Nombre completo</th>
@@ -25,35 +23,35 @@
       <td>{{empleado.name}}</td>
       <td>{{empleado.role}}</td>
       <td>
-        <button (click)="verDetallesEmpleado(empleado)" mat-button>Detalles</button>
-        <button (click)="eliminarEmpleado(empleado)" mat-button>Eliminar</button>
+        <button id="detallesEmpleadoBtn" (click)="verDetallesEmpleado(empleado)" mat-button>Detalles</button>
+        <button id="eliminarEmpleadoBtn" (click)="eliminarEmpleado(empleado)" mat-button>Eliminar</button>
       </td>
     </tr>
 
   </table>
 
   <mat-card class="calendar-card">
-    <mat-calendar (click)="seleccionarDia()" [(selected)]="diaSeleccionado"></mat-calendar>
+    <mat-calendar id="calendario" (click)="seleccionarDia()" [(selected)]="diaSeleccionado"></mat-calendar>
   </mat-card>
 
-<div class="filtro">
+  <div class="filtro">
 
-  <ng-container class="filtro" *ngIf="empleadoSeleccionado">
-    <button (click)="deleteEmpleadoFiltro()" mat-stroked-button>
-      <mat-icon>clear</mat-icon>
-      {{empleadoSeleccionado.username}}
-    </button>
-  </ng-container>
-  <ng-container class="filtro" *ngIf="diaSeleccionado">
-    <button (click)="deleteFechaFiltro()" mat-stroked-button>
-      <mat-icon>clear</mat-icon>
-      {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth()+1}}/{{diaSeleccionado.getFullYear()}}
-    </button>
-  </ng-container>
-</div>
+    <ng-container *ngIf="empleadoSeleccionado" class="filtro">
+      <button (click)="deleteEmpleadoFiltro()" mat-stroked-button>
+        <mat-icon>clear</mat-icon>
+        {{empleadoSeleccionado.username}}
+      </button>
+    </ng-container>
+    <ng-container *ngIf="diaSeleccionado" class="filtro">
+      <button (click)="deleteFechaFiltro()" mat-stroked-button>
+        <mat-icon>clear</mat-icon>
+        {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth() + 1}}/{{diaSeleccionado.getFullYear()}}
+      </button>
+    </ng-container>
+  </div>
 
 
-  <table id="tablaTareas" *ngIf="hasTarea" [dataSource]="tareas" mat-table>
+  <table *ngIf="hasTarea" [dataSource]="tareas" id="tablaTareas" mat-table>
 
     <ng-container matColumnDef="descripcion">
       <th *matHeaderCellDef mat-header-cell>Descripción</th>
@@ -78,7 +76,7 @@
     <ng-container matColumnDef="accion">
       <th *matHeaderCellDef mat-header-cell>Accion</th>
       <td *matCellDef="let element" mat-cell>
-        <button (click)="verDetallesTarea(element.tarea)" href="/ver-solicitudes" mat-button>Detalles Tarea
+        <button id="detallesTarea" (click)="verDetallesTarea(element.tarea)" href="/ver-solicitudes" mat-button>Detalles Tarea
         </button>
       </td>
     </ng-container>
@@ -91,7 +89,7 @@
   <p *ngIf="isDiaLibre">DÍA LIBRE</p>
   <p *ngIf="!hasTarea && diaSeleccionado && !isDiaLibre">Aún no se ha asignado una jornada para el día seleccionado</p>
 
-  <button id="btnNuevaTarea"(click)="addTarea()" *ngIf="!isDiaLibre" mat-button>
+  <button (click)="addTarea()" *ngIf="!isDiaLibre" id="btnNuevaTarea" mat-button>
     Nueva tarea
   </button>
 

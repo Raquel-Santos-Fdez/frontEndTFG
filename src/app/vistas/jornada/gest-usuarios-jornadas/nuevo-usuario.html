@@ -1,51 +1,59 @@
-<h1 mat-dialog-title>Nuevo usuario</h1>
+<div class="nuevo-usuario">
+  <h1 mat-dialog-title>Nuevo usuario</h1>
 
-<form [formGroup]="formulario">
-  <p>
-    <mat-form-field>
-      <input [(ngModel)]="empleado.username" matInput placeholder="Nombre de usuario" formControlName="username" required type="text"/>
+  <form [formGroup]="formulario">
+    <p>
+      <mat-form-field>
+        <input [(ngModel)]="empleado.username" formControlName="username" matInput name="username"
+               placeholder="Nombre de usuario" required type="text"/>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input [(ngModel)]="empleado.name" formControlName="nombre" matInput name="nombre" placeholder="Nombre" required
+               type="text"/>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input [(ngModel)]="empleado.surname" formControlName="apellidos" matInput name="apellido"
+               placeholder="Apellidos" required
+               type="text"/>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input [(ngModel)]="empleado.dni" formControlName="dni" matInput name="dni" placeholder="DNI" required
+               type="text"/>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input [(ngModel)]="empleado.email" formControlName="email" matInput name="email" placeholder="Email" required
+               type="text"/>
+      </mat-form-field>
+    </p>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Rol</mat-label>
+      <mat-select [(ngModel)]="empleado.role" formControlName="rolEmpleado" name="rolEmpleado" required>
+        <mat-option *ngFor="let role of roles" [value]="role.value" id="roles">
+          {{role.text}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
-  </p>
-
-  <p>
-    <mat-form-field>
-      <input [(ngModel)]="empleado.name" matInput placeholder="Nombre" formControlName="nombre" required type="text"/>
-    </mat-form-field>
-  </p>
-
-  <p>
-    <mat-form-field>
-      <input [(ngModel)]="empleado.surname" matInput placeholder="Apellidos" formControlName="apellidos" required type="text"/>
-    </mat-form-field>
-  </p>
-
-  <p>
-    <mat-form-field>
-      <input [(ngModel)]="empleado.dni" matInput placeholder="DNI"  formControlName="dni" required type="text"/>
-    </mat-form-field>
-  </p>
-
-  <p>
-    <mat-form-field>
-      <input [(ngModel)]="empleado.email" matInput placeholder="Email" formControlName="email" required type="text"/>
-    </mat-form-field>
-  </p>
-</form>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Rol</mat-label>
-    <mat-select [(ngModel)]="empleado.role" required >
-      <mat-option *ngFor="let role of roles" [value]="role.value">
-        {{role.text}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  </form>
 
   <div mat-dialog-actions>
     <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
-    <button (click)="addUsuarioNuevo()" mat-button type="submit">Añadir</button>
+    <button (click)="addUsuarioNuevo()" id="addUsuarioBtn" mat-button type="submit">Añadir</button>
   </div>
-
+</div>
 
 
 

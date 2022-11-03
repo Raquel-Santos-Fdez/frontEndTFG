@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Empleado, Rol} from "../../../model/empleado/empleado";
-import {EmpleadosService} from "../../../servicios/empleados.service";
-import {JornadaService} from "../../../servicios/jornada.service";
+import {EmpleadosService} from "../../../services/empleados.service";
+import {JornadaService} from "../../../services/jornada.service";
 import {Tarea} from "../../../model/tarea/tarea";
 import {Jornada} from "../../../model/jornada/jornada";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -11,7 +11,7 @@ import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 import {DialogDetallesJornada} from "../consultar-jornada/consultar-jornada.component";
 import {NuevaTareaDialog} from "./nueva-tarea.component";
 import {DatePipe} from "@angular/common";
-import {TrenService} from "../../../servicios/tren.service";
+import {TrenService} from "../../../services/tren.service";
 import {Estacion} from "../../../model/estacion/estacion";
 import {Incidencia} from "../../../model/incidencia/incidencia";
 
@@ -167,7 +167,6 @@ export class GestUsuariosJornadasComponent implements OnInit {
   }
 
   verDetallesTarea(tarea:Tarea) {
-    console.log(tarea)
     let incidencias:Incidencia[]=[]
     let inicio: Estacion;
     let final: Estacion;
@@ -235,7 +234,8 @@ export class NuevoUsuarioDialog {
     nombre: new FormControl('', [Validators.required]),
     apellidos: new FormControl('', [Validators.required]),
     dni: new FormControl('', [Validators.required, Validators.maxLength(9)]),
-    email: new FormControl('', [Validators.required, Validators.email])
+    email: new FormControl('', [Validators.required, Validators.email]),
+    rolEmpleado:new FormControl('', [Validators.required]),
   });
 
 
@@ -252,6 +252,7 @@ export class NuevoUsuarioDialog {
   }
 
   addUsuarioNuevo() {
+    console.log(this.formulario.valid)
     if (this.formulario.valid) {
       //Generamos una contraseña aleatoria
       this.empleado.password = Math.random().toString(36).toUpperCase().slice(2)
