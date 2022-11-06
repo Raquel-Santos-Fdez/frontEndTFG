@@ -1,11 +1,12 @@
 table{
   align:center;
-  width: 150%;
+  /*text-align: center;*/
+  width: 100%;
 
 }
 
-.demo-table {
-  width: 100%;
+table th{
+  /*text-align: center;*/
 }
 
 .mat-row .mat-cell {
@@ -20,4 +21,25 @@ table{
 
 .filaClicada {
   font-weight: bold;
+}
+
+h2{
+  color: #77104a;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.solicitarVacaciones{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+p{
+  font-size: 20px;
+}
+
+.tablaExistentes{
+  height:450px ;
+  overflow:auto;
 }

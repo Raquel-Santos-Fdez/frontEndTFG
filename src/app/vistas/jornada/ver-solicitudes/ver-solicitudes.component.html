@@ -1,40 +1,44 @@
-<h1> Solicitudes pendientes</h1>
+<div class="verSolicitudes">
 
-<ng-container *ngIf="solicitudes.length>0">
-  <table [dataSource]="solicitudes" mat-table>
+  <h2> Solicitudes pendientes</h2>
 
-    <ng-container matColumnDef="fecha">
-      <th *matHeaderCellDef mat-header-cell> Fecha</th>
-      <td *matCellDef="let element" mat-cell> {{element.fecha}}{{getFinVacaciones(element)}} </td>
-    </ng-container>
+  <ng-container *ngIf="solicitudes.length>0">
+    <table [dataSource]="solicitudes" mat-table>
 
-    <ng-container matColumnDef="motivo">
-      <th *matHeaderCellDef mat-header-cell> Motivo</th>
-      <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
-    </ng-container>
+      <ng-container matColumnDef="fecha">
+        <th *matHeaderCellDef mat-header-cell> Fecha</th>
+        <td *matCellDef="let element" mat-cell> {{element.fecha}}{{getFinVacaciones(element)}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="empleado">
-      <th *matHeaderCellDef mat-header-cell> Empleado</th>
-      <td *matCellDef="let element" mat-cell> {{element.empleado.username}} </td>
-    </ng-container>
+      <ng-container matColumnDef="motivo">
+        <th *matHeaderCellDef mat-header-cell> Motivo</th>
+        <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="accion">
-      <th *matHeaderCellDef mat-header-cell></th>
-      <td *matCellDef="let element" mat-cell>
+      <ng-container matColumnDef="empleado">
+        <th *matHeaderCellDef mat-header-cell> Empleado</th>
+        <td *matCellDef="let element" mat-cell> {{element.empleado.username}} </td>
+      </ng-container>
 
-        <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button>Aceptar</button>
+      <ng-container matColumnDef="accion">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td *matCellDef="let element" mat-cell>
 
-        <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button>Rechazar</button>
+          <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button>Aceptar</button>
 
-      </td>
-    </ng-container>
+          <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button>Rechazar</button>
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+        </td>
+      </ng-container>
 
-  </table>
-</ng-container>
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 
-<ng-container *ngIf="solicitudes.length==0">
-  <p>No hay solicitudes pendientes</p>
-</ng-container>
+    </table>
+  </ng-container>
+
+  <ng-container *ngIf="solicitudes.length==0">
+    <p>No hay solicitudes pendientes</p>
+  </ng-container>
+
+</div>

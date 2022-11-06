@@ -2,3 +2,17 @@ table {
   width: 100%;
 }
 
+h2{
+  color: #77104a;
+  font-weight: bold;
+  font-size: 30px;
+  margin-bottom: 25px;
+}
+
+.portalSolicitudes{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+

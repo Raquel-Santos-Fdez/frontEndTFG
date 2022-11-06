@@ -4,6 +4,7 @@ import {DatePipe} from "@angular/common";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {Empleado} from "../../../model/empleado/empleado";
+import {EstadoEnum} from "../../../model/solicitud/solicitud";
 
 
 export interface PeriodoVacaciones {
@@ -34,11 +35,12 @@ export class SolicitarVacacionesComponent implements OnInit {
   solicitud: SolicitudVacaciones = new SolicitudVacaciones();
   selected: string;
   displayedColumns: string[] = ['invierno', 'verano'];
+  vacacionesColumns: string[]=['periodo', 'estado']
   dataSource = ELEMENT_DATA;
   periodoSeleccionado: PeriodoVacaciones;
   empleado: Empleado;
   existeSolicitud: boolean = false;
-  solicitudExistente: SolicitudVacaciones[];
+  solicitudesExistentes: SolicitudVacaciones[]=[];
 
   constructor(private _snackBar: MatSnackBar, private solicitudService: SolicitudService) {
   }
@@ -55,7 +57,7 @@ export class SolicitarVacacionesComponent implements OnInit {
         if (data.length > 0)
           this.existeSolicitud = true;
         else this.existeSolicitud = false;
-        this.solicitudExistente = data;
+        this.solicitudesExistentes = data;
       }
     )
 
@@ -75,7 +77,7 @@ export class SolicitarVacacionesComponent implements OnInit {
     this.solicitud.empleado = this.empleado;
 
     this.solicitarPeriodo(this.periodoSeleccionado.invierno);
-    this.solicitarPeriodo(this.periodoSeleccionado.verano)
+    this.solicitarPeriodo(this.periodoSeleccionado.verano);
 
   }
 
@@ -104,8 +106,17 @@ export class SolicitarVacacionesComponent implements OnInit {
       this.solicitudService.solicitarVacaciones(this.solicitud).subscribe(() => {
         this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
         this.existeSolicitud=true;
+        this.comprobarSolicitudExistente()
       });
     }
   }
 
+  volverASolicitarV() {
+    this.existeSolicitud=false;
+  }
+
+  comprobarSolV() {
+    let ee=EstadoEnum;
+    return this.solicitudesExistentes[0].estado.toString()==ee[EstadoEnum.RECHAZADA];
+  }
 }

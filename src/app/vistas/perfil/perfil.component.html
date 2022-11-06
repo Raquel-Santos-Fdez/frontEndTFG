@@ -1,64 +1,66 @@
-<h1>Hola, {{empleado.name}}</h1>
+<div class="perfil">
+  <h2>Hola, {{empleado.name}}</h2>
 
 
-<ng-container>
+  <div class="containerCampos">
 
-  <div>
-    <mat-label>Nombre</mat-label>
-    <mat-form-field appearance="fill">
-      <input  [(ngModel)]="empleado.name" matInput name="nombre" readonly>
-    </mat-form-field>
+    <div>
+      <mat-label>Nombre</mat-label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="empleado.name" matInput name="nombre" readonly>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-label>Apellidos</mat-label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="empleado.surname" matInput name="apellidos" readonly>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-label>Nombre de usuario</mat-label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="empleado.username" matInput name="username" readonly>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-label>Contraseña</mat-label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="empleado.password" [type]="show ? 'text': 'password'" id="password" matInput
+               name="password" readonly>
+      </mat-form-field>
+      <ng-container *ngIf="!show">
+        <button (click)="mostrarPassword()" id="mostrarPassword" mat-button matTooltip="Ver contraseña">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="show">
+        <button (click)="mostrarPassword()" id="ocultarPassword" mat-button matTooltip="Ocultar contraseña">
+          <mat-icon>visibility_off</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container>
+        <button (click)="modificarPassword()" id="modificarPassword" mat-button matTooltip="Modificar contraseña">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+
+    <div>
+
+      <mat-label>Rol</mat-label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="empleado.role" matInput name="role" readonly>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-label>Días libres disponibles</mat-label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="empleado.nDiasLibres" matInput name="diasLibres">
+      </mat-form-field>
+    </div>
+
   </div>
-
-  <div>
-    <mat-label>Apellidos</mat-label>
-    <mat-form-field appearance="fill">
-      <input  [(ngModel)]="empleado.surname" matInput name="apellidos" readonly>
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-label>Nombre de usuario</mat-label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="empleado.username" matInput name="username" readonly>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-label>Contraseña</mat-label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="empleado.password" [type]="show ? 'text': 'password'" id="password" matInput
-             name="password" readonly>
-    </mat-form-field>
-    <ng-container *ngIf="!show">
-      <button mat-button id="mostrarPassword" (click)="mostrarPassword()" matTooltip="Ver contraseña">
-        <mat-icon>visibility</mat-icon>
-      </button>
-    </ng-container>
-    <ng-container *ngIf="show">
-      <button mat-button id="ocultarPassword" (click)="mostrarPassword()" matTooltip="Ocultar contraseña">
-        <mat-icon>visibility_off</mat-icon>
-      </button>
-    </ng-container>
-    <ng-container>
-    <button mat-button id="modificarPassword" (click)="modificarPassword()" matTooltip="Modificar contraseña">
-      <mat-icon>edit</mat-icon>
-    </button>
-    </ng-container>
-  </div>
-
-  <div>
-
-    <mat-label>Rol</mat-label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="empleado.role" matInput name="role" readonly>
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-label>Días libres disponibles</mat-label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="empleado.nDiasLibres" matInput name="diasLibres">
-    </mat-form-field>
-  </div>
-
-</ng-container>
+</div>

@@ -59,11 +59,4 @@ export class JornadaService {
     return this.httpClient.put(`${this.backendURL}` + "jornada/reasignar", solicitud)
   }
 
-  addNuevaTareaStop(tareaStop: Tarea_stop) {
-    return this.httpClient.post(`${this.backendURL}` + "tareaStop/addNuevaTareaStop", tareaStop)
-  }
-
-
-
-
 }

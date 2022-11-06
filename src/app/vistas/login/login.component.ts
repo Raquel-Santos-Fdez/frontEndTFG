@@ -13,8 +13,8 @@ export class LoginComponent implements OnInit {
 
   errorInicio: boolean = false;
   loading: boolean = false;
-  // employee: any = {};
   employee:Empleado=new Empleado();
+  show: boolean;
 
   constructor(private service: LoginService) {
   }
@@ -42,5 +42,9 @@ export class LoginComponent implements OnInit {
       //si es null o undefined
       this.errorInicio = true;
     }
+  }
+
+  mostrarPassword() {
+      this.show = !this.show;
   }
 }

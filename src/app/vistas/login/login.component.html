@@ -31,12 +31,23 @@
     <br>
     <mat-form-field>
       <div class="col-md-12">
-        <input [(ngModel)]="employee.password" [ngModelOptions]="{standalone:true}" class="form-control" matInput
+        <input [(ngModel)]="employee.password" [type]="show ? 'text': 'password'" [ngModelOptions]="{standalone:true}" class="form-control" matInput
                name="password"
                placeholder="password"
                required type="password">
       </div>
+
     </mat-form-field>
+    <ng-container *ngIf="!show">
+      <button mat-button id="mostrarPassword" (click)="mostrarPassword()" matTooltip="Ver contraseña">
+        <mat-icon>visibility</mat-icon>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="show">
+      <button mat-button id="ocultarPassword" (click)="mostrarPassword()" matTooltip="Ocultar contraseña">
+        <mat-icon>visibility_off</mat-icon>
+      </button>
+    </ng-container>
   </div>
   <br>
   <div class="row">

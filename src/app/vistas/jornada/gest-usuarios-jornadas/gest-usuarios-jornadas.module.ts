@@ -34,6 +34,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     FormsModule,
     MatTableModule,
     MatGridListModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
 
   ]
 })
