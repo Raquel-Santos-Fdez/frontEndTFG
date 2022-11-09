@@ -1,88 +1,93 @@
 <div class="portalSolicitudes">
-<h2>Portal de solicitudes</h2>
+  <h2>Portal de solicitudes</h2>
 
 
-<button mat-raised-button id="btnNuevaSolI"(click)="openDialog()">Nueva solicitud</button>
+  <button (click)="openDialog()" id="btnNuevaSolI" mat-raised-button>Nueva solicitud</button>
 
-<br/>
+  <br/>
 
-<mat-tab-group >
-  <mat-tab  label="Solicitudes intercambio">
-    <table mat-table [dataSource]="solicitudesIntercambio" ng-controller="cargarSolicitudes">
+  <mat-tab-group>
+    <mat-tab label="Solicitudes intercambio">
+      <div class="containerSIntercambio">
+        <table [dataSource]="solicitudesIntercambio" mat-table ng-controller="cargarSolicitudes">
 
-      <ng-container matColumnDef="fechaTrabajo">
-        <th mat-header-cell *matHeaderCellDef> Día a cubrir </th>
-        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
-      </ng-container>
+          <ng-container matColumnDef="fechaTrabajo">
+            <th *matHeaderCellDef mat-header-cell> Día a cubrir</th>
+            <td *matCellDef="let element" mat-cell> {{element.fecha}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="fechaDescanso">
-        <th mat-header-cell *matHeaderCellDef> Día de descanso </th>
-        <td mat-cell *matCellDef="let element"> {{element.fechaDescanso}} </td>
-      </ng-container>
+          <ng-container matColumnDef="fechaDescanso">
+            <th *matHeaderCellDef mat-header-cell> Día de descanso</th>
+            <td *matCellDef="let element" mat-cell> {{element.fechaDescanso}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="empleado">
-        <th mat-header-cell *matHeaderCellDef> Empleado </th>
-        <td mat-cell *matCellDef="let element"> {{element.empleado.username}} </td>
-      </ng-container>
+          <ng-container matColumnDef="empleado">
+            <th *matHeaderCellDef mat-header-cell> Empleado</th>
+            <td *matCellDef="let element" mat-cell> {{element.empleado.username}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="aceptar">
-        <th mat-header-cell *matHeaderCellDef> Acción </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-button (click)="aceptarSolicitud(element)"> Aceptar</button>
-        </td>
-      </ng-container>
+          <ng-container matColumnDef="aceptar">
+            <th *matHeaderCellDef mat-header-cell> Acción</th>
+            <td *matCellDef="let element" mat-cell>
+              <button (click)="aceptarSolicitud(element)" mat-button> Aceptar</button>
+            </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="colummsTodasSolicitudes"></tr>
-      <tr mat-row *matRowDef="let row; columns: colummsTodasSolicitudes;"></tr>
+          <tr *matHeaderRowDef="colummsTodasSolicitudes" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: colummsTodasSolicitudes;" mat-row></tr>
 
-    </table>
-  </mat-tab>
+        </table>
+      </div>
+    </mat-tab>
 
-  <mat-tab name="misSolicitudesTab" label="Mis solicitudes">
-    <table mat-table [dataSource]="misSolicitudes">
+    <mat-tab label="Mis solicitudes" name="misSolicitudesTab">
+      <div class="containerSTodas">
+        <table [dataSource]="misSolicitudes" mat-table>
 
-      <ng-container matColumnDef="fechaTrabajo">
-        <th mat-header-cell *matHeaderCellDef> Día a cubrir </th>
-        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
-      </ng-container>
+          <ng-container matColumnDef="fechaTrabajo">
+            <th *matHeaderCellDef mat-header-cell> Día a cubrir</th>
+            <td *matCellDef="let element" mat-cell> {{element.fecha}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="fechaDescanso">
-        <th mat-header-cell *matHeaderCellDef> Día de descanso </th>
-        <td mat-cell *matCellDef="let element"> {{element.fechaDescanso}} </td>
-      </ng-container>
+          <ng-container matColumnDef="fechaDescanso">
+            <th *matHeaderCellDef mat-header-cell> Día de descanso</th>
+            <td *matCellDef="let element" mat-cell> {{element.fechaDescanso}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="estado">
-      <th mat-header-cell *matHeaderCellDef> Estado </th>
-      <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
-      </ng-container>
+          <ng-container matColumnDef="estado">
+            <th *matHeaderCellDef mat-header-cell> Estado</th>
+            <td *matCellDef="let element" mat-cell> {{element.estado}} </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="columnsMisSolicitudes"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsMisSolicitudes;"></tr>
+          <tr *matHeaderRowDef="columnsMisSolicitudes" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: columnsMisSolicitudes;" mat-row></tr>
 
-    </table>
+        </table>
+      </div>
+    </mat-tab>
 
-  </mat-tab>
+    <mat-tab label="Vacaciones">
+      <div class="containerSVacaciones">
+        <table [dataSource]="solicitudesVacaciones" mat-table>
 
-  <mat-tab label="Vacaciones">
-    <table mat-table [dataSource]="solicitudesVacaciones">
+          <ng-container matColumnDef="periodoInvierno">
+            <th *matHeaderCellDef mat-header-cell> Periodo</th>
+            <td *matCellDef="let element" mat-cell> {{element.fecha}}
+              --  {{getFinVacaciones(element.fechaFinVacaciones)}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="periodoInvierno">
-        <th mat-header-cell *matHeaderCellDef> Periodo </th>
-        <td mat-cell *matCellDef="let element"> {{element.fecha}}  --  {{getFinVacaciones(element.fechaFinVacaciones)}} </td>
-      </ng-container>
+          <ng-container matColumnDef="estado">
+            <th *matHeaderCellDef mat-header-cell> Estado</th>
+            <td *matCellDef="let element" mat-cell> {{element.estado}} </td>
+          </ng-container>
 
-      <ng-container matColumnDef="estado">
-        <th mat-header-cell *matHeaderCellDef> Estado </th>
-        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
-      </ng-container>
+          <tr *matHeaderRowDef="columnsVacaciones" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: columnsVacaciones;" mat-row></tr>
 
-      <tr mat-header-row *matHeaderRowDef="columnsVacaciones"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsVacaciones;"></tr>
-
-    </table>
-
-  </mat-tab>
-</mat-tab-group>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 
 </div>
 

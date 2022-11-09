@@ -1,14 +1,25 @@
 <div class="vacacionesDialog">
   <h2 mat-dialog-title>¿Desea {{data.accion}} la solicitud de vacaciones?</h2>
 
-  <p>Empleado: {{empleado.username}}</p>
-  <p>Periodo Invierno: {{periodo1}}</p>
-  <p>Periodo Verano: {{periodo2}}</p>
+  <div class="containerP">
+    <p class="titulo">Empleado: &nbsp;</p>
+    <p> {{empleado.username}}</p>
+  </div>
+  <div class="containerP">
+    <p class="titulo">Periodo Invierno: &nbsp; </p>
+    <p>{{periodo1}}</p>
+  </div>
+  <div class="containerP">
+    <p class="titulo">Periodo Verano: &nbsp;</p>
+    <p>{{periodo2}}</p>
+  </div>
 
   <div mat-dialog-actions>
     <button [mat-dialog-close] cdkFocusInitial mat-button>Cancelar</button>
-    <button *ngIf="data.accion=='aceptar'" id="aceptarVacaciones" (click)="aceptarVacaciones()" mat-button>Aceptar</button>
-    <button *ngIf="data.accion=='rechazar'" id="rechazarVacaciones" (click)="rechazarVacaciones()" mat-button>Rechazar</button>
+    <button (click)="aceptarVacaciones()" *ngIf="data.accion=='aceptar'" id="aceptarVacaciones" mat-button>Aceptar
+    </button>
+    <button (click)="rechazarVacaciones()" *ngIf="data.accion=='rechazar'" id="rechazarVacaciones" mat-button>Rechazar
+    </button>
 
   </div>
 

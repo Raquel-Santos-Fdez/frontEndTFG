@@ -1,97 +1,127 @@
-<h2>Gestión de usuarios y jornadas</h2>
+<div class="gestUJ">
+  <h2>Gestión de usuarios y jornadas</h2>
 
-<div class="container">
+  <div class="container">
 
-  <div id="filtroUsuarios">
-    <input [(ngModel)]="filtroUsuarios" matInput name="filtroUsuarios" placeholder="Buscar por nombre de usuario">
-
-    <button mat-button (click)="addUsuario()" id="addUsuario" matTooltip="añadir nuevo usuario">
-      <mat-icon>person_add</mat-icon>
-    </button>
-  </div>
-
-  <table id="tablaUsuarios">
-    <tr>
-      <th>Nombre de usuario</th>
-      <th>Nombre completo</th>
-      <th>Rol</th>
-      <th></th>
-    </tr>
-    <tr (click)="seleccionarEmpleado(empleado.id)" *ngFor="let empleado of empleados | filter:filtroUsuarios"
-        matTooltip="seleccionar">
-      <td>{{empleado.username}}</td>
-      <td>{{empleado.name}}</td>
-      <td>{{empleado.role}}</td>
-      <td>
-        <button id="detallesEmpleadoBtn" (click)="verDetallesEmpleado(empleado)" mat-button>Detalles</button>
-        <button id="eliminarEmpleadoBtn" (click)="eliminarEmpleado(empleado)" mat-button>Eliminar</button>
-      </td>
-    </tr>
-
-  </table>
-
-  <mat-card class="calendar-card">
-    <mat-calendar id="calendario" (click)="seleccionarDia()" [(selected)]="diaSeleccionado"></mat-calendar>
-  </mat-card>
-
-  <div class="filtro">
-
-    <ng-container *ngIf="empleadoSeleccionado" class="filtro">
-      <button (click)="deleteEmpleadoFiltro()" mat-stroked-button>
-        <mat-icon>clear</mat-icon>
-        {{empleadoSeleccionado.username}}
-      </button>
-    </ng-container>
-    <ng-container *ngIf="diaSeleccionado" class="filtro">
-      <button (click)="deleteFechaFiltro()" mat-stroked-button>
-        <mat-icon>clear</mat-icon>
-        {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth() + 1}}/{{diaSeleccionado.getFullYear()}}
-      </button>
-    </ng-container>
-  </div>
-
-
-  <table *ngIf="hasTarea" [dataSource]="tareas" id="tablaTareas" mat-table>
-
-    <ng-container matColumnDef="descripcion">
-      <th *matHeaderCellDef mat-header-cell>Descripción</th>
-      <td *matCellDef="let element" mat-cell>{{element.tarea.descripcion}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="fecha">
-      <th *matHeaderCellDef mat-header-cell>Fecha</th>
-      <td *matCellDef="let element" mat-cell>{{formatearFecha(element.jornada.date)}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="horario">
-      <th *matHeaderCellDef mat-header-cell>Horario</th>
-      <td *matCellDef="let element" mat-cell>{{element.tarea.horaSalida}} - {{element.tarea.horaFin}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="empleado">
-      <th *matHeaderCellDef mat-header-cell>Empleado</th>
-      <td *matCellDef="let element" mat-cell>{{element.jornada.empleado.username}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="accion">
-      <th *matHeaderCellDef mat-header-cell>Accion</th>
-      <td *matCellDef="let element" mat-cell>
-        <button id="detallesTarea" (click)="verDetallesTarea(element.tarea)" href="/ver-solicitudes" mat-button>Detalles Tarea
+    <div class="container2">
+      <div class="buscarAddContainer">
+        <input [(ngModel)]="filtroUsuarios" id="filtroUsuarios" matInput name="filtroUsuarios"
+               placeholder="Buscar por nombre de usuario">
+        <button (click)="addUsuario()" id="addUsuario" mat-button matTooltip="añadir nuevo usuario">
+          <mat-icon>person_add</mat-icon>
         </button>
-      </td>
-    </ng-container>
+      </div>
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+      <div class="tablaUsuariosContainer">
+        <table [dataSource]="empleados|filter:filtroUsuarios" id="tablaUsuarios" mat-table>
 
-  </table>
+          <ng-container matColumnDef="username">
+            <th *matHeaderCellDef mat-header-cell>Nombre de usuario</th>
+            <td *matCellDef="let element" mat-cell> {{element.username}}</td>
+          </ng-container>
 
-  <p *ngIf="isDiaLibre">DÍA LIBRE</p>
-  <p *ngIf="!hasTarea && diaSeleccionado && !isDiaLibre">Aún no se ha asignado una jornada para el día seleccionado</p>
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell>Nombre</th>
+            <td *matCellDef="let element" mat-cell>{{element.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rol">
+            <th *matHeaderCellDef mat-header-cell>Rol</th>
+            <td *matCellDef="let element" mat-cell>{{element.role}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="accion">
+            <th *matHeaderCellDef mat-header-cell></th>
+            <td *matCellDef="let element" mat-cell>
+              <button (click)="verDetallesEmpleado(element)" id="detallesEmpleadoBtn" mat-button>Detalles</button>
+              <button (click)="eliminarEmpleado(element)" id="eliminarEmpleadoBtn" mat-button>Eliminar</button>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="empleadosColumn" mat-header-row></tr>
+          <tr (click)="seleccionarEmpleado(row.id)"
+              *matRowDef="let row; columns: empleadosColumn;"
+              mat-row matTooltip="seleccionar"></tr>
+        </table>
+      </div>
+
+      <div class="filtro">
+
+        <ng-container *ngIf="empleadoSeleccionado" class="filtro">
+          <button (click)="deleteEmpleadoFiltro()" mat-stroked-button>
+            <mat-icon>clear</mat-icon>
+            {{empleadoSeleccionado.username}}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="diaSeleccionado" class="filtro">
+          <button (click)="deleteFechaFiltro()" mat-stroked-button>
+            <mat-icon>clear</mat-icon>
+            {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth() + 1}}/{{diaSeleccionado.getFullYear()}}
+          </button>
+        </ng-container>
+      </div>
+
+    </div>
+
+    <div class="calendarContainer">
+      <mat-card class="calendar-card">
+        <mat-calendar (click)="seleccionarDia()" [(selected)]="diaSeleccionado" id="calendario"></mat-calendar>
+      </mat-card>
+    </div>
+
+
+  </div>
 
   <button (click)="addTarea()" *ngIf="!isDiaLibre" id="btnNuevaTarea" mat-button>
     Nueva tarea
   </button>
 
-</div>
+  <div class="container3">
+    <p *ngIf="isDiaLibre">DÍA LIBRE</p>
+    <p *ngIf="!hasTarea && diaSeleccionado && !isDiaLibre">Aún no se ha asignado una jornada para el día
+      seleccionado</p>
 
+    <table *ngIf="hasTarea" [dataSource]="dataSource" id="tablaTareas" mat-table>
+
+      <ng-container matColumnDef="descripcion">
+        <th *matHeaderCellDef mat-header-cell>Descripción</th>
+        <td *matCellDef="let element" mat-cell>{{element.tarea.descripcion}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha">
+        <th *matHeaderCellDef mat-header-cell>Fecha</th>
+        <td *matCellDef="let element" mat-cell>{{formatearFecha(element.jornada.date)}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="horario">
+        <th *matHeaderCellDef mat-header-cell>Horario</th>
+        <td *matCellDef="let element" mat-cell>{{element.tarea.horaSalida}} - {{element.tarea.horaFin}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="empleado">
+        <th *matHeaderCellDef mat-header-cell>Empleado</th>
+        <td *matCellDef="let element" mat-cell>{{element.jornada.empleado.username}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="accion">
+        <th *matHeaderCellDef mat-header-cell>Accion</th>
+        <td *matCellDef="let element" mat-cell>
+          <button (click)="verDetallesTarea(element.tarea)" href="/ver-solicitudes" id="detallesTarea" mat-button>
+            Detalles
+            Tarea
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+
+    <mat-paginator id="paginador" [length]="tareas.length"
+                   [pageSize]="2"
+                   aria-label="Select page"
+                   showFirstLastButtons>
+    </mat-paginator>
+
+  </div>
+</div>

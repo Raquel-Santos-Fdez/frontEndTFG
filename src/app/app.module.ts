@@ -24,6 +24,7 @@ import {NgImageSliderModule} from 'ng-image-slider';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ReactiveFormsModule} from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import {HorariosComponent} from './vistas/horarios/horarios.component';
 import {MapaComponent} from './vistas/horarios/mapa/mapa.component';
@@ -105,7 +106,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     PerfilModule,
     GestUsuariosJornadasModule,
     MatExpansionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule
 
   ],
   providers: [

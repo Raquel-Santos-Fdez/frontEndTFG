@@ -6,11 +6,11 @@ import {Estacion} from "../../../model/estacion/estacion";
 import {Incidencia} from "../../../model/incidencia/incidencia";
 import {Empleado} from "../../../model/empleado/empleado";
 import {TrenService} from "../../../services/tren.service";
-import {Situacion} from "../../../model/tarea/tarea_stop";
 import {Solicitud} from "../../../model/solicitud/solicitud";
 import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DatePipe} from "@angular/common";
+import {SolicitudService} from "../../../services/solicitud.service";
 
 export interface DialogData {
   tarea: Tarea | undefined
@@ -27,6 +27,8 @@ export interface DialogData {
 export class ConsultarJornadaComponent implements OnInit {
 
   selected: Date | null;
+
+  tareasColumns:string[]=["descripcion", "detalles"]
 
   tareas: Tarea[] = [];
   tareaDetalle: Tarea = new Tarea();
@@ -46,9 +48,13 @@ export class ConsultarJornadaComponent implements OnInit {
   horaInicio: any;
   horaFin: any;
 
-  isDiaLibre:boolean=false;
+  isDiaLibre: boolean = false;
 
-  constructor(private jornadaService: JornadaService, private trenService: TrenService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(private jornadaService: JornadaService,
+              private trenService: TrenService,
+              public dialog: MatDialog,
+              private _snackBar: MatSnackBar,
+              private solicitudService: SolicitudService) {
 
   }
 
@@ -67,13 +73,12 @@ export class ConsultarJornadaComponent implements OnInit {
     let jornada;
 
     if (this.selected != null) {
-      this.jornadaService.findJornadaByDateEmpleado(this.selected,this.employee.id).subscribe(data=> {
-        if(data[0]) {
+      this.jornadaService.findJornadaByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
+        if (data[0]) {
           jornada = data[0];
           this.isDiaLibre = jornada.diaLibre;
-        }
-        else
-          this.isDiaLibre=false;
+        } else
+          this.isDiaLibre = false;
       })
 
       this.jornadaService.findTareasByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
@@ -110,7 +115,7 @@ export class ConsultarJornadaComponent implements OnInit {
         this.tareaDetalle = this.tareas[i]
 
     let j
-    for(j=0; j<this.tareaDetalle.stops.length; j++){
+    for (j = 0; j < this.tareaDetalle.stops.length; j++) {
       if (this.tareaDetalle.stops[j].situacion.toString() == "INICIO")
         this.origen = this.tareaDetalle.stops[j].estacion
       else
@@ -133,12 +138,21 @@ export class ConsultarJornadaComponent implements OnInit {
       this.solicitud.motivo = this.motivoSeleccionado;
       this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
       if (this.selected)
-        this.jornadaService.enviarSolicitud(this.solicitud).subscribe(() => {
-            this.motivoSeleccionado = "";
-            this.isSolicitado = false;
-            this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-          }
-        );
+        this.solicitudService.findSolicitudByDateEmpleado(this.solicitud.fecha, this.solicitud.empleado.id)
+          .subscribe(data => {
+            if (data == false) {
+              this.jornadaService.enviarSolicitud(this.solicitud).subscribe(() => {
+                  this.motivoSeleccionado = "";
+                  this.isSolicitado = false;
+                  this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+                }
+              );
+            }else{
+              this._snackBar.open("Ya existe una solicitud realizada para esta fecha", undefined, {duration: 2000})
+
+            }
+          })
+
       else
         this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
 

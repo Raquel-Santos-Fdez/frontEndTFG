@@ -1,22 +1,40 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Solicitud} from "../../../model/solicitud/solicitud";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 import {DatePipe} from "@angular/common";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Empleado} from "../../../model/empleado/empleado";
+import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
+import {JornadaService} from "../../../services/jornada.service";
+import {Jornada} from "../../../model/jornada/jornada";
+import {Tarea} from "../../../model/tarea/tarea";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-ver-solicitudes',
   templateUrl: './ver-solicitudes.component.html',
   styleUrls: ['./ver-solicitudes.component.css']
 })
-export class VerSolicitudesComponent implements OnInit {
+export class VerSolicitudesComponent implements OnInit{
 
   solicitudes: Solicitud[] = [];
   displayedColumns: string[] = ["fecha", "motivo", "empleado", "accion"];
+  diaSeleccionado: Date | null = null;
 
-  constructor(private solicitudService: SolicitudService, public dialog: MatDialog,) {
+  jornadasEmpleado: Jornada[] = [];
+  tareas: { jornada: Jornada, tarea: Tarea }[] = [];
+  hasTarea:boolean=false;
+  columnasJornadas:string[]=["fecha", "empleado"];
+
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource:MatTableDataSource<Solicitud>;
+
+  constructor(private solicitudService: SolicitudService, public dialog: MatDialog,
+              private jornadaService: JornadaService) {
 
   }
 
@@ -25,12 +43,17 @@ export class VerSolicitudesComponent implements OnInit {
 
   }
 
-  cargarSolicitudes(){
+  cargarSolicitudes() {
     this.solicitudService.getAllSolicitudesPendientes().subscribe(data => {
       this.solicitudes = data;
+      this.paginarSolicitudes(this.solicitudes)
     });
   }
 
+  paginarSolicitudes(solicitudes:Solicitud[]){
+    this.dataSource=new MatTableDataSource(solicitudes)
+    this.dataSource.paginator=this.paginator;
+  }
 
   aceptarSolicitud(solicitud: Solicitud) {
     if (solicitud.type == "solicitudVacaciones") {
@@ -53,16 +76,10 @@ export class VerSolicitudesComponent implements OnInit {
     }
   }
 
-  borrarSolicitud(id: bigint) {
-    let i;
-    for (i = 0; i < this.solicitudes.length; i++)
-      if (this.solicitudes[i].id == id)
-        this.solicitudes.splice(i, 1);
-  }
-
   rechazarSolicitud(solicitud:Solicitud) {
     if (solicitud.type == "solicitudVacaciones") {
-      this.solicitudService.findSolicitudesVacaciones(solicitud.empleado.id).subscribe(data => {
+      console.log(solicitud.id)
+      this.solicitudService.findSolicitudesVacacionesPendientes(solicitud.empleado.id).subscribe(data => {
         this.dialog.open(DialogSolVacaciones, {
           disableClose: true,
           width: '450px',
@@ -74,7 +91,7 @@ export class VerSolicitudesComponent implements OnInit {
         })
       })
     } else {
-      this.solicitudService.rechazarSolicitud(solicitud.id).subscribe(() => this.borrarSolicitud(solicitud.id));
+      this.solicitudService.rechazarSolicitud(solicitud.id).subscribe(() => this.cargarSolicitudes());
     }
 
   }
@@ -87,6 +104,37 @@ export class VerSolicitudesComponent implements OnInit {
     }
     return "";
   }
+
+  verDetallesEmpleado(empleado:Empleado) {
+    this.dialog.open(DetallesEmpleadoComponent, {
+      width: '450px',
+      data: {
+        empleado: empleado
+      }
+    })
+  }
+
+  seleccionarDia() {
+    this.hasTarea=false;
+    if (this.diaSeleccionado) {
+      this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
+        this.jornadasEmpleado = data;
+        if(this.jornadasEmpleado.length>0)
+          this.hasTarea=true;
+      });
+    }
+  }
+
+  formatearFecha(date: string) {
+    let pipe = new DatePipe('en-US')
+    let fecha = pipe.transform(date, 'yyyy-MM-dd')
+    if (fecha)
+      return fecha;
+    return ""
+
+  }
+
+
 }
 
 
@@ -120,7 +168,7 @@ export class DialogSolVacaciones {
   aceptarVacaciones() {
     this.data.solicitudes.forEach(s => {
       this.solicitudService.aceptarSolicitud(s).subscribe(() => {
-        this.data.verSolicitudComp.borrarSolicitud(s.id);
+        this.data.verSolicitudComp.cargarSolicitudes();
         this.dialogRef.close();
       });
     })
@@ -129,7 +177,7 @@ export class DialogSolVacaciones {
   rechazarVacaciones() {
     this.data.solicitudes.forEach(s => {
       this.solicitudService.rechazarSolicitud(s.id).subscribe(() => {
-        this.data.verSolicitudComp.borrarSolicitud(s.id);
+        this.data.verSolicitudComp.cargarSolicitudes();
         this.dialogRef.close();
       });
     })

@@ -1,29 +1,68 @@
-table{
+#tablaSolicitudes{
   align:center;
   position: relative;
-  width: 150%;
+  width: 100%;
+  margin-left:70px;
 }
 
-.mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
-  cursor: pointer;
-}
-
-.mat-row:hover .mat-cell {
-  border-color: currentColor;
-}
-
-h2{
+.verSolicitudes h2{
   color: #77104a;
   font-weight: bold;
   font-size: 30px;
   margin:10px;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .verSolicitudes{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.containerP{
+  display: flex;
+  flex-direction: row;
+}
+
+.titulo{
+  font-weight: bold ;
+}
+
+a:hover {
+  color: #125699;
+}
+
+.containerVerSolicitudes{
+  display: flex;
+  flex-direction: row;
+}
+
+.calendar-card{
+  width: 250px;
+}
+
+.containerCalendario{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerJornadas{
+  margin-top: 20px;
+}
+
+#tablaJornada{
+  width: 120%;
+  text-align: center;
+}
+
+
+th.mat-header-cell {
+  text-align: center;
+}
+
+caption{
+  font-weight: bold;
+  font-size: 17px;
+  color: #77104a;
 }

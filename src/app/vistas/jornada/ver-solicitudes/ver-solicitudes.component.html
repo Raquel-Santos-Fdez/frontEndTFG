@@ -2,43 +2,80 @@
 
   <h2> Solicitudes pendientes</h2>
 
-  <ng-container *ngIf="solicitudes.length>0">
-    <table [dataSource]="solicitudes" mat-table>
+  <div class="containerVerSolicitudes">
+    <mat-card class="calendar-card">
+      <mat-calendar (click)="seleccionarDia()" [(selected)]="diaSeleccionado" id="calendario"></mat-calendar>
+    </mat-card>
 
+    <div>
+      <div *ngIf="solicitudes.length>0">
+        <table [dataSource]="dataSource" id="tablaSolicitudes" mat-table>
+
+          <ng-container matColumnDef="fecha">
+            <th *matHeaderCellDef mat-header-cell> Fecha</th>
+            <td *matCellDef="let element" mat-cell> {{element.fecha}}{{getFinVacaciones(element)}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="motivo">
+            <th *matHeaderCellDef mat-header-cell> Motivo</th>
+            <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="empleado">
+            <th *matHeaderCellDef mat-header-cell> Empleado</th>
+            <td *matCellDef="let element" mat-cell><a (click)="verDetallesEmpleado(element.empleado)"
+                                                      matTooltip="Detalles empleado">{{element.empleado.username}} </a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="accion">
+            <th *matHeaderCellDef mat-header-cell></th>
+            <td *matCellDef="let element" mat-cell>
+
+              <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button>Aceptar</button>
+
+              <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button>Rechazar</button>
+
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+        </table>
+
+        <ng-container *ngIf="solicitudes.length==0">
+          <p>No hay solicitudes pendientes</p>
+        </ng-container>
+      </div>
+      <mat-paginator [length]="solicitudes.length"
+                     [pageSize]="8"
+                     aria-label="Select page"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+
+  <div class="containerJornadas">
+    <table *ngIf="hasTarea" [dataSource]="jornadasEmpleado" id="tablaJornada" mat-table>
+
+      <caption>Jornadas asignadas para el dia seleccionado</caption>
       <ng-container matColumnDef="fecha">
-        <th *matHeaderCellDef mat-header-cell> Fecha</th>
-        <td *matCellDef="let element" mat-cell> {{element.fecha}}{{getFinVacaciones(element)}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="motivo">
-        <th *matHeaderCellDef mat-header-cell> Motivo</th>
-        <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
+        <th *matHeaderCellDef class="headerJ" mat-header-cell>Fecha</th>
+        <td *matCellDef="let element" mat-cell>{{formatearFecha(element.date)}}</td>
       </ng-container>
 
       <ng-container matColumnDef="empleado">
-        <th *matHeaderCellDef mat-header-cell> Empleado</th>
-        <td *matCellDef="let element" mat-cell> {{element.empleado.username}} </td>
+        <th *matHeaderCellDef mat-header-cell>Empleado</th>
+        <td *matCellDef="let element" mat-cell>{{element.empleado.username}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="accion">
-        <th *matHeaderCellDef mat-header-cell></th>
-        <td *matCellDef="let element" mat-cell>
-
-          <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button>Aceptar</button>
-
-          <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button>Rechazar</button>
-
-        </td>
-      </ng-container>
-
-      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+      <tr *matHeaderRowDef="columnasJornadas" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: columnasJornadas;" mat-row></tr>
 
     </table>
-  </ng-container>
 
-  <ng-container *ngIf="solicitudes.length==0">
-    <p>No hay solicitudes pendientes</p>
-  </ng-container>
+    <p *ngIf="!hasTarea && diaSeleccionado">Aún no se ha asignado una jornada para el día seleccionado</p>
+  </div>
 
 </div>

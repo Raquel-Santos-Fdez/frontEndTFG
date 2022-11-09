@@ -15,4 +15,22 @@ h2{
   align-items: center;
 }
 
+#btnNuevaSolI{
+  color:white;
+  background-color: #77104a;
+}
+
+.containerSTodas{
+  height: 400px;
+  overflow:auto;
+}
+.containerSIntercambio{
+  height: 400px;
+  overflow:auto;
+}
+.containerSVacaciones{
+  height: 400px;
+  overflow:auto;
+}
+
 

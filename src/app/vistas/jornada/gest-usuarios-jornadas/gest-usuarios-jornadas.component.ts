@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Empleado, Rol} from "../../../model/empleado/empleado";
 import {EmpleadosService} from "../../../services/empleados.service";
 import {JornadaService} from "../../../services/jornada.service";
@@ -14,6 +14,8 @@ import {DatePipe} from "@angular/common";
 import {TrenService} from "../../../services/tren.service";
 import {Estacion} from "../../../model/estacion/estacion";
 import {Incidencia} from "../../../model/incidencia/incidencia";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
 
 
 @Component({
@@ -33,8 +35,13 @@ export class GestUsuariosJornadasComponent implements OnInit {
   tareas: { jornada: Jornada, tarea: Tarea }[] = [];
   displayedColumns: string[] = ['descripcion', 'fecha', 'horario', 'empleado', 'accion'];
 
+  empleadosColumn:string[] =["username", "name", "rol", "accion"]
+
   empleadoActual: Empleado;
   isDiaLibre: boolean = false;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource:MatTableDataSource<{jornada:Jornada, tarea:Tarea}>;
 
 
   constructor(
@@ -51,6 +58,8 @@ export class GestUsuariosJornadasComponent implements OnInit {
   ngOnInit(): void {
     this.mostrarUsuarios();
 
+    // @ts-ignore
+    document.getElementById('paginador').style.display='none';
   }
 
   public mostrarUsuarios() {
@@ -78,20 +87,18 @@ export class GestUsuariosJornadasComponent implements OnInit {
   seleccionarDia() {
     if (this.diaSeleccionado) {
       this.inicializarParams();
-      //si hay un empelado seleccionado se muestrasn solo las de ese empleado, sino se muestran todas las de esa fecha
+      //si hay un empleado seleccionado se muestrasn solo las de ese empleado, sino se muestran todas las de esa fecha
       if (this.empleadoSeleccionado) {
         this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data;
           if (this.jornadasEmpleado.length > 0)
             if (this.jornadasEmpleado[0].diaLibre)
               this.isDiaLibre = true;
-          // this.formatearFecha();
           this.guardarTareas();
         });
       } else {
         this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
           this.jornadasEmpleado = data;
-          // this.formatearFecha();
           this.guardarTareas();
         });
       }
@@ -110,8 +117,18 @@ export class GestUsuariosJornadasComponent implements OnInit {
     this.jornadasEmpleado.forEach(j => {
       j.tareas.forEach(t => this.tareas.push({jornada: j, tarea: t}))
     })
+    this.paginarTareas(this.tareas)
     this.hasTarea = this.tareas.length > 0;
 
+  }
+
+  paginarTareas(tareas:any){
+    if(tareas.length>0){
+      // @ts-ignore
+      document.getElementById('paginador').style.display='block';
+    }
+    this.dataSource=new MatTableDataSource(tareas)
+    this.dataSource.paginator=this.paginator;
   }
 
   deleteEmpleadoFiltro() {
@@ -119,14 +136,21 @@ export class GestUsuariosJornadasComponent implements OnInit {
     this.empleadoSeleccionado = undefined;
     if (this.diaSeleccionado)
       this.seleccionarDia()
+    else{
+      // @ts-ignore
+      document.getElementById('paginador').style.display='none';
+    }
   }
 
   deleteFechaFiltro() {
     this.diaSeleccionado = null;
     if (this.empleadoSeleccionado != null)
       this.seleccionarEmpleado(this.empleadoSeleccionado.id)
-    else
+    else {
       this.hasTarea = false;
+      // @ts-ignore
+      document.getElementById('paginador').style.display='none';
+    }
   }
 
   addUsuario() {
@@ -252,7 +276,6 @@ export class NuevoUsuarioDialog {
   }
 
   addUsuarioNuevo() {
-    console.log(this.formulario.valid)
     if (this.formulario.valid) {
       //Generamos una contraseña aleatoria
       this.empleado.password = Math.random().toString(36).toUpperCase().slice(2)

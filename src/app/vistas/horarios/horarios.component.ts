@@ -56,6 +56,7 @@ export class HorariosComponent implements OnInit {
 
   consultarHorario(origen: Estacion, destino: Estacion) {
     let rutasConjuntas: Route_stop[] = [];
+    this.isReady=false;
     if (origen && destino) {
       this.rutaService.findRutaByEstacion(origen.id, destino.id).subscribe(data => {
         rutasConjuntas = data;
@@ -64,7 +65,6 @@ export class HorariosComponent implements OnInit {
           this.proveedor.listRutas = rutasConjuntas;
           this.proveedor.origen = origen;
           this.isReady=true;
-          // this.router.navigate(['tabla-horarios']);
         } else
           alert("No existe recorrido entre esas dos estaciones");
       })

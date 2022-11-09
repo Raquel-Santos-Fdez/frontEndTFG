@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
 import {BackendService} from "../../../services/backend.service";
 import {StopTime} from "../../../model/stop_time/stop-time";
 import {ProveedorService} from "../../../services/proveedor.service";
@@ -11,29 +10,27 @@ import {ProveedorService} from "../../../services/proveedor.service";
 })
 export class TablaHorariosComponent implements OnInit {
 
-  stopTimes:StopTime[]=[];
+  stopTimes: StopTime[] = [];
   displayedColumns: string[] = ["horario"];
 
-  constructor(private service:BackendService, private proveedor:ProveedorService) {
+  constructor(private service: BackendService, private proveedor: ProveedorService) {
 
   }
 
   ngOnInit(): void {
-    let rutasConjuntas= this.proveedor.listRutas;
+    let rutasConjuntas = this.proveedor.listRutas;
     let origen = this.proveedor.origen;
     let i;
-    for(i=0; i<rutasConjuntas.length; i++){
+    for (i = 0; i < rutasConjuntas.length; i++) {
       this.addStopTime(rutasConjuntas[i].ruta.ruta_id, origen.id)
     }
 
 
   }
 
-   addStopTime(route_id: string, stop_id: string){
-
-    this.service.findTimeByRutaStop(route_id, stop_id).subscribe(data=>
-    {
-      this.stopTimes=data
+  addStopTime(route_id: string, stop_id: string) {
+    this.service.findTimeByRutaStop(route_id, stop_id).subscribe(data => {
+      this.stopTimes = data
     })
 
   }
