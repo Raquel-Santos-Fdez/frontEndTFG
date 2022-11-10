@@ -1,7 +1,5 @@
 #tablaSolicitudes{
-  align:center;
-  /*position: relative;*/
-  width: 100%;
+  width: 120%;
 }
 
 .verSolicitudes h2{
@@ -56,10 +54,6 @@ a:hover {
 }
 
 
-th.mat-header-cell {
-  text-align: center;
-}
-
 caption{
   font-weight: bold;
   font-size: 17px;
@@ -67,7 +61,7 @@ caption{
 }
 
 .divSolicitudes{
-  margin-left: 70px;
+  margin-left: 30px;
 }
 
 #formSolFiltro{

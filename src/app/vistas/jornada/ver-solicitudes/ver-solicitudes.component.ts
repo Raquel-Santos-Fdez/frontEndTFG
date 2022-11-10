@@ -1,17 +1,16 @@
-import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MotivoAusencia, Solicitud} from "../../../model/solicitud/solicitud";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 import {DatePipe} from "@angular/common";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Empleado, Rol} from "../../../model/empleado/empleado";
+import {Empleado} from "../../../model/empleado/empleado";
 import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 import {JornadaService} from "../../../services/jornada.service";
 import {Jornada} from "../../../model/jornada/jornada";
 import {Tarea} from "../../../model/tarea/tarea";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {tap} from "rxjs";
+import {MatPaginator} from "@angular/material/paginator";
 import {SolFilter} from "./SolFilter";
 import {MatSelectChange} from "@angular/material/select";
 import {EmpleadosService} from "../../../services/empleados.service";
@@ -21,7 +20,7 @@ import {EmpleadosService} from "../../../services/empleados.service";
   templateUrl: './ver-solicitudes.component.html',
   styleUrls: ['./ver-solicitudes.component.css']
 })
-export class VerSolicitudesComponent implements OnInit{
+export class VerSolicitudesComponent implements OnInit {
 
   solicitudes: Solicitud[] = [];
   displayedColumns: string[] = ["fecha", "motivo", "empleado", "accion"];
@@ -29,22 +28,21 @@ export class VerSolicitudesComponent implements OnInit{
 
   jornadasEmpleado: Jornada[] = [];
   tareas: { jornada: Jornada, tarea: Tarea }[] = [];
-  hasTarea:boolean=false;
-  columnasJornadas:string[]=["fecha", "empleado"];
-  empleadoActual:Empleado;
+  hasTarea: boolean = false;
+  columnasJornadas: string[] = ["fecha", "empleado"];
+  empleadoActual: Empleado;
 
-  solFilters:SolFilter[]=[]
-  filterDictionary= new Map<string,string>();
+  solFilters: SolFilter[] = []
+  filterDictionary = new Map<string, string>();
   dataSourceFilters = new MatTableDataSource(this.solicitudes);
   // dataSourceFilters:any;
-  defaultValue="Todos"
-  motivos:string[]=[];
-  usernames:string[]=[];
-
+  defaultValue = "Todos"
+  motivos: string[] = [];
+  usernames: string[] = [];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource:MatTableDataSource<Solicitud>;
+  dataSource: MatTableDataSource<Solicitud>;
 
   constructor(private solicitudService: SolicitudService, public dialog: MatDialog,
               private jornadaService: JornadaService,
@@ -60,12 +58,12 @@ export class VerSolicitudesComponent implements OnInit{
     this.cargarMotivos();
     this.cargarUsernames();
 
-    this.solFilters.push({name:'motivo', options:this.motivos, defaultValue: this.defaultValue})
-    this.solFilters.push({name:'empleado', options:this.usernames, defaultValue:this.defaultValue})
+    this.solFilters.push({name: 'motivo', options: this.motivos, defaultValue: this.defaultValue})
+    this.solFilters.push({name: 'empleado', options: this.usernames, defaultValue: this.defaultValue})
 
   }
 
-  cargarMotivos(){
+  cargarMotivos() {
     for (let item in MotivoAusencia) {
       if (isNaN(Number(item)))
         this.motivos.push(item)
@@ -73,12 +71,12 @@ export class VerSolicitudesComponent implements OnInit{
     this.motivos.push("Todos")
   }
 
-  cargarUsernames(){
-    let empleados: Empleado[]=[]
+  cargarUsernames() {
+    let empleados: Empleado[] = []
     this.empleadosService.findAllEmpleados().subscribe(data => {
       empleados = data
       empleados = empleados.filter(e => e.id != this.empleadoActual.id)
-      empleados.forEach(empleado=> this.usernames.push(empleado.username))
+      empleados.forEach(empleado => this.usernames.push(empleado.username))
       this.usernames.push("Todos")
     })
   }
@@ -93,15 +91,15 @@ export class VerSolicitudesComponent implements OnInit{
       //filtramos las solicitudes
       //record --> solicitudes
       //filter --> filtros aplicados
-      this.dataSourceFilters.filterPredicate = function (record:any, filter: any) {
+      this.dataSourceFilters.filterPredicate = function (record: any, filter: any) {
         var map = new Map(JSON.parse(filter));
         let isMatch = false;
-        for(let [key,value] of map){
+        for (let [key, value] of map) {
           //en caso de que se filtre por empleado cogemos el username
-          if(key=='empleado') {
+          if (key == 'empleado') {
             let record2 = record[key as keyof Solicitud].username;
             isMatch = (value == "Todos") || (record2 == value);
-          }else {
+          } else {
             isMatch = (value == "Todos") || (record[key as keyof Solicitud] == value);
           }
           if (!isMatch) return false;
@@ -111,21 +109,21 @@ export class VerSolicitudesComponent implements OnInit{
     });
   }
 
-  paginarSolicitudes(solicitudes:Solicitud[]){
-    this.dataSource=new MatTableDataSource(solicitudes)
-    this.dataSource.paginator=this.paginator;
+  paginarSolicitudes(solicitudes: Solicitud[]) {
+    this.dataSource = new MatTableDataSource(solicitudes)
+    this.dataSource.paginator = this.paginator;
   }
 
   aceptarSolicitud(solicitud: Solicitud) {
     if (solicitud.type == "solicitudVacaciones") {
-      this.solicitudService.findSolicitudesVacaciones(solicitud.empleado.id).subscribe(data => {
+      this.solicitudService.findSolicitudesVacacionesPendientes(solicitud.empleado.id).subscribe(data => {
         this.dialog.open(DialogSolVacaciones, {
           disableClose: true,
           width: '450px',
           data: {
             solicitudes: data,
             verSolicitudComp: this,
-            accion:"aceptar"
+            accion: "aceptar"
           }
         })
       })
@@ -137,7 +135,7 @@ export class VerSolicitudesComponent implements OnInit{
     }
   }
 
-  rechazarSolicitud(solicitud:Solicitud) {
+  rechazarSolicitud(solicitud: Solicitud) {
     if (solicitud.type == "solicitudVacaciones") {
       console.log(solicitud.id)
       this.solicitudService.findSolicitudesVacacionesPendientes(solicitud.empleado.id).subscribe(data => {
@@ -147,7 +145,7 @@ export class VerSolicitudesComponent implements OnInit{
           data: {
             solicitudes: data,
             verSolicitudComp: this,
-            accion:"rechazar"
+            accion: "rechazar"
           }
         })
       })
@@ -166,7 +164,7 @@ export class VerSolicitudesComponent implements OnInit{
     return "";
   }
 
-  verDetallesEmpleado(empleado:Empleado) {
+  verDetallesEmpleado(empleado: Empleado) {
     this.dialog.open(DetallesEmpleadoComponent, {
       width: '450px',
       data: {
@@ -176,12 +174,12 @@ export class VerSolicitudesComponent implements OnInit{
   }
 
   seleccionarDia() {
-    this.hasTarea=false;
+    this.hasTarea = false;
     if (this.diaSeleccionado) {
       this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
         this.jornadasEmpleado = data;
-        if(this.jornadasEmpleado.length>0)
-          this.hasTarea=true;
+        if (this.jornadasEmpleado.length > 0)
+          this.hasTarea = true;
       });
     }
   }
@@ -196,8 +194,8 @@ export class VerSolicitudesComponent implements OnInit{
   }
 
 
-  aplicarFiltro(ob: MatSelectChange, solfilter:SolFilter) {
-    this.filterDictionary.set(solfilter.name,ob.value);
+  aplicarFiltro(ob: MatSelectChange, solfilter: SolFilter) {
+    this.filterDictionary.set(solfilter.name, ob.value);
 
 
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));

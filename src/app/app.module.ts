@@ -58,7 +58,6 @@ import {DetallesEmpleadoModule} from "./vistas/jornada/detalles-empleado.module"
 import {MatExpansionModule} from '@angular/material/expansion';
 import {PerfilModule} from "./vistas/perfil/perfil.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {FilterSolicitudPipe} from "./vistas/jornada/ver-solicitudes/filterSolicitud.pipe";
 
 @NgModule({
   declarations: [
@@ -79,8 +78,7 @@ import {FilterSolicitudPipe} from "./vistas/jornada/ver-solicitudes/filterSolici
     PerfilComponent,
     GestUsuariosJornadasComponent,
     FilterPipe,
-    DialogSolVacaciones,
-    FilterSolicitudPipe
+    DialogSolVacaciones
   ],
   imports: [
     BrowserModule,
