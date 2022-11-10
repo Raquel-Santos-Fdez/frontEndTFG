@@ -1,8 +1,9 @@
 <div class="solicitarVacaciones">
   <h2>Solicitud de vacaciones</h2>
 
-  <div *ngIf="!existeSolicitud">
-    <table [dataSource]="dataSource" mat-table>
+  <div class="divSeleccionarPeriodo" *ngIf="!existeSolicitud">
+    <h3>Selecciona un periodo de vacaciones</h3>
+    <table [dataSource]="dataSource" id="tablaTodasVacaciones" mat-table>
       <!-- Position Column -->
       <ng-container matColumnDef="invierno">
         <th *matHeaderCellDef mat-header-cell>Periodo de invierno</th>
@@ -36,7 +37,7 @@
     <p>Las solicitudes de vacaciones existentes son:</p>
 
     <div class="tablaExistentes">
-      <table [dataSource]="solicitudesExistentes" mat-table>
+      <table id="tablaSolVExistentes" [dataSource]="solicitudesExistentes" mat-table>
 
         <ng-container matColumnDef="periodo">
           <th *matHeaderCellDef mat-header-cell>Periodo</th>
@@ -53,6 +54,6 @@
         <tr *matRowDef="let row; columns: vacacionesColumns;" mat-row></tr>
       </table>
     </div>
-    <button (click)="volverASolicitarV()" *ngIf="comprobarSolV()" mat-button>Solicitar vacaciones</button>
+    <button (click)="volverASolicitarV()" *ngIf="isRechazada" mat-button>Solicitar vacaciones</button>
   </div>
 </div>

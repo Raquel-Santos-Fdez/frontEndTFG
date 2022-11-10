@@ -7,6 +7,7 @@
         <input [(ngModel)]="empleado.username" formControlName="username" matInput name="username"
                placeholder="Nombre de usuario" required type="text"/>
       </mat-form-field>
+      <mat-error *ngIf="comprobarUsername()">Ya existe un usuario con este username</mat-error>
     </p>
 
     <p>
@@ -29,6 +30,7 @@
         <input [(ngModel)]="empleado.dni" formControlName="dni" matInput name="dni" placeholder="DNI" required
                type="text"/>
       </mat-form-field>
+      <mat-error *ngIf="comprobarDni()">Ya existe un usuario con este dni</mat-error>
     </p>
 
     <p>
@@ -36,6 +38,7 @@
         <input [(ngModel)]="empleado.email" formControlName="email" matInput name="email" placeholder="Email" required
                type="text"/>
       </mat-form-field>
+      <mat-error *ngIf="comprobarEmail()">Ya existe un usuario con este email</mat-error>
     </p>
 
 

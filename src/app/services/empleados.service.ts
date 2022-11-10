@@ -21,7 +21,19 @@ export class EmpleadosService {
     return this.httpClient.get<Empleado>(`${this.backendURL}`+"empleado/"+id);
   }
 
-  addEmployee(empleado: Empleado) {
+  findEmpleadoByUsername(username:string){
+    return this.httpClient.get<Empleado>(`${this.backendURL}`+"empleados/findEmpleadoByUsername/"+username);
+  }
+
+  findEmpleadoByDni(dni:string){
+    return this.httpClient.get<Empleado>(`${this.backendURL}`+"empleados/findEmpleadoByDni/"+dni);
+  }
+
+  findEmpleadoByEmail(email:string){
+    return this.httpClient.get<Empleado>(`${this.backendURL}`+"empleados/findEmpleadoByEmail/"+email);
+  }
+
+  addEmpleado(empleado: Empleado) {
     return this.httpClient.post(`${this.backendURL}` + "empleados/addEmpleado/", empleado)
 
   }
@@ -34,4 +46,5 @@ export class EmpleadosService {
     return this.httpClient.put(`${this.backendURL}` + "empleados/actualizarEmpleado/",empleado)
 
   }
+
 }

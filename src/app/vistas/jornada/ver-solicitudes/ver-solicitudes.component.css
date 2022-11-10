@@ -1,8 +1,7 @@
 #tablaSolicitudes{
   align:center;
-  position: relative;
+  /*position: relative;*/
   width: 100%;
-  margin-left:70px;
 }
 
 .verSolicitudes h2{
@@ -65,4 +64,12 @@ caption{
   font-weight: bold;
   font-size: 17px;
   color: #77104a;
+}
+
+.divSolicitudes{
+  margin-left: 70px;
+}
+
+#formSolFiltro{
+  height: 10px;
 }

@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChildren} from '@angular/core';
 import {JornadaService} from "../../../services/jornada.service";
 import {Tarea} from "../../../model/tarea/tarea";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -6,11 +6,13 @@ import {Estacion} from "../../../model/estacion/estacion";
 import {Incidencia} from "../../../model/incidencia/incidencia";
 import {Empleado} from "../../../model/empleado/empleado";
 import {TrenService} from "../../../services/tren.service";
-import {Solicitud} from "../../../model/solicitud/solicitud";
+import {MotivoAusencia, Solicitud} from "../../../model/solicitud/solicitud";
 import {SolicitudSimple} from "../../../model/solicitud/solicitudSimple";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DatePipe} from "@angular/common";
 import {SolicitudService} from "../../../services/solicitud.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatExpansionPanel} from "@angular/material/expansion";
 
 export interface DialogData {
   tarea: Tarea | undefined
@@ -28,7 +30,7 @@ export class ConsultarJornadaComponent implements OnInit {
 
   selected: Date | null;
 
-  tareasColumns:string[]=["descripcion", "detalles"]
+  tareasColumns: string[] = ["descripcion", "detalles"]
 
   tareas: Tarea[] = [];
   tareaDetalle: Tarea = new Tarea();
@@ -43,18 +45,32 @@ export class ConsultarJornadaComponent implements OnInit {
   isLoggedIn: boolean = false;
 
   solicitud: Solicitud = new SolicitudSimple();
-  motivoSeleccionado: string;
+  // motivoSeleccionado: MotivoEnum;
   isSolicitado: boolean = false;
   horaInicio: any;
   horaFin: any;
 
   isDiaLibre: boolean = false;
 
+  motivos: any[] = [];
+
+  formularioDiaLibre = new FormGroup({
+    horaInicio: new FormControl('', [Validators.required]),
+    horaFin: new FormControl('', [Validators.required]),
+    selectMotivo: new FormControl('', [Validators.required]),
+  });
+
   constructor(private jornadaService: JornadaService,
               private trenService: TrenService,
               public dialog: MatDialog,
               private _snackBar: MatSnackBar,
               private solicitudService: SolicitudService) {
+    for (let item in MotivoAusencia) {
+      if (isNaN(Number(item))) {
+        if (MotivoAusencia[item] != MotivoAusencia.VACACIONES.toString())
+          this.motivos.push({text: item, value: MotivoAusencia[item]})
+      }
+    }
 
   }
 
@@ -128,34 +144,37 @@ export class ConsultarJornadaComponent implements OnInit {
   }
 
   solicitarDiaLibre() {
-    let formulario: any = document.getElementById("formulario");
-    let formularioValido: boolean = formulario.reportValidity();
-    if (formularioValido) {
-      let pipe = new DatePipe('en-US')
-      let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
-      if (fecha_seleccionada)
-        this.solicitud.fecha = fecha_seleccionada
-      this.solicitud.motivo = this.motivoSeleccionado;
-      this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-      if (this.selected)
-        this.solicitudService.findSolicitudByDateEmpleado(this.solicitud.fecha, this.solicitud.empleado.id)
-          .subscribe(data => {
-            if (data == false) {
-              this.jornadaService.enviarSolicitud(this.solicitud).subscribe(() => {
-                  this.motivoSeleccionado = "";
-                  this.isSolicitado = false;
-                  this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-                }
-              );
-            }else{
-              this._snackBar.open("Ya existe una solicitud realizada para esta fecha", undefined, {duration: 2000})
+    let empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+    if (empleado.nDiasLibres > 0) {
+      if (this.formularioDiaLibre.valid) {
+        let pipe = new DatePipe('en-US')
+        let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
+        if (fecha_seleccionada)
+          this.solicitud.fecha = fecha_seleccionada
+        // this.solicitud.motivo = this.motivoSeleccionado;
+        this.solicitud.empleado = empleado
+        if (this.selected) {
 
-            }
-          })
+          this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id)
+            .subscribe(data => {
+              if (data == false) {
+                this.jornadaService.enviarSolicitud(this.solicitud).subscribe(() => {
+                    // this.motivoSeleccionado = "";
+                    this.isSolicitado = false;
+                    this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+                  }
+                );
+              } else {
+                this._snackBar.open("Ya existe una solicitud realizada para esta fecha", undefined, {duration: 2000})
 
-      else
-        this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
+              }
+            })
+        } else
+          this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
 
+      }
+    } else {
+      this._snackBar.open("Ha alcanzado el máximo de días libres posibles", undefined, {duration: 2000})
     }
 
   }

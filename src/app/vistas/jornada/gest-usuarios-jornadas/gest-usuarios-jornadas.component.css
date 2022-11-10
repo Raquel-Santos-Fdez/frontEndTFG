@@ -41,13 +41,14 @@ h2{
 
 .buscarAddContainer{
   display: flex;
-  margin-bottom: 20px;
 }
 
-#filtroUsuarios, #addUsuario{
+#filtroUsuarios{
   height: 20px;
 }
-
+#addUsuario{
+  height: 40px;
+}
 #filtroUsuarios{
   width: 30%;
 }

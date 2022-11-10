@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {Solicitud} from "../../../model/solicitud/solicitud";
+import {MotivoAusencia, Solicitud} from "../../../model/solicitud/solicitud";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 import {DatePipe} from "@angular/common";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Empleado} from "../../../model/empleado/empleado";
+import {Empleado, Rol} from "../../../model/empleado/empleado";
 import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 import {JornadaService} from "../../../services/jornada.service";
 import {Jornada} from "../../../model/jornada/jornada";
@@ -12,6 +12,9 @@ import {Tarea} from "../../../model/tarea/tarea";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {tap} from "rxjs";
+import {SolFilter} from "./SolFilter";
+import {MatSelectChange} from "@angular/material/select";
+import {EmpleadosService} from "../../../services/empleados.service";
 
 @Component({
   selector: 'app-ver-solicitudes',
@@ -28,25 +31,83 @@ export class VerSolicitudesComponent implements OnInit{
   tareas: { jornada: Jornada, tarea: Tarea }[] = [];
   hasTarea:boolean=false;
   columnasJornadas:string[]=["fecha", "empleado"];
+  empleadoActual:Empleado;
+
+  solFilters:SolFilter[]=[]
+  filterDictionary= new Map<string,string>();
+  dataSourceFilters = new MatTableDataSource(this.solicitudes);
+  // dataSourceFilters:any;
+  defaultValue="Todos"
+  motivos:string[]=[];
+  usernames:string[]=[];
+
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource:MatTableDataSource<Solicitud>;
 
   constructor(private solicitudService: SolicitudService, public dialog: MatDialog,
-              private jornadaService: JornadaService) {
+              private jornadaService: JornadaService,
+              private empleadosService: EmpleadosService) {
+
+    this.empleadoActual = JSON.parse(localStorage.getItem("usuario") || '{}');
 
   }
 
   ngOnInit(): void {
     this.cargarSolicitudes();
 
+    this.cargarMotivos();
+    this.cargarUsernames();
+
+    this.solFilters.push({name:'motivo', options:this.motivos, defaultValue: this.defaultValue})
+    this.solFilters.push({name:'empleado', options:this.usernames, defaultValue:this.defaultValue})
+
   }
+
+  cargarMotivos(){
+    for (let item in MotivoAusencia) {
+      if (isNaN(Number(item)))
+        this.motivos.push(item)
+    }
+    this.motivos.push("Todos")
+  }
+
+  cargarUsernames(){
+    let empleados: Empleado[]=[]
+    this.empleadosService.findAllEmpleados().subscribe(data => {
+      empleados = data
+      empleados = empleados.filter(e => e.id != this.empleadoActual.id)
+      empleados.forEach(empleado=> this.usernames.push(empleado.username))
+      this.usernames.push("Todos")
+    })
+  }
+
 
   cargarSolicitudes() {
     this.solicitudService.getAllSolicitudesPendientes().subscribe(data => {
       this.solicitudes = data;
       this.paginarSolicitudes(this.solicitudes)
+      this.dataSourceFilters = new MatTableDataSource(this.solicitudes);
+
+      //filtramos las solicitudes
+      //record --> solicitudes
+      //filter --> filtros aplicados
+      this.dataSourceFilters.filterPredicate = function (record:any, filter: any) {
+        var map = new Map(JSON.parse(filter));
+        let isMatch = false;
+        for(let [key,value] of map){
+          //en caso de que se filtre por empleado cogemos el username
+          if(key=='empleado') {
+            let record2 = record[key as keyof Solicitud].username;
+            isMatch = (value == "Todos") || (record2 == value);
+          }else {
+            isMatch = (value == "Todos") || (record[key as keyof Solicitud] == value);
+          }
+          if (!isMatch) return false;
+        }
+        return isMatch;
+      }
     });
   }
 
@@ -135,6 +196,14 @@ export class VerSolicitudesComponent implements OnInit{
   }
 
 
+  aplicarFiltro(ob: MatSelectChange, solfilter:SolFilter) {
+    this.filterDictionary.set(solfilter.name,ob.value);
+
+
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+
+    this.dataSourceFilters.filter = jsonString;
+  }
 }
 
 

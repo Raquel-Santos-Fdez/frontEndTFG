@@ -4,7 +4,7 @@ import {DatePipe} from "@angular/common";
 import {SolicitudVacaciones} from "../../../model/solicitud/solicitudVacaciones";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {Empleado} from "../../../model/empleado/empleado";
-import {EstadoEnum} from "../../../model/solicitud/solicitud";
+import {EstadoEnum, MotivoAusencia} from "../../../model/solicitud/solicitud";
 
 
 export interface PeriodoVacaciones {
@@ -35,12 +35,15 @@ export class SolicitarVacacionesComponent implements OnInit {
   solicitud: SolicitudVacaciones = new SolicitudVacaciones();
   selected: string;
   displayedColumns: string[] = ['invierno', 'verano'];
-  vacacionesColumns: string[]=['periodo', 'estado']
+  vacacionesColumns: string[] = ['periodo', 'estado']
   dataSource = ELEMENT_DATA;
   periodoSeleccionado: PeriodoVacaciones;
   empleado: Empleado;
   existeSolicitud: boolean = false;
-  solicitudesExistentes: SolicitudVacaciones[]=[];
+  solicitudesExistentes: SolicitudVacaciones[] = [];
+
+  isRechazada: boolean = false;
+  ee: any = EstadoEnum;
 
   constructor(private _snackBar: MatSnackBar, private solicitudService: SolicitudService) {
   }
@@ -49,6 +52,9 @@ export class SolicitarVacacionesComponent implements OnInit {
     this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
 
     this.comprobarSolicitudExistente();
+
+
+
   }
 
   comprobarSolicitudExistente() {
@@ -58,6 +64,9 @@ export class SolicitarVacacionesComponent implements OnInit {
           this.existeSolicitud = true;
         else this.existeSolicitud = false;
         this.solicitudesExistentes = data;
+
+        if(this.solicitudesExistentes[0])
+          this.isRechazada=this.solicitudesExistentes[0].estado.toString() == this.ee[EstadoEnum.RECHAZADA]
       }
     )
 
@@ -73,7 +82,7 @@ export class SolicitarVacacionesComponent implements OnInit {
 
   enviarSolicitud() {
 
-    this.solicitud.motivo = "Vacaciones";
+    this.solicitud.motivo = MotivoAusencia.VACACIONES;
     this.solicitud.empleado = this.empleado;
 
     this.solicitarPeriodo(this.periodoSeleccionado.invierno);
@@ -93,11 +102,8 @@ export class SolicitarVacacionesComponent implements OnInit {
       vacacionesDate.push(new Date(+year, +mes - 1, +dia))
     }
 
-    // this.solicitud.fechaFinVacaciones = vacacionesString[1];
-
     let fecha_seleccionada = pipe.transform(vacacionesDate[0], 'yyyy-MM-dd')
     let fecha_fin = pipe.transform(vacacionesDate[1], 'yyyy-MM-dd')
-
 
 
     if (fecha_seleccionada && fecha_fin) {
@@ -105,18 +111,14 @@ export class SolicitarVacacionesComponent implements OnInit {
       this.solicitud.fecha = fecha_seleccionada
       this.solicitudService.solicitarVacaciones(this.solicitud).subscribe(() => {
         this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-        this.existeSolicitud=true;
+        this.existeSolicitud = true;
         this.comprobarSolicitudExistente()
       });
     }
   }
 
   volverASolicitarV() {
-    this.existeSolicitud=false;
+    this.existeSolicitud = false;
   }
 
-  comprobarSolV() {
-    let ee=EstadoEnum;
-    return this.solicitudesExistentes[0].estado.toString()==ee[EstadoEnum.RECHAZADA];
-  }
 }

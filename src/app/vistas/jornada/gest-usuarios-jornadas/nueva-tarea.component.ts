@@ -34,17 +34,18 @@ export class NuevaTareaDialog {
   destino: Estacion;
   tren: Tren;
   tareaStop: Tarea_stop;
-  trenes: Tren[] = []
+  trenes: Tren[] = [];
 
   formulario = new FormGroup({
-    anden: new FormControl('', [Validators.required, Validators.maxLength(2)]),
-    descripcion: new FormControl('', [Validators.required]),
-    horaInicio: new FormControl('', [Validators.required]),
-    horaFin: new FormControl('', [Validators.required]),
-    origen:  new FormControl('', [Validators.required]),
-    destino: new FormControl('', [Validators.required]),
-    tren: new FormControl('', [Validators.required]),
-  });
+      anden: new FormControl('', [Validators.required, Validators.maxLength(2)]),
+      descripcion: new FormControl('', [Validators.required]),
+      horaInicio: new FormControl('', [Validators.required]),
+      horaFin: new FormControl('', [Validators.required]),
+      origen: new FormControl('', [Validators.required]),
+      destino: new FormControl('', [Validators.required]),
+      tren: new FormControl('', [Validators.required]),
+    },
+    this.validarHorario);
 
   constructor(
     public dialogRef: MatDialogRef<NuevaTareaDialog>,
@@ -62,7 +63,7 @@ export class NuevaTareaDialog {
   }
 
   addNuevaTarea() {
-    if (this.formulario.valid) {
+    if (this.formulario.valid && this.comprobarHorarios()) {
       this.tarea.tren = this.tren;
 
       if (!this.data.jornada) {
@@ -81,5 +82,15 @@ export class NuevaTareaDialog {
       setTimeout(() => this.data.gestorUsuariosJornadas.seleccionarDia(), 200);
 
     }
+  }
+
+  validarHorario(group: any) {
+    if (group.controls.horaInicio.value > group.controls.horaFin.value) {
+      return {horarioInvalido: true};
+    }    return {return: null}
+  }
+
+  comprobarHorarios(): boolean {
+    return this.formulario.hasError("horarioInvalido");
   }
 }

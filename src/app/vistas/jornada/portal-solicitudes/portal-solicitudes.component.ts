@@ -5,7 +5,7 @@ import {SolicitudIntercambio} from "../../../model/solicitud/solicituIntercambio
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {DatePipe} from "@angular/common";
 import {Empleado} from "../../../model/empleado/empleado";
-import {Solicitud} from "../../../model/solicitud/solicitud";
+import {MotivoAusencia, Solicitud} from "../../../model/solicitud/solicitud";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Jornada} from "../../../model/jornada/jornada";
 import {SolicitudService} from "../../../services/solicitud.service";
@@ -32,7 +32,10 @@ export class PortalSolicitudesComponent implements OnInit {
   isReady: boolean = false;
 
 
-  constructor(public dialog: MatDialog, private jornadaService: JornadaService, private solicitudService:SolicitudService) {
+  constructor(public dialog: MatDialog,
+              private jornadaService: JornadaService,
+              private solicitudService:SolicitudService,
+              private _snackBar: MatSnackBar) {
     this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
 
   }
@@ -43,11 +46,15 @@ export class PortalSolicitudesComponent implements OnInit {
     this.cargarSolicitudesVacaciones()
   }
 
-  openDialog(): void {
-    this.dialog.open(DialogNuevaSolicitud, {
-      width: '500px',
-      data: {portalSolicitudes: this}
-    });
+  nuevaSolicitud(): void {
+    if(this.empleado.nDiasLibres>0) {
+      this.dialog.open(DialogNuevaSolicitud, {
+        width: '500px',
+        data: {portalSolicitudes: this}
+      });
+    }else{
+      this._snackBar.open("Ha alcanzado el máximo de días libres posibles", undefined, {duration: 2000})
+    }
   }
 
   private cargarSolicitudes() {
@@ -92,15 +99,23 @@ export class PortalSolicitudesComponent implements OnInit {
 })
 export class DialogNuevaSolicitud {
 
+  motivos:any[]=[];
+
   constructor(
     public dialogRef: MatDialogRef<DialogNuevaSolicitud>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private jornadaService: JornadaService,
     private _snackBar: MatSnackBar,
   ) {
+    for (let item in MotivoAusencia) {
+      if (isNaN(Number(item))) {
+        if (MotivoAusencia[item] != MotivoAusencia.VACACIONES.toString())
+          this.motivos.push({text: item, value: MotivoAusencia[item]})
+      }
+    }
   }
 
-  selected: string;
+  selected: MotivoAusencia;
   solicitud: SolicitudIntercambio = new SolicitudIntercambio();
 
   onNoClick(): void {
@@ -112,7 +127,7 @@ export class DialogNuevaSolicitud {
     let formulario: any = document.getElementById("formulario");
     let formularioValido: boolean = formulario.reportValidity();
     if (formularioValido) {
-      this.solicitud.motivo = this.selected;
+      // this.solicitud.motivo = this.selected;
       this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
       let jornada: Jornada;
       if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {

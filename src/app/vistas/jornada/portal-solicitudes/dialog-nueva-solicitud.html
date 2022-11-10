@@ -20,9 +20,11 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Motivo de la ausencia</mat-label>
-        <mat-select id="selectMotivo" [(value)]="selected">
-          <mat-option id="motivo" value="Visita médica">Visita médica</mat-option>
-          <mat-option id="motivo" value="Otro motivo">Otro motivo</mat-option>
+        <mat-select [(ngModel)]="solicitud.motivo" name="motivoSelect" id="selectMotivo"
+                    required>
+          <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" class="motivo" id="roles">
+            {{motivo.text}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
 

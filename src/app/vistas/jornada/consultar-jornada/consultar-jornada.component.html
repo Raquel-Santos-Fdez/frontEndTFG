@@ -13,37 +13,38 @@
     <div class="container2">
       <div *ngIf="isDiaLibre==false" id="contenedor">
         <div>
-          <mat-accordion>
-            <mat-expansion-panel [expanded]="isSolicitado" hideToggle id="diaLibrePanel">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Solicitar día libre
-                </mat-panel-title>
-              </mat-expansion-panel-header>
+          <mat-expansion-panel id="diaLibrePanel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Solicitar día libre
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-              <form (ngSubmit)="solicitarDiaLibre()" id="formulario">
-                <div class="row">
-                  <mat-form-field>
-                    <mat-label>Hora inicio</mat-label>
-                    <input [(ngModel)]="horaInicio" matInput name="horaInicio" required type="time">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Hora fin</mat-label>
-                    <input [(ngModel)]="horaFin" matInput name="horaFin" required type="time">
-                  </mat-form-field>
-                  <br>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Motivo de la ausencia</mat-label>
-                    <mat-select [(value)]="motivoSeleccionado" id="selectMotivo">
-                      <mat-option class="motivo" value="Visita médica">Visita médica</mat-option>
-                      <mat-option class="motivo" value="Otro motivo">Otro motivo</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <button *ngIf="motivoSeleccionado" id="btnSelMotivo" mat-button type="submit">Solicitar</button>
-                </div>
-              </form>
-            </mat-expansion-panel>
-          </mat-accordion>
+            <form [formGroup]="formularioDiaLibre">
+              <div class="row">
+                <mat-form-field>
+                  <mat-label>Hora inicio</mat-label>
+                  <input [(ngModel)]="horaInicio" formControlName="horaInicio" matInput name="horaInicio" required
+                         type="time">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Hora fin</mat-label>
+                  <input [(ngModel)]="horaFin" formControlName="horaFin" matInput name="horaFin" required type="time">
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Motivo de la ausencia</mat-label>
+                  <mat-select [(ngModel)]="solicitud.motivo" formControlName="selectMotivo" name="selectMotivo"
+                              required>
+                    <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" id="roles">
+                      {{motivo.text}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button  (click)="solicitarDiaLibre()" id="btnSelMotivo" mat-button type="submit">Solicitar</button>
+              </div>
+            </form>
+          </mat-expansion-panel>
         </div>
 
         <div>

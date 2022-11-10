@@ -1,11 +1,10 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {Empleado, Rol} from "../../../model/empleado/empleado";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Empleado} from "../../../model/empleado/empleado";
 import {EmpleadosService} from "../../../services/empleados.service";
 import {JornadaService} from "../../../services/jornada.service";
 import {Tarea} from "../../../model/tarea/tarea";
 import {Jornada} from "../../../model/jornada/jornada";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DetallesEmpleadoComponent} from "../detalles-empleado.component";
 import {DialogDetallesJornada} from "../consultar-jornada/consultar-jornada.component";
@@ -16,6 +15,7 @@ import {Estacion} from "../../../model/estacion/estacion";
 import {Incidencia} from "../../../model/incidencia/incidencia";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {NuevoUsuarioDialog} from "./nuevo-usuario.component";
 
 
 @Component({
@@ -35,13 +35,13 @@ export class GestUsuariosJornadasComponent implements OnInit {
   tareas: { jornada: Jornada, tarea: Tarea }[] = [];
   displayedColumns: string[] = ['descripcion', 'fecha', 'horario', 'empleado', 'accion'];
 
-  empleadosColumn:string[] =["username", "name", "rol", "accion"]
+  empleadosColumn: string[] = ["username", "name", "rol", "accion"]
 
   empleadoActual: Empleado;
   isDiaLibre: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource:MatTableDataSource<{jornada:Jornada, tarea:Tarea}>;
+  dataSource: MatTableDataSource<{ jornada: Jornada, tarea: Tarea }>;
 
 
   constructor(
@@ -59,7 +59,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
     this.mostrarUsuarios();
 
     // @ts-ignore
-    document.getElementById('paginador').style.display='none';
+    document.getElementById('paginador').style.display = 'none';
   }
 
   public mostrarUsuarios() {
@@ -122,13 +122,13 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
   }
 
-  paginarTareas(tareas:any){
-    if(tareas.length>0){
+  paginarTareas(tareas: any) {
+    if (tareas.length > 0) {
       // @ts-ignore
-      document.getElementById('paginador').style.display='block';
+      document.getElementById('paginador').style.display = 'block';
     }
-    this.dataSource=new MatTableDataSource(tareas)
-    this.dataSource.paginator=this.paginator;
+    this.dataSource = new MatTableDataSource(tareas)
+    this.dataSource.paginator = this.paginator;
   }
 
   deleteEmpleadoFiltro() {
@@ -136,9 +136,9 @@ export class GestUsuariosJornadasComponent implements OnInit {
     this.empleadoSeleccionado = undefined;
     if (this.diaSeleccionado)
       this.seleccionarDia()
-    else{
+    else {
       // @ts-ignore
-      document.getElementById('paginador').style.display='none';
+      document.getElementById('paginador').style.display = 'none';
     }
   }
 
@@ -149,7 +149,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
     else {
       this.hasTarea = false;
       // @ts-ignore
-      document.getElementById('paginador').style.display='none';
+      document.getElementById('paginador').style.display = 'none';
     }
   }
 
@@ -190,8 +190,8 @@ export class GestUsuariosJornadasComponent implements OnInit {
     })
   }
 
-  verDetallesTarea(tarea:Tarea) {
-    let incidencias:Incidencia[]=[]
+  verDetallesTarea(tarea: Tarea) {
+    let incidencias: Incidencia[] = []
     let inicio: Estacion;
     let final: Estacion;
     this.jornadaService.findTareaById(tarea.id).subscribe(data => {
@@ -203,7 +203,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
         else
           final = tarea.stops[j].estacion
       }
-      this.trenService.getIncidenciasPending(tarea.tren.id).subscribe(data=>incidencias=data);
+      this.trenService.getIncidenciasPending(tarea.tren.id).subscribe(data => incidencias = data);
       this.dialog.open(DialogDetallesJornada, {
         width: '450px',
         data: {
@@ -239,55 +239,5 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
 export interface NuevoUsuarioData {
   gestorUsuariosJornadas: GestUsuariosJornadasComponent
-}
-
-
-@Component({
-  selector: 'nuevo-usuario',
-  templateUrl: './nuevo-usuario.html',
-  styleUrls: ['./gest-usuarios-jornadas.component.css']
-})
-export class NuevoUsuarioDialog {
-
-  roles: any[] = [];
-  empleado: Empleado = new Empleado();
-  rol: String;
-
-  formulario = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    nombre: new FormControl('', [Validators.required]),
-    apellidos: new FormControl('', [Validators.required]),
-    dni: new FormControl('', [Validators.required, Validators.maxLength(9)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    rolEmpleado:new FormControl('', [Validators.required]),
-  });
-
-
-  constructor(
-    public dialogRef: MatDialogRef<NuevoUsuarioDialog>,
-    private employeeService: EmpleadosService,
-    private _snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: NuevoUsuarioData,
-  ) {
-    for (let item in Rol) {
-      if (isNaN(Number(item)))
-        this.roles.push({text: item, value: Rol[item]})
-    }
-  }
-
-  addUsuarioNuevo() {
-    if (this.formulario.valid) {
-      //Generamos una contraseña aleatoria
-      this.empleado.password = Math.random().toString(36).toUpperCase().slice(2)
-      this.employeeService.addEmployee(this.empleado).subscribe(() =>
-        this._snackBar.open("Usuario añadido correctamente", undefined, {duration: 2000})
-      )
-      ;
-      this.dialogRef.close()
-
-      setTimeout(() => this.data.gestorUsuariosJornadas.mostrarUsuarios(), 500);
-    }
-    //comprobar que todos los campos están rellenos
-  }
 }
 

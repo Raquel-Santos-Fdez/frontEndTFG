@@ -8,8 +8,22 @@
     </mat-card>
 
     <div>
-      <div *ngIf="solicitudes.length>0">
-        <table [dataSource]="dataSource" id="tablaSolicitudes" mat-table>
+      <div *ngIf="solicitudes.length>0" class="divSolicitudes">
+        <div class="divFiltroSol">
+          <mat-form-field  id="matformSolFiltro" *ngFor="let solfilter of solFilters" appearance="fill">
+            <mat-label>{{ solfilter.name }}</mat-label>
+            <mat-select (selectionChange)="aplicarFiltro($event, solfilter)"
+                        [(value)]="solfilter.defaultValue"
+                        id="formSolFiltro"
+            >
+              <mat-option *ngFor="let op of solfilter.options" [value]="op">
+                {{ op }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <table [dataSource]="dataSourceFilters" id="tablaSolicitudes" mat-table>
 
           <ng-container matColumnDef="fecha">
             <th *matHeaderCellDef mat-header-cell> Fecha</th>

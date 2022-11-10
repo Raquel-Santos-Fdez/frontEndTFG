@@ -4,7 +4,7 @@ export abstract class Solicitud {
 
   id: bigint;
   fecha:string;
-  motivo:string;
+  motivo:MotivoAusencia;
   type:string;
 
   estado:EstadoEnum=EstadoEnum.PENDIENTE;
@@ -20,4 +20,8 @@ export abstract class Solicitud {
 
 export enum EstadoEnum{
   PENDIENTE, ACEPTADA, RECHAZADA, REASIGNADA
+}
+
+export enum MotivoAusencia{
+  LICENCIA, OTRO_MOTIVO, FORMACION, VISITA_MEDICA, VACACIONES
 }
