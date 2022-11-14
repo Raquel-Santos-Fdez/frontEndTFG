@@ -33,4 +33,7 @@ h2{
   overflow:auto;
 }
 
+table, table th{
+  text-align: center;
+}
 

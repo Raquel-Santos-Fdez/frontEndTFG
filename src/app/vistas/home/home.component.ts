@@ -16,14 +16,19 @@ export class HomeComponent implements OnInit {
     thumbImage: 'assets/img/imagen1.jpg',
     alt:'imagen1'
   },{
-    image:'assets/img/imagen2.jpg',
-    thumbImage: 'assets/img/imagen2.jpg',
+    image:'assets/img/imagen2.png',
+    thumbImage: 'assets/img/imagen2.png',
     alt:'imagen2'
   },{
-    mage:'assets/img/imagen3.jpg',
+    image:'assets/img/imagen3.jpg',
     thumbImage: 'assets/img/imagen3.jpg',
     alt:'imagen3'
-  }];
+  },
+    {
+      image:'assets/img/imagen4.jpg',
+      thumbImage: 'assets/img/imagen4.jpg',
+      alt:'imagen4'
+    }];
 
   constructor() { }
 

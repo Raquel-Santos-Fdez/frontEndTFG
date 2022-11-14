@@ -4,7 +4,7 @@
     <mat-icon aria-hidden="false" aria-label="Example home icon" href="/">home</mat-icon>
   </a>
 
-  <a id="aHorarios" href="/horarios">Consultar horarios</a>
+  <a id="aHorarios" href="/horarios">Mapa y horarios</a>
 
   <div *ngIf="isLogin && this.empleado.role.toString() != 'ADMIN'">
     <div *ngIf="isLogin">
@@ -25,12 +25,12 @@
 
   <div class="spacer"></div>
 
-  <div *ngIf="!isLogin">
+  <div class="log" *ngIf="!isLogin">
     <a class="identificarse" routerLink="/login">
       <mat-icon >login</mat-icon>
       Identificarse</a>
   </div>
-  <div *ngIf="isLogin">
+  <div class="log" *ngIf="isLogin">
     <a class="verPerfil" matTooltip="Ver perfil" routerLink="/ver-perfil">
       <mat-icon>account_circle</mat-icon>
     </a>

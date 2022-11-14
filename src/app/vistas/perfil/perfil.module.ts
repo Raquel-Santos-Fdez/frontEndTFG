@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {PasswordDialog} from "./perfil.component";
 import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
@@ -19,8 +19,9 @@ import {MatButtonModule} from "@angular/material/button";
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
-
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
   ],
   providers: [
 

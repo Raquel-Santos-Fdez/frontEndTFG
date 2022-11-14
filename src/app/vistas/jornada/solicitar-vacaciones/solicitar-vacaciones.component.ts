@@ -81,12 +81,17 @@ export class SolicitarVacacionesComponent implements OnInit {
   }
 
   enviarSolicitud() {
+    if(this.periodoSeleccionado) {
 
-    this.solicitud.motivo = MotivoAusencia.VACACIONES;
-    this.solicitud.empleado = this.empleado;
+      this.solicitud.motivo = MotivoAusencia.VACACIONES;
+      this.solicitud.empleado = this.empleado;
 
-    this.solicitarPeriodo(this.periodoSeleccionado.invierno);
-    this.solicitarPeriodo(this.periodoSeleccionado.verano);
+      this.solicitarPeriodo(this.periodoSeleccionado.invierno);
+      this.solicitarPeriodo(this.periodoSeleccionado.verano);
+    }
+    else
+      this._snackBar.open("Debe seleccionar un periodo", undefined, {duration: 2000})
+
 
   }
 

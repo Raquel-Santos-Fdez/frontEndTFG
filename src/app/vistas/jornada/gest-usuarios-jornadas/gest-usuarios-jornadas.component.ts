@@ -223,6 +223,9 @@ export class GestUsuariosJornadasComponent implements OnInit {
     this.empleadosService.eliminarEmpleado(empleado).subscribe(() => {
       this.empleados = this.empleados.filter((e) => e.id != empleado.id)
       this.empleadoSeleccionado = undefined
+      this.deleteEmpleadoFiltro();
+      this.guardarTareas();
+      this._snackBar.open("El empleado se ha eliminado correctamente", undefined, {duration: 2000});
     });
 
   }

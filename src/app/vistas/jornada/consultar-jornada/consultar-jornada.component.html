@@ -6,11 +6,7 @@
       <mat-card class="calendar-card">
         <mat-calendar (click)="verJornada()" [(selected)]="selected"></mat-calendar>
       </mat-card>
-    </div>
 
-    <br/>
-
-    <div class="container2">
       <div *ngIf="isDiaLibre==false" id="contenedor">
         <div>
           <mat-expansion-panel id="diaLibrePanel">
@@ -41,43 +37,51 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-                <button  (click)="solicitarDiaLibre()" id="btnSelMotivo" mat-button type="submit">Solicitar</button>
+                <button (click)="solicitarDiaLibre()" id="btnSelMotivo" mat-button type="submit">Solicitar</button>
               </div>
             </form>
           </mat-expansion-panel>
         </div>
 
-        <div>
-          <p *ngIf="!isSelected" id="noAsignada">Aún no se ha asignado una jornada para el día seleccionado</p>
-        </div>
+
       </div>
-
-
-      <div class="tablaTareaContainer">
-        <table *ngIf="isSelected" [dataSource]="tareas" mat-table>
-          <ng-container matColumnDef="descripcion">
-            <th *matHeaderCellDef mat-header-cell>Descripcion</th>
-            <td *matCellDef="let element" mat-cell>{{element.descripcion}}</td>
-          </ng-container>
-
-          <br>
-
-          <ng-container matColumnDef="detalles">
-            <th *matHeaderCellDef mat-header-cell></th>
-            <td *matCellDef="let element" mat-cell>
-              <button (click)="verDetalles(element.id)" id="verDetallesBtn" mat-button>Detalles</button>
-            </td>
-          </ng-container>
-
-          <tr *matHeaderRowDef="tareasColumns" mat-header-row></tr>
-          <tr *matRowDef="let row; columns: tareasColumns;" mat-row></tr>
-        </table>
-      </div>
-
-
-      <h3 *ngIf="isDiaLibre">DÍA LIBRE</h3>
 
     </div>
+
+    <br/>
+
+
+    <div class="tablaTareaContainer">
+      <table *ngIf="isSelected" [dataSource]="tareas" mat-table>
+        <ng-container matColumnDef="descripcion">
+          <th *matHeaderCellDef mat-header-cell>Descripcion</th>
+          <td *matCellDef="let element" mat-cell>{{element.descripcion}}</td>
+        </ng-container>
+
+        <br>
+
+        <ng-container matColumnDef="detalles">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let element" mat-cell>
+            <button (click)="verDetalles(element.id)" id="verDetallesBtn" mat-button>Detalles</button>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="tareasColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: tareasColumns;" mat-row></tr>
+      </table>
+
+      <div>
+        <h3 *ngIf="!isSelected && !isDiaLibre" id="noAsignada">Aún no se ha asignado una jornada para el día seleccionado</h3>
+      </div>
+
+      <h3 *ngIf="isDiaLibre">DÍA LIBRE</h3>
+    </div>
+
+
+
+
+
   </div>
 </div>
 

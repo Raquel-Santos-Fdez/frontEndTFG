@@ -23,7 +23,7 @@
           </mat-form-field>
         </div>
 
-        <table [dataSource]="dataSourceFilters" id="tablaSolicitudes" mat-table>
+        <table [dataSource]="dataSource" id="tablaSolicitudes" mat-table>
 
           <ng-container matColumnDef="fecha">
             <th *matHeaderCellDef mat-header-cell> Fecha</th>
@@ -63,7 +63,7 @@
         </ng-container>
       </div>
       <mat-paginator [length]="solicitudes.length"
-                     [pageSize]="8"
+                     [pageSize]="5"
                      aria-label="Select page"
                      showFirstLastButtons>
       </mat-paginator>

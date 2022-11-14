@@ -3,6 +3,7 @@ import {Empleado} from "../../model/empleado/empleado";
 import {EmpleadosService} from "../../services/empleados.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-perfil',
@@ -53,6 +54,14 @@ export interface PasswordDialogData {
   templateUrl: 'password-dialog.html',
 })
 export class PasswordDialog {
+
+  formularioPassword = new FormGroup({
+      nuevaPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      repetirPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    },
+    this.comprobarCoincidencia
+  );
+
   constructor(
     public dialogRef: MatDialogRef<PasswordDialog>,
     @Inject(MAT_DIALOG_DATA) public data: PasswordDialogData,
@@ -65,20 +74,24 @@ export class PasswordDialog {
     this.dialogRef.close();
   }
 
-  comprobarCoincidencia() {
-    if (this.data.nuevaPassword == this.data.repetirPassword) {
-      this.data.empleado.password = this.data.nuevaPassword;
+  comprobarCoincidencia(group: any) {
+    if (group.controls.nuevaPassword.value != group.controls.repetirPassword.value) {
+      return {passwordError: true};
+    }
+    return null;
+  }
+
+
+  actualizar() {
+    if (this.formularioPassword.valid)
       this.empleadoService.actualizarEmpleado(this.data.empleado).subscribe(() => {
           this.dialogRef.close()
           this._snackBar.open("Contraseña modificada correctamente", undefined, {duration: 2000})
         }
       )
-    }else {
-      this._snackBar.open("Las contraseñas no coinciden", undefined, {duration: 2000})
-    }
-
-
   }
 
-
+  comprobarErrores() {
+    return this.formularioPassword.hasError("passwordError");
+  }
 }

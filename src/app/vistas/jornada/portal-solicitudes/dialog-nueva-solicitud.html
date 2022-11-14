@@ -28,6 +28,10 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-error *ngIf="existeSolVar">
+        Ya existe una solicitud para esta fecha
+      </mat-error>
+
       <button  (click)="onNoClick()" mat-button>Cancelar</button>
       <button id="solIntercambioBtn" mat-button type="submit">Enviar</button>
 

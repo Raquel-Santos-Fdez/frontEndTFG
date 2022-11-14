@@ -27,6 +27,7 @@
 
 a:hover {
   color: #125699;
+  cursor: pointer;
 }
 
 .containerVerSolicitudes{
@@ -49,7 +50,11 @@ a:hover {
 }
 
 #tablaJornada{
-  width: 120%;
+  width: 400px;
+  text-align: center;
+}
+
+#tablaJornada th{
   text-align: center;
 }
 
@@ -67,3 +72,4 @@ caption{
 #formSolFiltro{
   height: 10px;
 }
+

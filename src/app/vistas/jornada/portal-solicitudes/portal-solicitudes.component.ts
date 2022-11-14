@@ -100,12 +100,14 @@ export class PortalSolicitudesComponent implements OnInit {
 export class DialogNuevaSolicitud {
 
   motivos:any[]=[];
+  existeSolVar:boolean=false;
 
   constructor(
     public dialogRef: MatDialogRef<DialogNuevaSolicitud>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private jornadaService: JornadaService,
     private _snackBar: MatSnackBar,
+    private solicitudService: SolicitudService,
   ) {
     for (let item in MotivoAusencia) {
       if (isNaN(Number(item))) {
@@ -123,35 +125,48 @@ export class DialogNuevaSolicitud {
   }
 
   enviarSolicitud() {
-
+    this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
     let formulario: any = document.getElementById("formulario");
     let formularioValido: boolean = formulario.reportValidity();
-    if (formularioValido) {
-      // this.solicitud.motivo = this.selected;
-      this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-      let jornada: Jornada;
-      if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {
-        //El empleado debe tener asignada una jornada de trabajo para la fecha seleccionada
-        this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
-          jornada = data[0];
-          if (data.length != 0 && !jornada.diaLibre) {
-            //El empleado no deebe tener asignada ninguna jornada de trabajo para la fecha a cubrir
-            this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fechaDescanso), this.solicitud.empleado.id).subscribe(data => {
-              if (data.length == 0 || jornada.diaLibre)
-                this.jornadaService.addSolicitudIntercambio(this.solicitud).subscribe(() => {
-                  this.data.portalSolicitudes.cargarMisSolicitudes()
-                  this._snackBar.open("La solicitud ha sido añadida correctamente", undefined, {duration: 2000})
-                  this.dialogRef.close();
-                });
-              else
-                this._snackBar.open("Debe seleccionar un día a cubrir sin jornada asignada", undefined, {duration: 2000})
-            });
-          } else
-            this._snackBar.open("Debe seleccionar un intercambio para un día con una jornada asignada", undefined, {duration: 2000})
-        })
+    this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id).subscribe(data=>{
+      let existe:boolean=false;
+      existe=data;
+      if(!existe){
+        if (formularioValido) {
+          // this.solicitud.motivo = this.selected;
 
+          let jornada: Jornada;
+          let jornada2:Jornada;
+          if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {
+            //El empleado debe tener asignada una jornada de trabajo para la fecha seleccionada
+            this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
+              jornada = data[0];
+              if (data.length != 0 && !jornada.diaLibre) {
+                //El empleado no deebe tener asignada ninguna jornada de trabajo para la fecha a cubrir
+                this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fechaDescanso), this.solicitud.empleado.id).subscribe(data2 => {
+                  jornada2=data2[0]
+                  if (data2.length == 0 || jornada2.diaLibre)
+                    this.jornadaService.addSolicitudIntercambio(this.solicitud).subscribe(() => {
+                      this.data.portalSolicitudes.cargarMisSolicitudes()
+                      this._snackBar.open("La solicitud ha sido añadida correctamente", undefined, {duration: 2000})
+                      this.dialogRef.close();
+                    });
+                  else
+                    this._snackBar.open("Debe seleccionar un día a cubrir sin jornada asignada", undefined, {duration: 2000})
+                });
+              } else
+                this._snackBar.open("Debe seleccionar un intercambio para un día con una jornada asignada", undefined, {duration: 2000})
+            })
+
+          }
+        }
       }
-    }
+      else{
+        this.existeSolVar=true;
+      }
+
+    })
+
 
   }
 

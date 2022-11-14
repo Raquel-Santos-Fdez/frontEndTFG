@@ -23,6 +23,9 @@ a,
 a:hover {
   color: #FFFFFF;
   text-decoration: none;
+  cursor:pointer;
+  display: flex;
+  align-items: center;
 }
 
 a:hover {
@@ -36,3 +39,9 @@ button:hover{
 #separador {
   flex: 0.02;
 }
+
+.log{
+  display: flex;
+  align-items: center;
+}
+

@@ -30,6 +30,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-error *ngIf="comprobarEstaciones()">Las estaciones no están en la misma ruta</mat-error>
     <p>
       <mat-form-field>
         <mat-label>Hora de inicio</mat-label>
@@ -48,6 +49,7 @@
     <p>
 
       <mat-form-field>
+        <mat-label>Ten</mat-label>
         <mat-select formControlName="tren" name="selectTrenes" [(value)]="tren" required>
           <mat-option *ngFor="let t of trenes" [value]="t" id="tren">
             {{t.id}}
@@ -57,7 +59,7 @@
     </p>
     <div mat-dialog-actions>
       <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
-      <button id="addTarea" (click)="addNuevaTarea()" mat-button type="submit">Añadir</button>
+      <button id="addTarea" (click)="validarRuta(this.formulario)" mat-button type="submit">Añadir</button>
     </div>
   </form>
 </div>

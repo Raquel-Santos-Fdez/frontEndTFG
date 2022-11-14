@@ -12,6 +12,8 @@ import {GestUsuariosJornadasComponent} from "./gest-usuarios-jornadas.component"
 import {Empleado} from "../../../model/empleado/empleado";
 import {Situacion, Tarea_stop} from "../../../model/tarea/tarea_stop";
 import {Tren} from "../../../model/tren/tren";
+import {RutaService} from "../../../services/ruta.service";
+import {Route_stop} from "../../../model/route_stop/route_stop";
 
 export interface DialogData {
   jornada: Jornada,
@@ -45,7 +47,8 @@ export class NuevaTareaDialog {
       destino: new FormControl('', [Validators.required]),
       tren: new FormControl('', [Validators.required]),
     },
-    this.validarHorario);
+    this.validarHorario
+  );
 
   constructor(
     public dialogRef: MatDialogRef<NuevaTareaDialog>,
@@ -53,7 +56,8 @@ export class NuevaTareaDialog {
     private jornadaService: JornadaService,
     private trenService: TrenService,
     private paradaService: EstacionService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private rutaService: RutaService
   ) {
     this.paradaService.findAllStops().subscribe(data => {
       this.estaciones = data
@@ -63,7 +67,7 @@ export class NuevaTareaDialog {
   }
 
   addNuevaTarea() {
-    if (this.formulario.valid && this.comprobarHorarios()) {
+    if (this.formulario.valid && !this.comprobarHorarios() && !this.comprobarEstaciones()) {
       this.tarea.tren = this.tren;
 
       if (!this.data.jornada) {
@@ -87,10 +91,31 @@ export class NuevaTareaDialog {
   validarHorario(group: any) {
     if (group.controls.horaInicio.value > group.controls.horaFin.value) {
       return {horarioInvalido: true};
-    }    return {return: null}
+    }
+    return null;
   }
 
   comprobarHorarios(): boolean {
     return this.formulario.hasError("horarioInvalido");
+  }
+
+  validarRuta(group: any) {
+    let rutasConjuntas: Route_stop[] = [];
+    let origen = group.controls.origen.value;
+    let destino = group.controls.destino.value;
+
+    if (origen && destino) {
+      this.rutaService.findRutaByEstacion(origen.id, destino.id).subscribe(data => {
+        rutasConjuntas = data
+        if (rutasConjuntas.length == 0) {
+          this.formulario.controls["destino"].setErrors({rutaInvalida: true})
+        }
+        this.addNuevaTarea()
+      })
+    }
+  }
+
+  comprobarEstaciones() {
+    return this.formulario.controls["destino"].hasError("rutaInvalida");
   }
 }

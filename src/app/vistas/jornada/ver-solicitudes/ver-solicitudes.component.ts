@@ -14,6 +14,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {SolFilter} from "./SolFilter";
 import {MatSelectChange} from "@angular/material/select";
 import {EmpleadosService} from "../../../services/empleados.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-ver-solicitudes',
@@ -46,7 +47,8 @@ export class VerSolicitudesComponent implements OnInit {
 
   constructor(private solicitudService: SolicitudService, public dialog: MatDialog,
               private jornadaService: JornadaService,
-              private empleadosService: EmpleadosService) {
+              private empleadosService: EmpleadosService,
+              private _snackBar: MatSnackBar) {
 
     this.empleadoActual = JSON.parse(localStorage.getItem("usuario") || '{}');
 
@@ -85,7 +87,7 @@ export class VerSolicitudesComponent implements OnInit {
   cargarSolicitudes() {
     this.solicitudService.getAllSolicitudesPendientes().subscribe(data => {
       this.solicitudes = data;
-      this.paginarSolicitudes(this.solicitudes)
+
       this.dataSourceFilters = new MatTableDataSource(this.solicitudes);
 
       //filtramos las solicitudes
@@ -106,10 +108,13 @@ export class VerSolicitudesComponent implements OnInit {
         }
         return isMatch;
       }
+
+      this.paginarSolicitudes(this.dataSourceFilters.filteredData)
     });
   }
 
-  paginarSolicitudes(solicitudes: Solicitud[]) {
+  paginarSolicitudes(solicitudes: any) {
+
     this.dataSource = new MatTableDataSource(solicitudes)
     this.dataSource.paginator = this.paginator;
   }
@@ -130,6 +135,7 @@ export class VerSolicitudesComponent implements OnInit {
     } else {
       this.solicitudService.aceptarSolicitud(solicitud).subscribe(() => {
         this.cargarSolicitudes()
+        this._snackBar.open("La solicitud ha sido aceptada", undefined, {duration: 2000});
 
       });
     }
@@ -137,7 +143,6 @@ export class VerSolicitudesComponent implements OnInit {
 
   rechazarSolicitud(solicitud: Solicitud) {
     if (solicitud.type == "solicitudVacaciones") {
-      console.log(solicitud.id)
       this.solicitudService.findSolicitudesVacacionesPendientes(solicitud.empleado.id).subscribe(data => {
         this.dialog.open(DialogSolVacaciones, {
           disableClose: true,
@@ -150,7 +155,10 @@ export class VerSolicitudesComponent implements OnInit {
         })
       })
     } else {
-      this.solicitudService.rechazarSolicitud(solicitud.id).subscribe(() => this.cargarSolicitudes());
+      this.solicitudService.rechazarSolicitud(solicitud.id).subscribe(() => {
+        this.cargarSolicitudes()
+        this._snackBar.open("La solicitud ha sido rechazada", undefined, {duration: 2000});
+      });
     }
 
   }
@@ -201,6 +209,8 @@ export class VerSolicitudesComponent implements OnInit {
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
 
     this.dataSourceFilters.filter = jsonString;
+
+    this.paginarSolicitudes(this.dataSourceFilters.filteredData)
   }
 }
 

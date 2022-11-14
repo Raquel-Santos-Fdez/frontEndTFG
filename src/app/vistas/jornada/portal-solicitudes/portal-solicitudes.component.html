@@ -46,12 +46,16 @@
 
           <ng-container matColumnDef="fechaTrabajo">
             <th *matHeaderCellDef mat-header-cell> Día a cubrir</th>
-            <td *matCellDef="let element" mat-cell> {{element.fecha}} </td>
+            <td *matCellDef="let element" mat-cell>
+              <div *ngIf="element.type=='solicitudIntercambio'">{{element.fecha}} </div>
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="fechaDescanso">
             <th *matHeaderCellDef mat-header-cell> Día de descanso</th>
-            <td *matCellDef="let element" mat-cell> {{element.fechaDescanso}} </td>
+            <td *matCellDef="let element" mat-cell>
+              <div *ngIf="element.type=='solicitudSimple'">{{element.fecha}} </div>
+              {{element.fechaDescanso}} </td>
           </ng-container>
 
           <ng-container matColumnDef="estado">
