@@ -76,7 +76,6 @@ export class GestUsuariosJornadasComponent implements OnInit {
       if (this.diaSeleccionado == null)
         this.jornadaService.findJornadaByEmployee(this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data;
-          // this.formatearFecha()
           this.guardarTareas();
         })
       else
@@ -224,7 +223,6 @@ export class GestUsuariosJornadasComponent implements OnInit {
       this.empleados = this.empleados.filter((e) => e.id != empleado.id)
       this.empleadoSeleccionado = undefined
       this.deleteEmpleadoFiltro();
-      this.guardarTareas();
       this._snackBar.open("El empleado se ha eliminado correctamente", undefined, {duration: 2000});
     });
 

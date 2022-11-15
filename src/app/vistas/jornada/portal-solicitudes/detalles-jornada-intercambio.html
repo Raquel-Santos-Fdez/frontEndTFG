@@ -1,0 +1,32 @@
+<div class="detallesJornadaSolicitud">
+  <h1 mat-dialog-title>Detalles de jornada</h1>
+
+  <mat-dialog-content>
+    <table [dataSource]="dataSource" id="tablaTareasIntercambio" mat-table>
+
+      <ng-container matColumnDef="descripcion">
+        <th *matHeaderCellDef mat-header-cell>Descripción</th>
+        <td *matCellDef="let element" mat-cell>{{element.tarea.descripcion}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="horario">
+        <th *matHeaderCellDef mat-header-cell>Horario</th>
+        <td *matCellDef="let element" mat-cell>{{element.tarea.horaSalida}} - {{element.tarea.horaFin}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="origen">
+        <th *matHeaderCellDef mat-header-cell>Origen</th>
+        <td *matCellDef="let element" mat-cell>{{element.origen.nombre}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="destino">
+        <th *matHeaderCellDef mat-header-cell>Destino</th>
+        <td *matCellDef="let element" mat-cell>{{element.destino.nombre}}</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+  </mat-dialog-content>
+
+</div>

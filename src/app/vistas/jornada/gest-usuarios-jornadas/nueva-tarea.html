@@ -4,28 +4,29 @@
   <form [formGroup]="formulario">
     <p>
       <mat-form-field>
-        <input [(ngModel)]="tarea.anden" name="anden" formControlName="anden" matInput placeholder="Anden" required
-               type="number" min="1" pattern="^[0-9]+"/>
+        <input [(ngModel)]="tarea.anden" formControlName="anden" matInput min="1" name="anden" pattern="^[0-9]+"
+               placeholder="Anden" required type="number"/>
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
-        <input [(ngModel)]="tarea.descripcion" name="descripcion" formControlName="descripcion" matInput placeholder="Descripcion" required
+        <input [(ngModel)]="tarea.descripcion" formControlName="descripcion" matInput name="descripcion"
+               placeholder="Descripcion" required
                type="text"/>
       </mat-form-field>
     </p>
     <mat-form-field appearance="fill">
       <mat-label>Estación de origen</mat-label>
-      <mat-select [(value)]="origen" name="selectOrigen" formControlName="origen" required>
-        <mat-option *ngFor="let e of estaciones"  id="origen" [value]="e">
+      <mat-select [(value)]="origen" formControlName="origen" name="selectOrigen" required>
+        <mat-option *ngFor="let e of estaciones" [value]="e" id="origen">
           {{e.nombre}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Estación de destino</mat-label>
-      <mat-select [(value)]="destino" name="selectDestino" formControlName="destino" required>
-        <mat-option *ngFor="let e of estaciones" id="destino" [value]="e">
+      <mat-select [(value)]="destino" formControlName="destino" name="selectDestino" required>
+        <mat-option *ngFor="let e of estaciones" [value]="e" id="destino">
           {{e.nombre}}
         </mat-option>
       </mat-select>
@@ -46,20 +47,20 @@
       </mat-form-field>
       <mat-error *ngIf="comprobarHorarios()">La hora de fin no puede ser anterior a la hora de inicio</mat-error>
     </p>
-    <p>
 
-      <mat-form-field>
-        <mat-label>Ten</mat-label>
-        <mat-select formControlName="tren" name="selectTrenes" [(value)]="tren" required>
-          <mat-option *ngFor="let t of trenes" [value]="t" id="tren">
-            {{t.id}}
-          </mat-option>
-        </mat-select>
-       </mat-form-field>
-    </p>
+
+    <mat-form-field>
+      <mat-label>Tren</mat-label>
+      <mat-select [(value)]="tren" formControlName="tren" name="selectTrenes" required>
+        <mat-option *ngFor="let t of trenes" [value]="t" id="tren">
+          {{t.id}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <div mat-dialog-actions>
       <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
-      <button id="addTarea" (click)="validarRuta(this.formulario)" mat-button type="submit">Añadir</button>
+      <button (click)="validarRuta(this.formulario)" id="addTarea" mat-button type="submit">Añadir</button>
     </div>
   </form>
 </div>

@@ -54,6 +54,6 @@
         <tr *matRowDef="let row; columns: vacacionesColumns;" mat-row></tr>
       </table>
     </div>
-    <button (click)="volverASolicitarV()" *ngIf="isRechazada" mat-button>Solicitar vacaciones</button>
+    <button (click)="volverASolicitarV()" id="newSolicitudV" *ngIf="isRechazada" mat-button>Solicitar vacaciones</button>
   </div>
 </div>

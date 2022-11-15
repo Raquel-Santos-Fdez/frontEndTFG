@@ -2,6 +2,10 @@ table {
   width: 100%;
 }
 
+table, table th{
+  text-align: center;
+}
+
 h2{
   color: #77104a;
   font-weight: bold;
@@ -33,7 +37,6 @@ h2{
   overflow:auto;
 }
 
-table, table th{
-  text-align: center;
+.mat-dialog-content{
+  height: 200px;
 }
-

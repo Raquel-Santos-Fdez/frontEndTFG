@@ -1,51 +1,53 @@
-<h1 mat-dialog-title>Detalles de la tarea</h1>
+<div class="dialog-detalles-jornada">
+  <h1 mat-dialog-title>Detalles de la tarea</h1>
 
-<ng-container *ngIf="data.tarea">
+  <ng-container *ngIf="data.tarea">
 
-  <mat-form-field *ngIf="data.tarea.horaSalida">
-    <h3>Hora de salida</h3>
-    <input [(ngModel)]="data.tarea.horaSalida" matInput readonly type="text"/>
-  </mat-form-field>
+    <mat-form-field *ngIf="data.tarea.horaSalida">
+      <h3>Hora de salida</h3>
+      <input [(ngModel)]="data.tarea.horaSalida" matInput readonly type="text"/>
+    </mat-form-field>
 
-  <mat-form-field *ngIf="data.tarea.anden">
-    <h3>Andén</h3>
-    <input [(ngModel)]="data.tarea.anden" matInput readonly/>
-  </mat-form-field>
+    <mat-form-field *ngIf="data.tarea.anden">
+      <h3>Andén</h3>
+      <input [(ngModel)]="data.tarea.anden" matInput readonly/>
+    </mat-form-field>
 
-  <mat-form-field *ngIf="data.tarea.descripcion">
-    <h3>Descripción</h3>
-    <input [(ngModel)]="data.tarea.descripcion" matInput readonly/>
-  </mat-form-field>
+    <mat-form-field *ngIf="data.tarea.descripcion">
+      <h3>Descripción</h3>
+      <input [(ngModel)]="data.tarea.descripcion" matInput readonly/>
+    </mat-form-field>
 
-  <mat-form-field *ngIf="data.origen && data.final">
-    <h3>Ruta</h3>
-    <input [(ngModel)]="data.origen.nombre +'\n-'+ data.final.nombre" matInput readonly/>
-  </mat-form-field>
+    <mat-form-field *ngIf="data.origen && data.final">
+      <h3>Ruta</h3>
+      <input [(ngModel)]="data.origen.nombre +'\n-'+ data.final.nombre" matInput readonly/>
+    </mat-form-field>
 
-  <mat-form-field *ngIf="data.tarea.tren">
-    <h3>Tren</h3>
-    <input [(ngModel)]="data.tarea.tren.id" matInput readonly/>
-  </mat-form-field>
-
-
-  <h3>Incidencias</h3>
-  <mat-form-field *ngIf="data.incidencias.length>0">
-    <input *ngFor="let incidencia of data.incidencias" [(ngModel)]="incidencia.descripcion" id="incidencias" matInput
-           readonly/>
-  </mat-form-field>
-  <h3>Nueva incidencia</h3>
-  <mat-form-field>
-    <input type="text" [(ngModel)]="nuevaIncidencia" id="nuevasIncidencias" matInput/>
-  </mat-form-field>
+    <mat-form-field *ngIf="data.tarea.tren">
+      <h3>Tren</h3>
+      <input [(ngModel)]="data.tarea.tren.id" matInput readonly/>
+    </mat-form-field>
 
 
-  <button id="addIncidencia" title="Añadir nueva incidencia" (click)="addIncidencia()">
-    <mat-icon>add</mat-icon>
-  </button>
+    <h3>Incidencias</h3>
+    <mat-form-field *ngIf="data.incidencias.length>0">
+      <input *ngFor="let incidencia of data.incidencias" [(ngModel)]="incidencia.descripcion" id="incidencias" matInput
+             readonly/>
+    </mat-form-field>
+    <h3>Nueva incidencia</h3>
+    <mat-form-field>
+      <input [(ngModel)]="nuevaIncidencia" id="nuevasIncidencias" matInput type="text"/>
+    </mat-form-field>
 
 
-  <div mat-dialog-actions>
-    <button id="cerrarDetallesJBtn" (click)="cerrar()" [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
+    <button (click)="addIncidencia()" id="addIncidencia" title="Añadir nueva incidencia">
+      <mat-icon>add</mat-icon>
+    </button>
 
-  </div>
-</ng-container>
+
+    <div mat-dialog-actions>
+      <button (click)="cerrar()" [mat-dialog-close] cdkFocusInitial id="cerrarDetallesJBtn" mat-button>Cerrar</button>
+
+    </div>
+  </ng-container>
+</div>

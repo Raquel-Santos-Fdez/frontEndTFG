@@ -83,12 +83,15 @@ export class PasswordDialog {
 
 
   actualizar() {
-    if (this.formularioPassword.valid)
+    if (this.formularioPassword.valid) {
+      this.data.empleado.password = this.data.nuevaPassword;
       this.empleadoService.actualizarEmpleado(this.data.empleado).subscribe(() => {
           this.dialogRef.close()
           this._snackBar.open("Contraseña modificada correctamente", undefined, {duration: 2000})
         }
       )
+
+    }
   }
 
   comprobarErrores() {

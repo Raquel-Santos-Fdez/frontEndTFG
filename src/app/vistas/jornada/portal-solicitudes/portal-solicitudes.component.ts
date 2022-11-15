@@ -9,6 +9,7 @@ import {MotivoAusencia, Solicitud} from "../../../model/solicitud/solicitud";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Jornada} from "../../../model/jornada/jornada";
 import {SolicitudService} from "../../../services/solicitud.service";
+import {DetallesJornadaIntercambioComponent} from "./detalles-jornada-intercambio.component";
 
 export interface DialogData {
   portalSolicitudes: PortalSolicitudesComponent
@@ -22,7 +23,7 @@ export interface DialogData {
 })
 export class PortalSolicitudesComponent implements OnInit {
 
-  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "empleado","aceptar"];
+  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "empleado", "detalles", "aceptar"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
   columnsVacaciones: string[] = ["periodoInvierno", "estado"];
   misSolicitudes: Solicitud[];
@@ -34,7 +35,7 @@ export class PortalSolicitudesComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private jornadaService: JornadaService,
-              private solicitudService:SolicitudService,
+              private solicitudService: SolicitudService,
               private _snackBar: MatSnackBar) {
     this.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
 
@@ -47,12 +48,12 @@ export class PortalSolicitudesComponent implements OnInit {
   }
 
   nuevaSolicitud(): void {
-    if(this.empleado.nDiasLibres>0) {
+    if (this.empleado.nDiasLibres > 0) {
       this.dialog.open(DialogNuevaSolicitud, {
         width: '500px',
         data: {portalSolicitudes: this}
       });
-    }else{
+    } else {
       this._snackBar.open("Ha alcanzado el máximo de días libres posibles", undefined, {duration: 2000})
     }
   }
@@ -77,8 +78,10 @@ export class PortalSolicitudesComponent implements OnInit {
 
   aceptarSolicitud(solicitud: SolicitudIntercambio) {
     solicitud.nuevoEmpleado = this.empleado;
-    this.jornadaService.reasignar(solicitud).subscribe(() =>
-      this.cargarSolicitudes()
+    this.jornadaService.reasignar(solicitud).subscribe(() => {
+        this.cargarSolicitudes()
+        this._snackBar.open("La solicitud ha sido aceptada", undefined, {duration: 2000})
+      }
     );
   }
 
@@ -90,6 +93,19 @@ export class PortalSolicitudesComponent implements OnInit {
 
     return "";
   }
+
+  verDetallesJornada(solicitud: SolicitudIntercambio) {
+    let jornada: Jornada;
+    this.jornadaService.findJornadaByDateEmpleado(new Date(solicitud.fecha), solicitud.empleado.id).subscribe(data => {
+      jornada = data[0];
+      this.dialog.open(DetallesJornadaIntercambioComponent, {
+        width: '450px',
+        data: {
+          tareas: jornada.tareas
+        }
+      })
+    });
+  }
 }
 
 @Component({
@@ -99,8 +115,8 @@ export class PortalSolicitudesComponent implements OnInit {
 })
 export class DialogNuevaSolicitud {
 
-  motivos:any[]=[];
-  existeSolVar:boolean=false;
+  motivos: any[] = [];
+  existeSolVar: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<DialogNuevaSolicitud>,
@@ -128,15 +144,15 @@ export class DialogNuevaSolicitud {
     this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
     let formulario: any = document.getElementById("formulario");
     let formularioValido: boolean = formulario.reportValidity();
-    this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id).subscribe(data=>{
-      let existe:boolean=false;
-      existe=data;
-      if(!existe){
+    this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id).subscribe(data => {
+      let existe: boolean = false;
+      existe = data;
+      if (!existe) {
         if (formularioValido) {
           // this.solicitud.motivo = this.selected;
 
           let jornada: Jornada;
-          let jornada2:Jornada;
+          let jornada2: Jornada;
           if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {
             //El empleado debe tener asignada una jornada de trabajo para la fecha seleccionada
             this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
@@ -144,7 +160,7 @@ export class DialogNuevaSolicitud {
               if (data.length != 0 && !jornada.diaLibre) {
                 //El empleado no deebe tener asignada ninguna jornada de trabajo para la fecha a cubrir
                 this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fechaDescanso), this.solicitud.empleado.id).subscribe(data2 => {
-                  jornada2=data2[0]
+                  jornada2 = data2[0]
                   if (data2.length == 0 || jornada2.diaLibre)
                     this.jornadaService.addSolicitudIntercambio(this.solicitud).subscribe(() => {
                       this.data.portalSolicitudes.cargarMisSolicitudes()
@@ -160,9 +176,8 @@ export class DialogNuevaSolicitud {
 
           }
         }
-      }
-      else{
-        this.existeSolVar=true;
+      } else {
+        this.existeSolVar = true;
       }
 
     })

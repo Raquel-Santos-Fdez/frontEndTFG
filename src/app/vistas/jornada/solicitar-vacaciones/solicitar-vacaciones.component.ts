@@ -54,7 +54,6 @@ export class SolicitarVacacionesComponent implements OnInit {
     this.comprobarSolicitudExistente();
 
 
-
   }
 
   comprobarSolicitudExistente() {
@@ -65,8 +64,8 @@ export class SolicitarVacacionesComponent implements OnInit {
         else this.existeSolicitud = false;
         this.solicitudesExistentes = data;
 
-        if(this.solicitudesExistentes[0])
-          this.isRechazada=this.solicitudesExistentes[0].estado.toString() == this.ee[EstadoEnum.RECHAZADA]
+        if (this.solicitudesExistentes[0])
+          this.isRechazada = this.solicitudesExistentes[0].estado.toString() == this.ee[EstadoEnum.RECHAZADA]
       }
     )
 
@@ -81,15 +80,15 @@ export class SolicitarVacacionesComponent implements OnInit {
   }
 
   enviarSolicitud() {
-    if(this.periodoSeleccionado) {
+    if (this.periodoSeleccionado) {
 
       this.solicitud.motivo = MotivoAusencia.VACACIONES;
       this.solicitud.empleado = this.empleado;
 
       this.solicitarPeriodo(this.periodoSeleccionado.invierno);
       this.solicitarPeriodo(this.periodoSeleccionado.verano);
-    }
-    else
+
+    } else
       this._snackBar.open("Debe seleccionar un periodo", undefined, {duration: 2000})
 
 
@@ -107,19 +106,28 @@ export class SolicitarVacacionesComponent implements OnInit {
       vacacionesDate.push(new Date(+year, +mes - 1, +dia))
     }
 
-    let fecha_seleccionada = pipe.transform(vacacionesDate[0], 'yyyy-MM-dd')
+    let fechaSeleccionada = pipe.transform(vacacionesDate[0], 'yyyy-MM-dd')
     let fecha_fin = pipe.transform(vacacionesDate[1], 'yyyy-MM-dd')
 
 
-    if (fecha_seleccionada && fecha_fin) {
-      this.solicitud.fechaFinVacaciones = fecha_fin;
-      this.solicitud.fecha = fecha_seleccionada
-      this.solicitudService.solicitarVacaciones(this.solicitud).subscribe(() => {
-        this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-        this.existeSolicitud = true;
-        this.comprobarSolicitudExistente()
+    if (fechaSeleccionada && fecha_fin) {
+      this.solicitudService.existenVacacionesByFechaEmpleado(fechaSeleccionada, this.solicitud.empleado.id).subscribe(data => {
+        let existe: boolean = false;
+        existe = data;
+        if (!existe && fechaSeleccionada && fecha_fin) {
+          this.solicitud.fechaFinVacaciones = fecha_fin;
+          this.solicitud.fecha = fechaSeleccionada
+          this.solicitudService.solicitarVacaciones(this.solicitud).subscribe(() => {
+            this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+            this.existeSolicitud = true;
+            this.comprobarSolicitudExistente()
+          });
+        } else {
+          alert("Ya existe una solicitud para el periodo "+periodo);
+        }
       });
     }
+
   }
 
   volverASolicitarV() {

@@ -22,7 +22,7 @@
         <mat-label>Motivo de la ausencia</mat-label>
         <mat-select [(ngModel)]="solicitud.motivo" name="motivoSelect" id="selectMotivo"
                     required>
-          <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" class="motivo" id="roles">
+          <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" class="motivo" id="motivo">
             {{motivo.text}}
           </mat-option>
         </mat-select>
