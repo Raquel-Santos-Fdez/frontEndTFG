@@ -46,9 +46,11 @@
             <th *matHeaderCellDef mat-header-cell></th>
             <td *matCellDef="let element" mat-cell>
 
-              <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button>Aceptar</button>
+              <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button matTooltip="aceptar">
+                <mat-icon>check</mat-icon></button>
 
-              <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button>Rechazar</button>
+              <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button matTooltip="rechazar">
+                <mat-icon>clear</mat-icon></button>
 
             </td>
           </ng-container>

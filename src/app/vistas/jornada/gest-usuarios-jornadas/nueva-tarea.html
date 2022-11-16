@@ -1,5 +1,5 @@
 <div class="nueva-tarea">
-  <h1 mat-dialog-title>Nueva tarea</h1>
+  <h2 mat-dialog-title>Nueva tarea</h2>
 
   <form [formGroup]="formulario">
     <p>
@@ -59,7 +59,7 @@
     </mat-form-field>
 
     <div mat-dialog-actions>
-      <button [mat-dialog-close] cdkFocusInitial mat-button>Cerrar</button>
+      <button [mat-dialog-close] mat-button>Cerrar</button>
       <button (click)="validarRuta(this.formulario)" id="addTarea" mat-button type="submit">Añadir</button>
     </div>
   </form>

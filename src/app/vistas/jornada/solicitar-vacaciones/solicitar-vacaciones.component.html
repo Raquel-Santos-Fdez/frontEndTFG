@@ -1,10 +1,9 @@
 <div class="solicitarVacaciones">
   <h2>Solicitud de vacaciones</h2>
 
-  <div class="divSeleccionarPeriodo" *ngIf="!existeSolicitud">
-    <h3>Selecciona un periodo de vacaciones</h3>
+  <div *ngIf="!existeSolicitud" class="divSeleccionarPeriodo">
+    <p>Selecciona un periodo de vacaciones</p>
     <table [dataSource]="dataSource" id="tablaTodasVacaciones" mat-table>
-      <!-- Position Column -->
       <ng-container matColumnDef="invierno">
         <th *matHeaderCellDef mat-header-cell>Periodo de invierno</th>
         <td *matCellDef="let element" mat-cell>{{element.invierno}}</td>
@@ -12,7 +11,6 @@
 
       <br>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="verano">
         <th *matHeaderCellDef mat-header-cell>Periodo de verano</th>
         <td *matCellDef="let element" mat-cell>{{element.verano}}</td>
@@ -27,9 +25,9 @@
       ></tr>
     </table>
 
-    <div>
-      <button (click)="enviarSolicitud()" id="solicitarV" mat-stroked-button>Solicitar</button>
-    </div>
+
+    <button (click)="enviarSolicitud()" id="solicitarV" mat-stroked-button>Solicitar</button>
+
   </div>
 
   <div *ngIf="existeSolicitud" class="divExistentes">
@@ -37,7 +35,7 @@
     <p>Las solicitudes de vacaciones existentes son:</p>
 
     <div class="tablaExistentes">
-      <table id="tablaSolVExistentes" [dataSource]="solicitudesExistentes" mat-table>
+      <table [dataSource]="solicitudesExistentes" id="tablaSolVExistentes" mat-table>
 
         <ng-container matColumnDef="periodo">
           <th *matHeaderCellDef mat-header-cell>Periodo</th>
@@ -53,7 +51,9 @@
         <tr *matHeaderRowDef="vacacionesColumns" mat-header-row></tr>
         <tr *matRowDef="let row; columns: vacacionesColumns;" mat-row></tr>
       </table>
+      <button (click)="volverASolicitarV()" *ngIf="isRechazada" id="newSolicitudV" mat-button>Solicitar vacaciones
+      </button>
+
     </div>
-    <button (click)="volverASolicitarV()" id="newSolicitudV" *ngIf="isRechazada" mat-button>Solicitar vacaciones</button>
   </div>
 </div>

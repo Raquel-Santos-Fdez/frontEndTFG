@@ -1,62 +1,56 @@
-<div class="container">
-  <div class="row">
+<div class="login">
+  <h1>Introduzca sus credenciales</h1>
+  <div *ngIf="loading" class="row">
     <div class="col-md-12">
-      <h1>¡Hola, bienvenido!</h1>
-    </div>
-  </div>
-  <div class="col-md-12">
-    <hr>
-  </div>
-</div>
-<div *ngIf="loading" class="row">
-  <div class="col-md-12">
-    <div class="spinner-border text-info float-right" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-  <br>
-  <br>
-</div>
-
-<form (ngSubmit)="login()" id="login">
-  <div class="row">
-    <mat-form-field>
-      <div class="col-md-12">
-        <input [(ngModel)]="employee.username" [ngModelOptions]="{standalone:true}" class="form-control" matInput
-               name="username"
-               placeholder="username"
-               required type="text">
+      <div class="spinner-border text-info float-right" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
-    </mat-form-field>
+    </div>
     <br>
-    <mat-form-field>
-      <div class="col-md-12">
-        <input [(ngModel)]="employee.password" [type]="show ? 'text': 'password'" [ngModelOptions]="{standalone:true}" class="form-control" matInput
-               name="password"
-               placeholder="password"
-               required type="password">
-      </div>
+    <br>
+  </div>
 
-    </mat-form-field>
-    <ng-container *ngIf="!show">
-      <button mat-button id="mostrarPassword" (click)="mostrarPassword()" matTooltip="Ver contraseña">
-        <mat-icon>visibility</mat-icon>
-      </button>
-    </ng-container>
-    <ng-container *ngIf="show">
-      <button mat-button id="ocultarPassword" (click)="mostrarPassword()" matTooltip="Ocultar contraseña">
-        <mat-icon>visibility_off</mat-icon>
-      </button>
-    </ng-container>
-  </div>
-  <br>
-  <div class="row">
-    <div class="col-md-12">
-      <button id="loginBtn" mat-button type="submit" value="Login">Acceder</button>
+  <form (ngSubmit)="login()" id="login">
+    <div class="row">
+      <mat-form-field>
+        <div class="col-md-12">
+          <input [(ngModel)]="employee.username" [ngModelOptions]="{standalone:true}" class="form-control" matInput
+                 name="username"
+                 placeholder="username"
+                 required type="text">
+        </div>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <div class="col-md-12">
+          <input [(ngModel)]="employee.password" [ngModelOptions]="{standalone:true}" [type]="show ? 'text': 'password'"
+                 class="form-control" matInput
+                 name="password"
+                 placeholder="password"
+                 required type="password">
+        </div>
+
+      </mat-form-field>
+      <ng-container *ngIf="!show">
+        <button (click)="mostrarPassword()" id="mostrarPassword" mat-button matTooltip="Ver contraseña">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="show">
+        <button (click)="mostrarPassword()" id="ocultarPassword" mat-button matTooltip="Ocultar contraseña">
+          <mat-icon>visibility_off</mat-icon>
+        </button>
+      </ng-container>
     </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <button id="loginBtn" mat-button type="submit" value="Login">Acceder</button>
+      </div>
+    </div>
+  </form>
+  <br>
+  <div *ngIf="errorInicio" class="row">
+    <label class="float-right" style="color:red;"> Usuario o contraseña incorrectos</label>
   </div>
-</form>
-<br>
-<div *ngIf="errorInicio" class="row">
-  <label class="float-right" style="color:red;"> Usuario o contraseña incorrectos</label>
 </div>

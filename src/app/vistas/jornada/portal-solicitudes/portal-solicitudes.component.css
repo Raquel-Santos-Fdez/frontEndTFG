@@ -40,3 +40,13 @@ h2{
 .mat-dialog-content{
   height: 200px;
 }
+
+.btnNuevaSolContainer{
+  width: 100%;
+  justify-content: left;
+}
+
+.aceptarSolIntercambio{
+  color:white;
+  background-color: #77104a;
+}

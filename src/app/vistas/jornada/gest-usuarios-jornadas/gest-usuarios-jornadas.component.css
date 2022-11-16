@@ -11,7 +11,7 @@ h2{
 }
 
 .filtro{
-  margin-top: 30px;
+  margin: 10px;
 }
 
 #tablaUsuarios {
@@ -19,8 +19,8 @@ h2{
 
 }
 
-.calendar-card {
-  width: 100%;
+.calendarContainer{
+  width: 250px;
 }
 
 #tablaTareas{
@@ -39,10 +39,6 @@ h2{
   align-items: center;
 }
 
-.buscarAddContainer{
-  display: flex;
-}
-
 #filtroUsuarios{
   height: 20px;
   border-bottom: 1px solid black;
@@ -51,17 +47,18 @@ h2{
   height: 40px;
 }
 #filtroUsuarios{
-  width: 30%;
+  width: 50%;
 }
 
 .container2{
   display: flex;
   flex-direction: column;
   min-width: 65%;
+  margin-left: 70px;
 }
 
 .tablaUsuariosContainer{
-  margin-right: 200px;
+
   overflow-y:auto;
   overflow-x: hidden;
   height: 250px;
@@ -73,6 +70,50 @@ h2{
   flex-direction: column;
   align-items: center;
 }
+
+.nuevo-usuario{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nuevo-usuario form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nuevo-usuario h2{
+  margin-bottom: 10px;
+}
+
+.nuevo-usuario #addUsuarioBtn{
+  background-color: #77104a;
+  color: white;
+}
+
+.nueva-tarea{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nueva-tarea form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nueva-tarea h2{
+  margin-bottom: 10px;
+}
+
+.nueva-tarea #addTarea{
+  background-color: #77104a;
+  color: white;
+}
+
+
 
 
 

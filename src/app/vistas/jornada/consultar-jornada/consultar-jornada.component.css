@@ -31,7 +31,6 @@ h2{
 .tablaTareaContainer{
   overflow-x: auto;
   max-height: 400px;
-  /*margin-left: 30px;*/
   width: 400px;
 }
 
@@ -43,4 +42,17 @@ h2{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#diaLibrePanel{
+  border: solid 5px #77104a;
+}
+
+button{
+  background-color: #77104a;
+  color: white;
+}
+
+#tablaTareas{
+  width: 100%;
 }

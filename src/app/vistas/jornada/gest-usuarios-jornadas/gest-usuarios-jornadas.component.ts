@@ -154,7 +154,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
   addUsuario() {
     this.dialog.open(NuevoUsuarioDialog, {
-      width: '450px',
+      width: '400px',
       data: {gestorUsuariosJornadas: this}
     })
   }
@@ -164,20 +164,31 @@ export class GestUsuariosJornadasComponent implements OnInit {
     if (!this.diaSeleccionado || !this.empleadoSeleccionado)
       this._snackBar.open("Selecciona un día y un empleado", undefined, {duration: 2000});
     else {
-      let jornada: Jornada
-      this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
-        jornada = data[0]
-        this.dialog.open(NuevaTareaDialog, {
-          width: '450px',
-          data: {
-            diaSeleccionado: this.diaSeleccionado?.toDateString(),
-            empleadoSeleccionado: this.empleadoSeleccionado,
-            jornada: jornada,
-            gestorUsuariosJornadas: this
-          }
+      if(this.isPosterior()) {
+        let jornada: Jornada
+        this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
+          jornada = data[0]
+          this.dialog.open(NuevaTareaDialog, {
+            width: '450px',
+            data: {
+              diaSeleccionado: this.diaSeleccionado?.toDateString(),
+              empleadoSeleccionado: this.empleadoSeleccionado,
+              jornada: jornada,
+              gestorUsuariosJornadas: this
+            }
+          })
         })
-      })
+      }else
+        this._snackBar.open("La fecha debe ser posterior a la fecha actual", undefined, {duration: 2000});
     }
+  }
+
+  isPosterior(): boolean {
+    let fecha_actual: Date = new Date();
+    if (this.diaSeleccionado)
+      return (fecha_actual <= this.diaSeleccionado);
+    return false;
+
   }
 
   verDetallesEmpleado(empleado: Empleado) {

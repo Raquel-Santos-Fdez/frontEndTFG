@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {JornadaService} from "../../../services/jornada.service";
 import {SolicitudIntercambio} from "../../../model/solicitud/solicituIntercambio";
@@ -10,6 +10,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Jornada} from "../../../model/jornada/jornada";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {DetallesJornadaIntercambioComponent} from "./detalles-jornada-intercambio.component";
+import {MatInput} from "@angular/material/input";
 
 export interface DialogData {
   portalSolicitudes: PortalSolicitudesComponent
@@ -118,6 +119,17 @@ export class DialogNuevaSolicitud {
   motivos: any[] = [];
   existeSolVar: boolean = false;
 
+  selected: MotivoAusencia;
+  solicitud: SolicitudIntercambio = new SolicitudIntercambio();
+
+  @ViewChild('diaSolicitar', {
+    read: MatInput
+  }) fecha1: MatInput;
+
+  @ViewChild('diaCubrir', {
+    read: MatInput
+  }) fecha2: MatInput;
+
   constructor(
     public dialogRef: MatDialogRef<DialogNuevaSolicitud>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -133,65 +145,71 @@ export class DialogNuevaSolicitud {
     }
   }
 
-  selected: MotivoAusencia;
-  solicitud: SolicitudIntercambio = new SolicitudIntercambio();
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   enviarSolicitud() {
-    this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-    let formulario: any = document.getElementById("formulario");
-    let formularioValido: boolean = formulario.reportValidity();
-    this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id).subscribe(data => {
-      let existe: boolean = false;
-      existe = data;
-      if (!existe) {
-        if (formularioValido) {
-          // this.solicitud.motivo = this.selected;
+    // if (this.checkFecha()) {
+      this.solicitud.empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+      let formulario: any = document.getElementById("formulario");
+      let formularioValido: boolean = formulario.reportValidity();
+      this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id).subscribe(data => {
+        let existe: boolean = false;
+        existe = data;
+        if (!existe) {
+          if (formularioValido) {
+            let jornada: Jornada;
+            let jornada2: Jornada;
+            if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {
+              //El empleado debe tener asignada una jornada de trabajo para la fecha seleccionada
+              this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
+                jornada = data[0];
+                if (data.length != 0 && !jornada.diaLibre) {
+                  //El empleado no deebe tener asignada ninguna jornada de trabajo para la fecha a cubrir
+                  this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fechaDescanso), this.solicitud.empleado.id).subscribe(data2 => {
+                    jornada2 = data2[0]
+                    if (data2.length == 0 || jornada2.diaLibre)
+                      this.jornadaService.addSolicitudIntercambio(this.solicitud).subscribe(() => {
+                        this.data.portalSolicitudes.cargarMisSolicitudes()
+                        this._snackBar.open("La solicitud ha sido añadida correctamente", undefined, {duration: 2000})
+                        this.dialogRef.close();
+                      });
+                    else
+                      this._snackBar.open("Debe seleccionar un día a cubrir sin jornada asignada", undefined, {duration: 2000})
+                  });
+                } else
+                  this._snackBar.open("Debe seleccionar un intercambio para un día con una jornada asignada", undefined, {duration: 2000})
+              })
 
-          let jornada: Jornada;
-          let jornada2: Jornada;
-          if (this.solicitud.motivo != undefined && this.solicitud.fechaDescanso != undefined && this.solicitud.fecha != undefined) {
-            //El empleado debe tener asignada una jornada de trabajo para la fecha seleccionada
-            this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fecha), this.solicitud.empleado.id).subscribe(data => {
-              jornada = data[0];
-              if (data.length != 0 && !jornada.diaLibre) {
-                //El empleado no deebe tener asignada ninguna jornada de trabajo para la fecha a cubrir
-                this.jornadaService.findJornadaByDateEmpleado(new Date(this.solicitud.fechaDescanso), this.solicitud.empleado.id).subscribe(data2 => {
-                  jornada2 = data2[0]
-                  if (data2.length == 0 || jornada2.diaLibre)
-                    this.jornadaService.addSolicitudIntercambio(this.solicitud).subscribe(() => {
-                      this.data.portalSolicitudes.cargarMisSolicitudes()
-                      this._snackBar.open("La solicitud ha sido añadida correctamente", undefined, {duration: 2000})
-                      this.dialogRef.close();
-                    });
-                  else
-                    this._snackBar.open("Debe seleccionar un día a cubrir sin jornada asignada", undefined, {duration: 2000})
-                });
-              } else
-                this._snackBar.open("Debe seleccionar un intercambio para un día con una jornada asignada", undefined, {duration: 2000})
-            })
-
+            }
           }
+        } else {
+          this.existeSolVar = true;
         }
-      } else {
-        this.existeSolVar = true;
-      }
 
-    })
+      })
+    // }
 
+
+  }
+
+  isPosterior(fecha: Date): boolean {
+    let fecha_actual: Date = new Date();
+    if (this.selected)
+      return (fecha_actual <= fecha);
+    return false;
 
   }
 
   saveDateLibrar(event: MatDatepickerInputEvent<Date>) {
 
     let pipe = new DatePipe('en-US')
-    let fecha_seleccionada = pipe.transform(new Date(`${event.value}`), 'yyyy-MM-dd')
-    if (fecha_seleccionada)
-      this.solicitud.fecha = fecha_seleccionada
-
+    let fecha_sel = new Date(`${event.value}`);
+      let fecha_seleccionada = pipe.transform(fecha_sel, 'yyyy-MM-dd')
+      if (fecha_seleccionada)
+        this.solicitud.fecha = fecha_seleccionada
   }
 
   saveDateCubrir(event: MatDatepickerInputEvent<Date>) {
@@ -199,5 +217,16 @@ export class DialogNuevaSolicitud {
     let fecha_seleccionada = pipe.transform(new Date(`${event.value}`), 'yyyy-MM-dd')
     if (fecha_seleccionada)
       this.solicitud.fechaDescanso = fecha_seleccionada
+  }
+
+  checkFecha() {
+    console.log(this.isPosterior(new Date(this.solicitud.fecha)));
+    if (this.isPosterior(new Date(this.solicitud.fecha))==false) {
+      console.log("entra")
+      alert("La fecha debe ser posterior a la fecha actual")
+      this.fecha1.value = "";
+      return false;
+    }
+    return true;
   }
 }

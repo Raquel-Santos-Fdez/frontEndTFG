@@ -3,6 +3,12 @@
 
   <div class="container">
 
+    <div class="calendarContainer">
+      <mat-card class="calendar-card">
+        <mat-calendar (click)="seleccionarDia()" [(selected)]="diaSeleccionado" id="calendario"></mat-calendar>
+      </mat-card>
+    </div>
+
     <div class="container2">
       <div class="buscarAddContainer">
         <input [(ngModel)]="filtroUsuarios" id="filtroUsuarios" matInput name="filtroUsuarios"
@@ -19,7 +25,7 @@
             <th *matHeaderCellDef mat-header-cell>Nombre de usuario</th>
             <td *matCellDef="let element" mat-cell> {{element.username}}</td>
           </ng-container>
-l
+
           <ng-container matColumnDef="name">
             <th *matHeaderCellDef mat-header-cell>Nombre</th>
             <td *matCellDef="let element" mat-cell>{{element.name}}</td>
@@ -60,13 +66,6 @@ l
           </button>
         </ng-container>
       </div>
-
-    </div>
-
-    <div class="calendarContainer">
-      <mat-card class="calendar-card">
-        <mat-calendar (click)="seleccionarDia()" [(selected)]="diaSeleccionado" id="calendario"></mat-calendar>
-      </mat-card>
     </div>
 
 

@@ -11,4 +11,15 @@ h2{
   align-items: center;
 }
 
+.containerCampos input{
+  align-items: center;
+}
+
+.containerCampos mat-label{
+  display: inline-block;
+  width: 150px;
+  text-align: right ;
+  padding: 15px;
+}
+
 

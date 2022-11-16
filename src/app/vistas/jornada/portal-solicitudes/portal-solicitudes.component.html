@@ -2,7 +2,9 @@
   <h2>Portal de solicitudes</h2>
 
 
-  <button (click)="nuevaSolicitud()" id="btnNuevaSolI" mat-raised-button>Nueva solicitud</button>
+  <div class="btnNuevaSolContainer">
+    <button (click)="nuevaSolicitud()" id="btnNuevaSolI" mat-raised-button>Solicitar intercambio</button>
+  </div>
 
   <br/>
 
@@ -36,7 +38,7 @@
           <ng-container matColumnDef="aceptar">
             <th *matHeaderCellDef mat-header-cell> Acción</th>
             <td *matCellDef="let element" mat-cell>
-              <button id="aceptarSolIntercambio" (click)="aceptarSolicitud(element)" mat-button> Aceptar</button>
+              <button (click)="aceptarSolicitud(element)" id="aceptarSolIntercambio" mat-button> Aceptar</button>
             </td>
           </ng-container>
 

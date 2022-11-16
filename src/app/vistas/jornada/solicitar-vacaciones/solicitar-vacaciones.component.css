@@ -29,7 +29,7 @@ p{
 }
 
 .tablaExistentes{
-  height:450px ;
+  height:400px ;
   overflow:auto;
 }
 
@@ -47,6 +47,7 @@ p{
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 }
 
 #tablaSolVExistentes{
@@ -61,5 +62,13 @@ p{
 button{
   color:white;
   background: #77104a;
+  width: 100%;
+  margin-top: 15px;
 }
 
+.divExistentes{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

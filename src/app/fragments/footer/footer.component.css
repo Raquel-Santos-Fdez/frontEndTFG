@@ -2,9 +2,11 @@
   background-color: darkgrey;
   color: black;
   font-weight: 600;
-  margin-top:30px;
+  height: 4%;
+  text-align: center;
 }
 
-.container{
-  text-align: center;
+.text-muted{
+  display:flex;
+  justify-content: center;
 }

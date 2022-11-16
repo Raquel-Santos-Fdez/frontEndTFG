@@ -1,28 +1,28 @@
-#tablaSolicitudes{
+#tablaSolicitudes {
   width: 120%;
 }
 
-.verSolicitudes h2{
+h2 {
   color: #77104a;
   font-weight: bold;
   font-size: 30px;
-  margin:10px;
+  margin: 10px;
   margin-bottom: 30px;
 }
 
-.verSolicitudes{
+.verSolicitudes {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.containerP{
+.containerP {
   display: flex;
   flex-direction: row;
 }
 
-.titulo{
-  font-weight: bold ;
+.titulo {
+  font-weight: bold;
 }
 
 a:hover {
@@ -30,46 +30,59 @@ a:hover {
   cursor: pointer;
 }
 
-.containerVerSolicitudes{
+.containerVerSolicitudes {
   display: flex;
   flex-direction: row;
 }
 
-.calendar-card{
+.calendar-card {
   width: 250px;
 }
 
-.containerCalendario{
+.containerCalendario {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.containerJornadas{
+.containerJornadas {
   margin-top: 20px;
 }
 
-#tablaJornada{
+#tablaJornada {
   width: 400px;
   text-align: center;
 }
 
-#tablaJornada th{
+#tablaJornada th {
   text-align: center;
 }
 
 
-caption{
+caption {
   font-weight: bold;
   font-size: 17px;
   color: #77104a;
 }
 
-.divSolicitudes{
+.divSolicitudes {
   margin-left: 30px;
 }
 
-#formSolFiltro{
+#formSolFiltro {
   height: 10px;
 }
 
+#aceptarSolAdminBtn {
+  background-color: #77104a;
+  color: white
+}
+
+#rechazarSolAdminBtn{
+  background-color: #D1D1D1;
+
+}
+
+a{
+  font-weight: bold;
+}

@@ -143,39 +143,51 @@ export class ConsultarJornadaComponent implements OnInit {
     })
   }
 
+  isPosterior(): boolean {
+    let fecha_actual: Date = new Date();
+    if (this.selected)
+      return (fecha_actual <= this.selected);
+    return false;
+
+  }
+
   solicitarDiaLibre() {
-    let empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
-    if (empleado.nDiasLibres > 0) {
-      if (this.formularioDiaLibre.valid) {
-        let pipe = new DatePipe('en-US')
-        let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
-        if (fecha_seleccionada)
-          this.solicitud.fecha = fecha_seleccionada
-        // this.solicitud.motivo = this.motivoSeleccionado;
-        this.solicitud.empleado = empleado
-        if (this.selected) {
+    if(this.isPosterior()) {
 
-          this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id)
-            .subscribe(data => {
-              if (data == false) {
-                this.jornadaService.enviarSolicitud(this.solicitud).subscribe(() => {
-                    // this.motivoSeleccionado = "";
-                    this.isSolicitado = false;
-                    this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
-                  }
-                );
-              } else {
-                this._snackBar.open("Ya existe una solicitud realizada para esta fecha", undefined, {duration: 2000})
+      let empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
+      if (empleado.nDiasLibres > 0) {
+        if (this.formularioDiaLibre.valid) {
+          let pipe = new DatePipe('en-US')
+          let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
+          if (fecha_seleccionada)
+            this.solicitud.fecha = fecha_seleccionada
+          // this.solicitud.motivo = this.motivoSeleccionado;
+          this.solicitud.empleado = empleado
+          if (this.selected) {
 
-              }
-            })
-        } else
-          this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
+            this.solicitudService.existeSolicitud(this.solicitud.fecha, this.solicitud.empleado.id)
+              .subscribe(data => {
+                if (data == false) {
+                  this.jornadaService.enviarSolicitud(this.solicitud).subscribe(() => {
+                      // this.motivoSeleccionado = "";
+                      this.isSolicitado = false;
+                      this._snackBar.open("La solicitud ha sido enviada correctamente", undefined, {duration: 2000})
+                    }
+                  );
+                } else {
+                  this._snackBar.open("Ya existe una solicitud realizada para esta fecha", undefined, {duration: 2000})
 
+                }
+              })
+          } else
+            this._snackBar.open("Debe seleccionar un día en el calendario", undefined, {duration: 2000})
+
+        }
+      } else {
+        this._snackBar.open("Ha alcanzado el máximo de días libres posibles", undefined, {duration: 2000})
       }
-    } else {
-      this._snackBar.open("Ha alcanzado el máximo de días libres posibles", undefined, {duration: 2000})
-    }
+    }else
+      alert("La fecha debe ser posterior a la fecha actual");
 
   }
 }

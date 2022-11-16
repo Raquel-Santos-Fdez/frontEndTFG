@@ -8,7 +8,6 @@
       </mat-card>
 
       <div *ngIf="isDiaLibre==false" id="contenedor">
-        <div>
           <mat-expansion-panel id="diaLibrePanel">
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -41,8 +40,6 @@
               </div>
             </form>
           </mat-expansion-panel>
-        </div>
-
 
       </div>
 
@@ -52,7 +49,7 @@
 
 
     <div class="tablaTareaContainer">
-      <table *ngIf="isSelected" [dataSource]="tareas" mat-table>
+      <table id="tablaTareas" *ngIf="isSelected" [dataSource]="tareas" mat-table>
         <ng-container matColumnDef="descripcion">
           <th *matHeaderCellDef mat-header-cell>Descripcion</th>
           <td *matCellDef="let element" mat-cell>{{element.descripcion}}</td>

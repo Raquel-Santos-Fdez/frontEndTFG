@@ -4,7 +4,7 @@
     <form (ngSubmit)="enviarSolicitud()" id="formulario">
       <mat-form-field appearance="fill">
         <mat-label>Día libre a solicitar</mat-label>
-        <input name="diaSolicitar" (dateInput)="saveDateLibrar($event)" [matDatepicker]="picker1" matInput required>
+        <input name="diaSolicitar" (dateInput)="saveDateLibrar($event)" [matDatepicker]="picker1" #diaSolicitar matInput required>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle [for]="picker1" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -12,7 +12,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Día trabajo a cubrir</mat-label>
-        <input name="diaCubrir" (dateInput)="saveDateCubrir($event)" [matDatepicker]="picker2" matInput required>
+        <input name="diaCubrir" (dateInput)="saveDateCubrir($event)" [matDatepicker]="picker2" #diaCubrir matInput required>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle [for]="picker2" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>

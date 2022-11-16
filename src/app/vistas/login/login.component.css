@@ -9,10 +9,23 @@ h1{
   color: #77104a;
   font-weight: bold;
   font-size: 40px;
+  margin-bottom: 30px;
 }
 
 #loginBtn{
   color:white;
   background: #77104a;
+  margin-left: 20%;
 }
+
+.login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+
+
 

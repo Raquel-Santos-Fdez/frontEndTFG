@@ -1,33 +1,34 @@
-<h1 mat-dialog-title>Detalles empleado</h1>
+<div class="detalles-empleado">
+  <h2 mat-dialog-title>Detalles empleado</h2>
 
 
-<ng-container>
-  <div>
-    <label>Nombre, Apellidos</label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="employee.name +' '+employee.surname" matInput name="nombreApellido" readonly>
-    </mat-form-field>
-  </div>
+  <ng-container>
+    <div>
+      <label>Nombre, Apellidos</label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="employee.name +' '+employee.surname" matInput name="nombreApellido" readonly>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <label>Nombre de usuario</label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="employee.username" matInput name="username" readonly>
-    </mat-form-field>
-  </div>
+    <div>
+      <label>Nombre de usuario</label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="employee.username" matInput name="username" readonly>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <label>Rol</label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="employee.role" matInput name="rol" readonly>
-    </mat-form-field>
-  </div>
+    <div>
+      <label>Rol</label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="employee.role" matInput name="rol" readonly>
+      </mat-form-field>
+    </div>
 
-  <div>
-    <label>Días libres disponibles</label>
-    <mat-form-field appearance="fill">
-      <input [(ngModel)]="employee.nDiasLibres" matInput name="nDiasLibres" readonly>
-    </mat-form-field>
-  </div>
-</ng-container>
-
+    <div>
+      <label>Días libres disponibles</label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="employee.nDiasLibres" matInput name="nDiasLibres" readonly>
+      </mat-form-field>
+    </div>
+  </ng-container>
+</div>
