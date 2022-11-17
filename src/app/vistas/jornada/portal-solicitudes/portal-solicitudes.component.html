@@ -15,12 +15,12 @@
 
           <ng-container matColumnDef="fechaTrabajo">
             <th *matHeaderCellDef mat-header-cell> Día a cubrir</th>
-            <td *matCellDef="let element" mat-cell> {{element.fecha}} </td>
+            <td *matCellDef="let element" mat-cell> {{formatearFecha(element.fecha)}} </td>
           </ng-container>
 
           <ng-container matColumnDef="fechaDescanso">
             <th *matHeaderCellDef mat-header-cell> Día de descanso</th>
-            <td *matCellDef="let element" mat-cell> {{element.fechaDescanso}} </td>
+            <td *matCellDef="let element" mat-cell> {{formatearFecha(element.fechaDescanso)}} </td>
           </ng-container>
 
           <ng-container matColumnDef="empleado">
@@ -28,19 +28,21 @@
             <td *matCellDef="let element" mat-cell> {{element.empleado.username}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="aceptar">
+          <th *matHeaderCellDef mat-header-cell> Acción</th>
+          <td *matCellDef="let element" mat-cell>
+            <button (click)="aceptarSolicitud(element)" id="aceptarSolIntercambio" mat-button> Aceptar</button>
+          </td>
+          </ng-container>
+
           <ng-container matColumnDef="detalles">
             <th *matHeaderCellDef mat-header-cell> Detalles</th>
             <td *matCellDef="let element" mat-cell>
-              <button (click)="verDetallesJornada(element)" mat-button>Detalles</button>
+              <button (click)="verDetallesJornada(element)" id="detallesJornadaSolI"mat-button>Detalles</button>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="aceptar">
-            <th *matHeaderCellDef mat-header-cell> Acción</th>
-            <td *matCellDef="let element" mat-cell>
-              <button (click)="aceptarSolicitud(element)" id="aceptarSolIntercambio" mat-button> Aceptar</button>
-            </td>
-          </ng-container>
+
 
           <tr *matHeaderRowDef="colummsTodasSolicitudes" mat-header-row></tr>
           <tr *matRowDef="let row; columns: colummsTodasSolicitudes;" mat-row></tr>
@@ -56,15 +58,15 @@
           <ng-container matColumnDef="fechaTrabajo">
             <th *matHeaderCellDef mat-header-cell> Día a cubrir</th>
             <td *matCellDef="let element" mat-cell>
-              <div *ngIf="element.type=='solicitudIntercambio'">{{element.fecha}} </div>
+              <div *ngIf="element.type=='solicitudIntercambio'">{{formatearFecha(element.fecha)}} </div>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="fechaDescanso">
             <th *matHeaderCellDef mat-header-cell> Día de descanso</th>
             <td *matCellDef="let element" mat-cell>
-              <div *ngIf="element.type=='solicitudSimple'">{{element.fecha}} </div>
-              {{element.fechaDescanso}} </td>
+              <div *ngIf="element.type=='solicitudSimple'">{{formatearFecha(element.fecha)}} </div>
+              {{formatearFecha(element.fechaDescanso)}} </td>
           </ng-container>
 
           <ng-container matColumnDef="estado">
@@ -85,8 +87,8 @@
 
           <ng-container matColumnDef="periodoInvierno">
             <th *matHeaderCellDef mat-header-cell> Periodo</th>
-            <td *matCellDef="let element" mat-cell> {{element.fecha}}
-              --  {{getFinVacaciones(element.fechaFinVacaciones)}} </td>
+            <td *matCellDef="let element" mat-cell> {{formatearFecha(element.fecha)}}
+              --  {{formatearFecha(element.fechaFinVacaciones)}} </td>
           </ng-container>
 
           <ng-container matColumnDef="estado">

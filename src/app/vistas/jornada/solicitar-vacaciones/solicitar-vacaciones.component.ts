@@ -106,8 +106,8 @@ export class SolicitarVacacionesComponent implements OnInit {
       vacacionesDate.push(new Date(+year, +mes - 1, +dia))
     }
 
-    let fechaSeleccionada = pipe.transform(vacacionesDate[0], 'yyyy-MM-dd')
-    let fecha_fin = pipe.transform(vacacionesDate[1], 'yyyy-MM-dd')
+    let fechaSeleccionada = vacacionesDate[0];
+    let fecha_fin = vacacionesDate[1];
 
 
     if (fechaSeleccionada && fecha_fin) {

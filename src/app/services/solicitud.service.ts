@@ -50,11 +50,11 @@ export class SolicitudService {
     return this.httpClient.get<SolicitudVacaciones[]>(`${this.backendURL}` + "solicitudes/find-solicitudes-vacaciones-pendientes/" +idEmpleado);
   }
 
-  existeSolicitud(fecha:String, idEmpleado:bigint){
+  existeSolicitud(fecha:Date, idEmpleado:bigint){
     return this.httpClient.get<boolean>(`${this.backendURL}` + "solicitudes/existeSolicitud/" +fecha+"/"+idEmpleado);
   }
 
-  existenVacacionesByFechaEmpleado(fecha:string, idEmpleado:bigint){
+  existenVacacionesByFechaEmpleado(fecha:Date, idEmpleado:bigint){
     return this.httpClient.get<boolean>(`${this.backendURL}` + "solicitudes/existenVacacionesByFechaEmpleado/" +fecha+"/"+idEmpleado);
   }
 

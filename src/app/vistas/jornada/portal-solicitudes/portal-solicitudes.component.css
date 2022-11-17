@@ -25,20 +25,16 @@ h2{
 }
 
 .containerSTodas{
-  height: 400px;
+  height: 350px;
   overflow:auto;
 }
 .containerSIntercambio{
-  height: 400px;
+  height: 350px;
   overflow:auto;
 }
 .containerSVacaciones{
-  height: 400px;
+  height: 350px;
   overflow:auto;
-}
-
-.mat-dialog-content{
-  height: 200px;
 }
 
 .btnNuevaSolContainer{
@@ -49,4 +45,39 @@ h2{
 .aceptarSolIntercambio{
   color:white;
   background-color: #77104a;
+}
+
+.nueva-solicitud{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nueva-solicitud form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nueva-solicitud #solIntercambioBtn{
+  background-color: #77104a;
+  color: white;
+}
+
+.nueva-solicitud mat-form-field{
+  width: 100%;
+}
+
+#aceptarSolIntercambio{
+  background-color: #77104a;
+  color:white;
+}
+#detallesJornadaSolI {
+  background-color: #D1D1D1;
+}
+
+.detallesJornadaSolicitud{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

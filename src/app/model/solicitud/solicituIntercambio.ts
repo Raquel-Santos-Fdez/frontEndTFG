@@ -3,7 +3,7 @@ import {Empleado} from "../empleado/empleado";
 
 export class SolicitudIntercambio extends Solicitud{
 
-  fechaDescanso:string;
+  fechaDescanso:Date;
   nuevoEmpleado: Empleado;
 
   constructor() {

@@ -16,7 +16,6 @@ export interface DialogData {
   portalSolicitudes: PortalSolicitudesComponent
 }
 
-
 @Component({
   selector: 'app-portal-solicitudes',
   templateUrl: './portal-solicitudes.component.html',
@@ -24,7 +23,7 @@ export interface DialogData {
 })
 export class PortalSolicitudesComponent implements OnInit {
 
-  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "empleado", "detalles", "aceptar"];
+  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "empleado", "aceptar","detalles"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
   columnsVacaciones: string[] = ["periodoInvierno", "estado"];
   misSolicitudes: Solicitud[];
@@ -86,11 +85,13 @@ export class PortalSolicitudesComponent implements OnInit {
     );
   }
 
-  getFinVacaciones(fechaFinVacaciones: any) {
-    let pipe = new DatePipe('en-US')
-    let fecha_seleccionada = pipe.transform(new Date(fechaFinVacaciones), 'yyyy-MM-dd')
-    if (fecha_seleccionada)
-      return fecha_seleccionada
+  formatearFecha(fechaFinVacaciones: Date) {
+    if(fechaFinVacaciones) {
+      let pipe = new DatePipe('es-ES')
+      let fecha_seleccionada = pipe.transform(new Date(fechaFinVacaciones), 'dd-MM-yyyy')
+      if (fecha_seleccionada)
+        return fecha_seleccionada
+    }
 
     return "";
   }
@@ -205,18 +206,11 @@ export class DialogNuevaSolicitud {
 
   saveDateLibrar(event: MatDatepickerInputEvent<Date>) {
 
-    let pipe = new DatePipe('en-US')
-    let fecha_sel = new Date(`${event.value}`);
-      let fecha_seleccionada = pipe.transform(fecha_sel, 'yyyy-MM-dd')
-      if (fecha_seleccionada)
-        this.solicitud.fecha = fecha_seleccionada
+    this.solicitud.fecha=new Date(`${event.value}`);
   }
 
   saveDateCubrir(event: MatDatepickerInputEvent<Date>) {
-    let pipe = new DatePipe('en-US')
-    let fecha_seleccionada = pipe.transform(new Date(`${event.value}`), 'yyyy-MM-dd')
-    if (fecha_seleccionada)
-      this.solicitud.fechaDescanso = fecha_seleccionada
+    this.solicitud.fechaDescanso=new Date(`${event.value}`);
   }
 
   checkFecha() {

@@ -1,4 +1,4 @@
-import {Injectable, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
@@ -7,7 +7,7 @@ import {LoginComponent} from './vistas/login/login.component';
 import {NavComponent} from './fragments/nav/nav.component';
 import {FooterComponent} from './fragments/footer/footer.component';
 
-import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {routing} from './app.routing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialExampleModule} from '../material.module';
@@ -23,8 +23,8 @@ import {MatInputModule} from '@angular/material/input';
 import {NgImageSliderModule} from 'ng-image-slider';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {ReactiveFormsModule} from '@angular/forms';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import {HorariosComponent} from './vistas/horarios/horarios.component';
 import {MapaComponent} from './vistas/horarios/mapa/mapa.component';
@@ -37,21 +37,14 @@ import {
 import {HorariosModule} from "./vistas/horarios/horarios.module";
 
 import {GoogleMapsModule} from '@angular/google-maps';
-
-import {FormsModule} from "@angular/forms";
 import {SolicitarVacacionesComponent} from './vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component';
 import {
   DialogNuevaSolicitud,
   PortalSolicitudesComponent
 } from './vistas/jornada/portal-solicitudes/portal-solicitudes.component';
-import {
-  DialogSolVacaciones,
-  VerSolicitudesComponent
-} from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
+import {DialogSolVacaciones, VerSolicitudesComponent} from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
 import {PerfilComponent} from './vistas/perfil/perfil.component';
-import {
-  GestUsuariosJornadasComponent
-} from './vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.component';
+import {GestUsuariosJornadasComponent} from './vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.component';
 import {FilterPipe} from "./vistas/jornada/gest-usuarios-jornadas/filter.pipe";
 import {GestUsuariosJornadasModule} from "./vistas/jornada/gest-usuarios-jornadas/gest-usuarios-jornadas.module";
 import {DetallesEmpleadoModule} from "./vistas/jornada/detalles-empleado.module";
@@ -59,6 +52,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {PerfilModule} from "./vistas/perfil/perfil.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {DetallesJornadaIntercambioComponent} from "./vistas/jornada/portal-solicitudes/detalles-jornada-intercambio.component";
+import es from '@angular/common/locales/es';
+import {registerLocaleData} from '@angular/common';
+
+registerLocaleData(es);
 
 @NgModule({
   declarations: [
@@ -80,7 +77,7 @@ import {DetallesJornadaIntercambioComponent} from "./vistas/jornada/portal-solic
     GestUsuariosJornadasComponent,
     FilterPipe,
     DialogSolVacaciones,
-    DetallesJornadaIntercambioComponent
+    DetallesJornadaIntercambioComponent,
   ],
   imports: [
     BrowserModule,

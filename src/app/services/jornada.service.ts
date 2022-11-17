@@ -11,6 +11,7 @@ import {Tarea_stop} from "../model/tarea/tarea_stop";
 import {map} from "rxjs/operators"
 import {SolicitudVacaciones} from "../model/solicitud/solicitudVacaciones";
 import {Empleado} from "../model/empleado/empleado";
+import {Time} from "@angular/common";
 
 
 @Injectable({
@@ -43,6 +44,11 @@ export class JornadaService {
     return this.httpClient.get<Tarea>(`${this.backendURL}` + "tarea/" + id)
   }
 
+    existeTarea(fecha: Date, idEmpleado: bigint, horaSalida: Time, horaFin: Time) {
+    return this.httpClient.get<boolean>(`${this.backendURL}` + "jornada/existeTarea/"+
+      fecha+ "/" + idEmpleado+ "/" + horaSalida+ "/" + horaFin)
+  }
+
   addJornada(jornada: Jornada) {
     return this.httpClient.post<Jornada>(`${this.backendURL}` + "jornada/addJornada/", jornada)
   }
@@ -58,5 +64,6 @@ export class JornadaService {
   reasignar(solicitud: SolicitudIntercambio) {
     return this.httpClient.put(`${this.backendURL}` + "jornada/reasignar", solicitud)
   }
+
 
 }

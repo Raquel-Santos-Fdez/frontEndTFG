@@ -1,17 +1,18 @@
 <div class="homeContainer">
-  <div class="divContainer">
-    <img alt="Logo" id="logo" src="assets/img/logo.png"/>
+  <div class="menuHome">
+    <button id="horariosBtnHome" mat-button routerLink="/horarios">Mapa y horarios</button>
 
-    <h1 id="titulo">Bienvenido a</h1>
+  <div  *ngIf="isLogin">
+    <div class="divIsLoginHome" *ngIf="this.empleado.role.toString() != 'ADMIN'">
+        <button id="consultarJornadaBtn" mat-button routerLink="/consultar-jornada">Consultar jornada</button>
+        <button id="solVacacionesBtn" mat-button routerLink="/solicitar-vacaciones">Solicitar vacaciones</button>
+        <button id="portalSolBtn" mat-button routerLink="/portal-solicitudes">Portal de solicitudes</button>
+    </div>
+    <div class="divIsLoginHome"*ngIf="this.empleado.role.toString() == 'ADMIN' ">
+      <button mat-button id="verSolBtn" routerLink="/ver-solicitudes">Ver solicitudes</button>
+      <button mat-button id="gestUJBtn" routerLink="/gestionar-usuarios-jornadas">Gestionar usuarios y tareas</button>
+    </div>
   </div>
-  <div>
-    <ng-image-slider [autoSlide]="5" [imageSize]="{width:'50%', height: '50%', space:2}"
-                     [images]="imageObject"
-                     [infinite]="true"
-                     class="slider"
-                     id="idSlider" slideImage="1">
-
-    </ng-image-slider>
   </div>
 </div>
 

@@ -75,7 +75,8 @@ caption {
 
 #aceptarSolAdminBtn {
   background-color: #77104a;
-  color: white
+  color: white;
+  margin-right: 10px;
 }
 
 #rechazarSolAdminBtn{

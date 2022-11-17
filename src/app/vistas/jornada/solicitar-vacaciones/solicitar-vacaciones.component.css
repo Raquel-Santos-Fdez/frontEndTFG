@@ -31,10 +31,11 @@ p{
 .tablaExistentes{
   height:400px ;
   overflow:auto;
+  width:100%;
 }
 
 #tablaTodasVacaciones{
-  width: 150%;
+  width: 120%;
   text-align: center;
 }
 

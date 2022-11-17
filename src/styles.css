@@ -14,3 +14,20 @@ app-root{
   width: 100%;
   box-sizing: border-box;
 }
+
+app-home{
+  width: 100%;
+  height: 100%;
+}
+
+app-horarios,
+app-ver-solicitudes,
+app-gest-usuarios-jornadas,
+app-consultar-jornada,
+app-solicitar-vacaciones,
+app-portal-solicitudes{
+  padding:30px;
+}
+
+
+

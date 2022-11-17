@@ -10,8 +10,9 @@
     <br>
   </div>
 
-  <form (ngSubmit)="login()" id="login">
-    <div class="row">
+  <div>
+    <form (ngSubmit)="login()" id="login">
+
       <mat-form-field>
         <div class="col-md-12">
           <input [(ngModel)]="employee.username" [ngModelOptions]="{standalone:true}" class="form-control" matInput
@@ -21,6 +22,8 @@
         </div>
       </mat-form-field>
       <br>
+
+      <div class="campoPassword">
       <mat-form-field>
         <div class="col-md-12">
           <input [(ngModel)]="employee.password" [ngModelOptions]="{standalone:true}" [type]="show ? 'text': 'password'"
@@ -31,6 +34,7 @@
         </div>
 
       </mat-form-field>
+
       <ng-container *ngIf="!show">
         <button (click)="mostrarPassword()" id="mostrarPassword" mat-button matTooltip="Ver contraseña">
           <mat-icon>visibility</mat-icon>
@@ -41,16 +45,16 @@
           <mat-icon>visibility_off</mat-icon>
         </button>
       </ng-container>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-md-12">
-        <button id="loginBtn" mat-button type="submit" value="Login">Acceder</button>
       </div>
-    </div>
-  </form>
+
+      <button id="loginBtn" mat-button type="submit" value="Login">Acceder</button>
+
+    </form>
+  </div>
+
   <br>
   <div *ngIf="errorInicio" class="row">
     <label class="float-right" style="color:red;"> Usuario o contraseña incorrectos</label>
   </div>
+
 </div>

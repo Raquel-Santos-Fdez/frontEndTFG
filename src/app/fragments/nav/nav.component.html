@@ -4,7 +4,7 @@
     <mat-icon aria-hidden="false" aria-label="Example home icon" href="/">home</mat-icon>
   </a>
 
-  <a id="aHorarios" href="/horarios">Mapa y horarios</a>
+  <button mat-button id="aHorarios" routerLink="/horarios">Mapa y horarios</button>
 
   <div *ngIf="isLogin && this.empleado.role.toString() != 'ADMIN'">
     <div *ngIf="isLogin">
@@ -20,7 +20,7 @@
   </div>
   <div *ngIf="isLogin && this.empleado.role.toString() == 'ADMIN' ">
     <button mat-button id="verSolBtn" routerLink="/ver-solicitudes">Ver solicitudes</button>
-    <button mat-button id="gestUJBtn" routerLink="/gestionar-usuarios-jornadas">Gestionar usuarios y jornadas</button>
+    <button mat-button id="gestUJBtn" routerLink="/gestionar-usuarios-jornadas">Gestionar usuarios y tareas</button>
   </div>
 
   <div class="spacer"></div>

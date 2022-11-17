@@ -1,4 +1,4 @@
-h2{
+h2 {
   color: #77104a;
   font-weight: bold;
   font-size: 30px;
@@ -10,7 +10,7 @@ h2{
   flex-direction: row;
 }
 
-.filtro{
+.filtro {
   margin: 10px;
 }
 
@@ -19,98 +19,120 @@ h2{
 
 }
 
-.calendarContainer{
+.calendarContainer {
   width: 250px;
 }
 
-#tablaTareas{
+#tablaTareas {
 
   width: 120%;
 }
 
-#btnNuevaTarea{
+#btnNuevaTarea {
   background-color: #77104a;
   color: #FFFFFF;
 }
 
-.gestUJ{
+.gestUJ {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#filtroUsuarios{
+#filtroUsuarios {
   height: 20px;
   border-bottom: 1px solid black;
 }
-#addUsuario{
+
+#addUsuario {
   height: 40px;
 }
-#filtroUsuarios{
+
+#filtroUsuarios {
   width: 50%;
 }
 
-.container2{
+.container2 {
   display: flex;
   flex-direction: column;
   min-width: 65%;
   margin-left: 70px;
 }
 
-.tablaUsuariosContainer{
+.tablaUsuariosContainer {
 
-  overflow-y:auto;
+  overflow-y: auto;
   overflow-x: hidden;
   height: 250px;
 }
 
-.container3{
+.container3 {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.nuevo-usuario{
+.nuevo-usuario {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.nuevo-usuario form{
+.nuevo-usuario form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.nuevo-usuario h2{
+.nuevo-usuario h2 {
   margin-bottom: 10px;
 }
 
-.nuevo-usuario #addUsuarioBtn{
+.nuevo-usuario #addUsuarioBtn {
   background-color: #77104a;
   color: white;
 }
 
-.nueva-tarea{
+.nueva-tarea {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.nueva-tarea form{
+.nueva-tarea form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.nueva-tarea h2{
+.nueva-tarea h2 {
   margin-bottom: 10px;
 }
 
-.nueva-tarea #addTarea{
+.nueva-tarea #addTarea {
   background-color: #77104a;
   color: white;
+}
+
+#detallesEmpleadoBtn {
+  background-color: #77104a;
+  color: white;
+  margin-right: 10px
+}
+
+#eliminarEmpleadoBtn {
+  background-color: #D1D1D1;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
 }
 
 

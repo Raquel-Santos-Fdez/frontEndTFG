@@ -157,10 +157,8 @@ export class ConsultarJornadaComponent implements OnInit {
       let empleado = JSON.parse(localStorage.getItem("usuario") || '{}');
       if (empleado.nDiasLibres > 0) {
         if (this.formularioDiaLibre.valid) {
-          let pipe = new DatePipe('en-US')
-          let fecha_seleccionada = pipe.transform(this.selected, 'yyyy-MM-dd')
-          if (fecha_seleccionada)
-            this.solicitud.fecha = fecha_seleccionada
+          if(this.selected)
+            this.solicitud.fecha = this.selected
           // this.solicitud.motivo = this.motivoSeleccionado;
           this.solicitud.empleado = empleado
           if (this.selected) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Empleado} from "../../model/empleado/empleado";
 
 @Component({
   selector: 'app-home',
@@ -11,26 +12,15 @@ export class HomeComponent implements OnInit {
   imagenes:string[]=["assets/img/imagen1.jpg", "assets/img/imagen2.jpg", "assets/img/imagen3.Ajpg"];
   rutaImagen:string=this.imagenes[0];
   actual:number=0;
-  imageObject=[{
-    image:'assets/img/imagen1.jpg',
-    thumbImage: 'assets/img/imagen1.jpg',
-    alt:'imagen1'
-  },{
-    image:'assets/img/imagen2.png',
-    thumbImage: 'assets/img/imagen2.png',
-    alt:'imagen2'
-  },{
-    image:'assets/img/imagen3.jpg',
-    thumbImage: 'assets/img/imagen3.jpg',
-    alt:'imagen3'
-  },
-    {
-      image:'assets/img/imagen4.jpg',
-      thumbImage: 'assets/img/imagen4.jpg',
-      alt:'imagen4'
-    }];
+  empleado:Empleado;
+  isLogin:boolean=false;
 
-  constructor() { }
+  constructor() {
+    this.empleado = JSON.parse(localStorage.getItem("usuario")||'{}');
+
+    if(Object.keys(this.empleado).length!=0)
+      this.isLogin = true;
+  }
 
   ngOnInit(): void {
     this.employee = JSON.parse(localStorage.getItem("usuario")||'{}');

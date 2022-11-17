@@ -3,7 +3,7 @@ import {Empleado} from "../empleado/empleado";
 export abstract class Solicitud {
 
   id: bigint;
-  fecha:string;
+  fecha:Date;
   motivo:MotivoAusencia;
   type:string;
 

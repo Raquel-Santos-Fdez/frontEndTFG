@@ -2,7 +2,7 @@ import {Solicitud} from "./solicitud";
 
 export class SolicitudVacaciones extends Solicitud {
 
-  fechaFinVacaciones:string;
+  fechaFinVacaciones:Date;
 
 
   constructor() {

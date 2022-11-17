@@ -74,18 +74,42 @@ export class NuevaTareaDialog {
         let fecha2 = new Date(this.data.diaSeleccionado)
         this.data.jornada = new Jornada(fecha2, this.data.empleadoSeleccionado);
       }
+        this.comprobarCoincidenciaHorario();
 
-      this.tarea.stops.push(new Tarea_stop(Situacion.FINAL, this.destino));
-      this.tarea.stops.push(new Tarea_stop(Situacion.INICIO, this.origen));
 
-      this.data.jornada.tareas.push(this.tarea);
-      this.jornadaService.addJornada(this.data.jornada).subscribe();
-
-      this.dialogRef.close()
-      this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
-      setTimeout(() => this.data.gestorUsuariosJornadas.seleccionarDia(), 200);
+      // this.tarea.stops.push(new Tarea_stop(Situacion.FINAL, this.destino));
+      // this.tarea.stops.push(new Tarea_stop(Situacion.INICIO, this.origen));
+      //
+      // this.data.jornada.tareas.push(this.tarea);
+      // this.jornadaService.addJornada(this.data.jornada).subscribe();
+      //
+      // this.dialogRef.close()
+      // this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
+      // setTimeout(() => this.data.gestorUsuariosJornadas.seleccionarDia(), 200);
 
     }
+  }
+
+  comprobarCoincidenciaHorario(){
+    this.jornadaService.existeTarea(new Date(this.data.diaSeleccionado), this.data.empleadoSeleccionado.id, this.tarea.horaSalida, this.tarea.horaFin).subscribe(data=>{
+        let existe=data;
+        if(!existe) {
+          this.tarea.stops.push(new Tarea_stop(Situacion.FINAL, this.destino));
+          this.tarea.stops.push(new Tarea_stop(Situacion.INICIO, this.origen));
+
+          this.data.jornada.tareas.push(this.tarea);
+          this.jornadaService.addJornada(this.data.jornada).subscribe();
+
+          this.dialogRef.close()
+          this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
+          setTimeout(() => this.data.gestorUsuariosJornadas.seleccionarDia(), 200);
+        }
+        else{
+          this._snackBar.open("Ya existe una tarea en este horario", undefined, {duration: 2000});
+
+        }
+    });
+
   }
 
   validarHorario(group: any) {
