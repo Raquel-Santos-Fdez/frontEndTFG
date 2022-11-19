@@ -18,6 +18,13 @@
     </div>
 
     <div>
+      <label>Email</label>
+      <mat-form-field appearance="fill">
+        <input [(ngModel)]="employee.email" matInput name="email" readonly>
+      </mat-form-field>
+    </div>
+
+    <div>
       <label>Rol</label>
       <mat-form-field appearance="fill">
         <input [(ngModel)]="employee.role" matInput name="rol" readonly>

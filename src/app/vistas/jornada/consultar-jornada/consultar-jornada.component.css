@@ -29,8 +29,9 @@ h2{
 
 
 .tablaTareaContainer{
+  margin-top: 30px;
   overflow-x: auto;
-  max-height: 400px;
+  max-height: 300px;
   width: 400px;
 }
 
@@ -51,8 +52,35 @@ h2{
 button{
   background-color: #77104a;
   color: white;
+  margin: 10px;
 }
 
 #tablaTareas{
   width: 100%;
+
+}
+.consultarJornada h3, caption {
+  font-weight: bold;
+  font-size: 18px;
+  color: #77104a;
+  margin-top: 10px;
+}
+
+.detallesTareaDiv, .dialog-detalles-jornada{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dialog-detalles-jornada{
+  max-height: 500px;
+}
+
+.dialog-detalles-jornada h3{
+  font-weight: bold;
+
+}
+
+.nuevaIncidenciaDiv{
+  padding-left: 60px;
 }

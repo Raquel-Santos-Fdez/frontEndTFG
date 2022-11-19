@@ -45,18 +45,13 @@ export class ConsultarJornadaComponent implements OnInit {
   isLoggedIn: boolean = false;
 
   solicitud: Solicitud = new SolicitudSimple();
-  // motivoSeleccionado: MotivoEnum;
   isSolicitado: boolean = false;
-  horaInicio: any;
-  horaFin: any;
 
   isDiaLibre: boolean = false;
 
   motivos: any[] = [];
 
   formularioDiaLibre = new FormGroup({
-    horaInicio: new FormControl('', [Validators.required]),
-    horaFin: new FormControl('', [Validators.required]),
     selectMotivo: new FormControl('', [Validators.required]),
   });
 
@@ -185,8 +180,18 @@ export class ConsultarJornadaComponent implements OnInit {
         this._snackBar.open("Ha alcanzado el máximo de días libres posibles", undefined, {duration: 2000})
       }
     }else
-      alert("La fecha debe ser posterior a la fecha actual");
+      this._snackBar.open("La fecha debe ser posterior a la fecha actual");
 
+  }
+
+  public formatearFecha(fechaFin: Date|null): string {
+    if(fechaFin) {
+      let pipe = new DatePipe('en-US')
+      let fecha = pipe.transform(fechaFin, 'dd-MM-yyyy')
+      if (fecha)
+        return fecha;
+    }
+    return ""
   }
 }
 

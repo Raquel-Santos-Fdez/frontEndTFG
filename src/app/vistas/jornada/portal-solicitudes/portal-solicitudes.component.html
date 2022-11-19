@@ -28,18 +28,16 @@
             <td *matCellDef="let element" mat-cell> {{element.empleado.username}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="aceptar">
+          <ng-container matColumnDef="accion">
           <th *matHeaderCellDef mat-header-cell> Acción</th>
           <td *matCellDef="let element" mat-cell>
-            <button (click)="aceptarSolicitud(element)" id="aceptarSolIntercambio" mat-button> Aceptar</button>
+            <button (click)="aceptarSolicitud(element)" id="aceptarSolIntercambio" mat-button>
+              <mat-icon>check</mat-icon>
+            </button>
+              <button (click)="verDetallesJornada(element)" id="detallesJornadaSolI"mat-button>
+                <mat-icon>search</mat-icon>
+              </button>
           </td>
-          </ng-container>
-
-          <ng-container matColumnDef="detalles">
-            <th *matHeaderCellDef mat-header-cell> Detalles</th>
-            <td *matCellDef="let element" mat-cell>
-              <button (click)="verDetallesJornada(element)" id="detallesJornadaSolI"mat-button>Detalles</button>
-            </td>
           </ng-container>
 
 

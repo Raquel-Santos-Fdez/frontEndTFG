@@ -69,15 +69,18 @@ h2{
 }
 
 #aceptarSolIntercambio{
-  background-color: #77104a;
-  color:white;
+  color: forestgreen;
 }
 #detallesJornadaSolI {
-  background-color: #D1D1D1;
+  /*background-color: #D1D1D1;*/
 }
 
 .detallesJornadaSolicitud{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.portalSolicitudes button{
+  margin-right: 10px;
 }

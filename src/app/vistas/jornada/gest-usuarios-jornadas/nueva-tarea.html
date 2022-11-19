@@ -32,21 +32,21 @@
       </mat-select>
     </mat-form-field>
     <mat-error *ngIf="comprobarEstaciones()">Las estaciones no están en la misma ruta</mat-error>
-    <p>
+<!--    <p>-->
       <mat-form-field>
         <mat-label>Hora de inicio</mat-label>
         <input [(ngModel)]="tarea.horaSalida" formControlName="horaInicio" matInput max="23:59" min="00:00"
                name="horaInicio" type="time">
       </mat-form-field>
-    </p>
-    <div>
+<!--    </p>-->
+<!--    <div>-->
       <mat-form-field>
         <mat-label>Hora de finalización</mat-label>
         <input [(ngModel)]="tarea.horaFin" formControlName="horaFin" matInput max="23:59" min="00:00" name="horaFin"
                type="time">
       </mat-form-field>
       <mat-error *ngIf="comprobarHorarios()">La hora de fin no puede ser anterior a la hora de inicio</mat-error>
-    </div>
+<!--    </div>-->
 
 
     <mat-form-field>
@@ -59,8 +59,9 @@
     </mat-form-field>
 
     <div mat-dialog-actions>
-      <button [mat-dialog-close] mat-button>Cerrar</button>
       <button (click)="validarRuta(this.formulario)" id="addTarea" mat-button type="submit">Añadir</button>
+      <button [mat-dialog-close] mat-button>Cerrar</button>
+
     </div>
   </form>
 </div>

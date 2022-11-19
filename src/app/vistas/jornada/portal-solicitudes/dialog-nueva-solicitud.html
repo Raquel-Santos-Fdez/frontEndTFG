@@ -7,7 +7,6 @@
         <mat-label>Día libre a solicitar</mat-label>
         <input #diaSolicitar (dateInput)="saveDateLibrar($event)" [matDatepicker]="picker1" matInput
                name="diaSolicitar" required>
-        <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle [for]="picker1" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
@@ -16,7 +15,6 @@
         <mat-label>Día trabajo a cubrir</mat-label>
         <input #diaCubrir (dateInput)="saveDateCubrir($event)" [matDatepicker]="picker2" matInput name="diaCubrir"
                required>
-        <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle [for]="picker2" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
@@ -26,7 +24,7 @@
         <mat-select [(ngModel)]="solicitud.motivo" id="selectMotivo" name="motivoSelect"
                     required>
           <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" class="motivo" id="motivo">
-            {{motivo.text}}
+            {{motivo.text.charAt(0)}}{{motivo.text.substring(1, motivo.text.length).toLowerCase()}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -37,8 +35,9 @@
       </mat-error>
 
       <div>
-        <button (click)="onNoClick()" mat-button>Cancelar</button>
         <button id="solIntercambioBtn" mat-button type="submit">Enviar</button>
+        <button (click)="onNoClick()" mat-button>Cancelar</button>
+
       </div>
 
     </form>

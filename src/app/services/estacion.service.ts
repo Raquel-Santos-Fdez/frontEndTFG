@@ -12,7 +12,7 @@ export class EstacionService {
 
   constructor(private httpClient:HttpClient) { }
 
-  findAllStops(): Observable<Estacion[]>{
+  findAllEstaciones(): Observable<Estacion[]>{
     return this.httpClient.get<Estacion[]>(`${this.backendURL}`+"estaciones");
   }
 }

@@ -11,6 +11,7 @@ import {Jornada} from "../../../model/jornada/jornada";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {DetallesJornadaIntercambioComponent} from "./detalles-jornada-intercambio.component";
 import {MatInput} from "@angular/material/input";
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 
 export interface DialogData {
   portalSolicitudes: PortalSolicitudesComponent
@@ -23,7 +24,7 @@ export interface DialogData {
 })
 export class PortalSolicitudesComponent implements OnInit {
 
-  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "empleado", "aceptar","detalles"];
+  colummsTodasSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "empleado", "accion"];
   columnsMisSolicitudes: string[] = ["fechaTrabajo", "fechaDescanso", "estado"];
   columnsVacaciones: string[] = ["periodoInvierno", "estado"];
   misSolicitudes: Solicitud[];
@@ -86,7 +87,7 @@ export class PortalSolicitudesComponent implements OnInit {
   }
 
   formatearFecha(fechaFinVacaciones: Date) {
-    if(fechaFinVacaciones) {
+    if (fechaFinVacaciones) {
       let pipe = new DatePipe('es-ES')
       let fecha_seleccionada = pipe.transform(new Date(fechaFinVacaciones), 'dd-MM-yyyy')
       if (fecha_seleccionada)
@@ -110,10 +111,28 @@ export class PortalSolicitudesComponent implements OnInit {
   }
 }
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
 @Component({
   selector: 'dialog-nueva-solicitud',
   templateUrl: './dialog-nueva-solicitud.html',
-  styleUrls: ['./portal-solicitudes.component.css']
+  styleUrls: ['./portal-solicitudes.component.css'],
+  providers:[
+    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ]
+
 })
 export class DialogNuevaSolicitud {
 
@@ -205,19 +224,19 @@ export class DialogNuevaSolicitud {
   }
 
   saveDateLibrar(event: MatDatepickerInputEvent<Date>) {
-
     this.solicitud.fecha=new Date(`${event.value}`);
+    this.existeSolVar=false;
   }
 
   saveDateCubrir(event: MatDatepickerInputEvent<Date>) {
     this.solicitud.fechaDescanso=new Date(`${event.value}`);
+    this.existeSolVar=false;
   }
 
   checkFecha() {
     console.log(this.isPosterior(new Date(this.solicitud.fecha)));
     if (this.isPosterior(new Date(this.solicitud.fecha))==false) {
-      console.log("entra")
-      alert("La fecha debe ser posterior a la fecha actual")
+      this._snackBar.open("Debe seleccionar un intercambio para un día con una jornada asignada", undefined, {duration: 2000})
       this.fecha1.value = "";
       return false;
     }

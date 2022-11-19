@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Estacion} from "../../../model/estacion/estacion";
 import {EstacionService} from "../../../services/estacion.service";
+import Polyline = google.maps.Polyline;
 
 @Component({
   selector: 'app-mapa',
@@ -11,19 +12,17 @@ export class MapaComponent implements OnInit {
 
   //Markers: Estaciones
   marker: Marker;
-  markers: Marker[]=[];
-  stops:Estacion[]=[];
-
-  located: boolean = false;
+  markers: Marker[] = [];
+  estaciones: Estacion[] = [];
 
   // InfoWindow
-  infoDisplayed: boolean =false;
-  infoName: string ="";
-  infoDesc: string="";
+  infoDisplayed: boolean = false;
+  infoName: string = "";
+  infoDesc: string = "";
 
 
   //Map options
-  center: { lat: number; lng: number; } ={lat:0, lng:0};
+  center: { lat: number; lng: number; } = {lat: 0, lng: 0};
   options: google.maps.MapOptions = {
     mapTypeId: 'satellite',
     zoomControl: true,
@@ -33,65 +32,81 @@ export class MapaComponent implements OnInit {
     minZoom: 5,
   };
 
-  constructor(private paradaService:EstacionService) {
+  constructor(private estacionService: EstacionService,
+  ) {
+    // this.center=this.horariosComponent.center;
 
   }
 
   ngOnInit(): void {
-    this.center = { lat:43.267258, lng: -5.805951 };
+    this.center = {lat: 43.267258, lng: -5.805951};
+
     this.getStops();
     this.loadDatabase();
   }
 
-  getCurrentPosition() {
+  reload(origen: any, destino:any) {
     navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
+      var gOrigen = new google.maps.LatLng(origen.lat, origen.lng);
+      var gDestino = new google.maps.LatLng(destino.lat, destino.lng);
+      var objConfig = {
+        zoom: 16,
+        center: gOrigen,
+        mapTypeId: "satellite"
+      }
+      var gMapa = new google.maps.Map(<HTMLElement>document.getElementById("contMapa"), objConfig)
+      var configMOrigen={
+        position: gOrigen,
+        map:gMapa,
+        title:origen.nombre
+      }
+      var configMDestino={
+        position: gDestino,
+        map:gMapa,
+        title:destino.nombre
+      }
+      var mOrigen=new google.maps.Marker(configMOrigen);
+      var mDestino=new google.maps.Marker(configMDestino);
+
+      var bounds =new google.maps.LatLngBounds();
+      bounds.extend(gOrigen);
+      bounds.extend(gDestino);
+      gMapa.fitBounds(bounds);
+
     });
+    this.getCenter()
   }
 
   getCenter() {
     return this.center;
   }
 
-  private loadDatabase(){
+  private loadDatabase() {
     setTimeout(() => {
       var i;
-      for(i=0; i<this.stops.length;i++){
-        this.addMarker(this.stops[i].latitud, this.stops[i].longitud, this.stops[i].nombre);
+      for (i = 0; i < this.estaciones.length; i++) {
+        this.addMarker(this.estaciones[i].latitud, this.estaciones[i].longitud, this.estaciones[i].nombre);
       }
     }, 1000);
 
   }
 
-  private addMarker(latitude: number, longitude: number, label:string,) {
+  private addMarker(latitude: number, longitude: number, label: string,) {
     this.marker = {
       latitud: latitude,
       longitud: longitude,
-      center: { lat: latitude, lng: longitude },
-      label:label,
+      center: {lat: latitude, lng: longitude},
+      label: label,
     };
 
     this.markers.push(this.marker);
   }
 
-  /**
-   * InfoWindow
-   */
-  openInfoWindow(myMarker:Marker) {
-    this.infoDisplayed = true;
-    this.infoDesc = myMarker.label;
-  }
-
-  closeCard() {
-    this.infoDisplayed = false;
-  }
-
-  private getStops(){
-    this.paradaService.findAllStops().subscribe(
-      userData => {this.stops = userData}
+  private getStops() {
+    this.estacionService.findAllEstaciones().subscribe(
+      userData => {
+        this.estaciones = userData
+      }
     );
   }
 
@@ -102,5 +117,5 @@ interface Marker {
   center: { lat: number; lng: number };
   latitud: number;
   longitud: number;
-  label:string;
+  label: string;
 }

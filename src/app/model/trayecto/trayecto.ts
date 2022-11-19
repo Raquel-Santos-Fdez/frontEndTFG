@@ -1,8 +1,8 @@
 import {Ruta} from "../ruta/ruta";
 
-export class Trip {
+export class Trayecto {
 
-  trip_id:String;
+  id:String;
   route:Ruta;
 
 }

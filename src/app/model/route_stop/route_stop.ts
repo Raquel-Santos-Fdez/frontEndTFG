@@ -3,7 +3,7 @@ import {Ruta} from "../ruta/ruta";
 
 export class Route_stop {
   id:bigint
-  stop:Estacion
+  estacion:Estacion
   ruta:Ruta
   orderParada:number
 

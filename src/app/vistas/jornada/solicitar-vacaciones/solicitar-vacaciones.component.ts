@@ -71,9 +71,9 @@ export class SolicitarVacacionesComponent implements OnInit {
 
   }
 
-  public formatearFecha(fechaFin: string): string {
+  public formatearFecha(fechaFin: Date): string {
     let pipe = new DatePipe('en-US')
-    let fecha = pipe.transform(fechaFin, 'yyyy-MM-dd')
+    let fecha = pipe.transform(fechaFin, 'dd-MM-yyyy')
     if (fecha)
       return fecha;
     return ""
@@ -123,7 +123,7 @@ export class SolicitarVacacionesComponent implements OnInit {
             this.comprobarSolicitudExistente()
           });
         } else {
-          alert("Ya existe una solicitud para el periodo "+periodo);
+          this._snackBar.open("Ya existe una solicitud para el periodo "+periodo);
         }
       });
     }

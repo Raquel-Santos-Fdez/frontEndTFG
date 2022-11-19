@@ -1,18 +1,23 @@
-h2{
+.perfil h2{
   color: #77104a;
   font-weight: bold;
   font-size: 30px;
   margin-bottom: 25px;
 }
 
+ h2{
+  color:#77104a;
+}
+
 .perfil{
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 30px;
 }
 
-.containerCampos input{
-  align-items: center;
+.containerCampos{
+  padding-right: 150px;
 }
 
 .containerCampos mat-label{
@@ -20,6 +25,18 @@ h2{
   width: 150px;
   text-align: right ;
   padding: 15px;
+
+}
+
+#aceptarModificacion{
+  background-color: #77104a;
+  color: white;
+}
+
+.perfil button{
+  width: 52%;
+  background-color: #77104a;
+  color: white;
 }
 
 

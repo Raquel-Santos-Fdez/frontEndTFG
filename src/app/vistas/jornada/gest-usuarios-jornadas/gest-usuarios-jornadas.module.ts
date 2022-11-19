@@ -12,6 +12,7 @@ import {NuevaTareaDialog} from "./nueva-tarea.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {NuevoUsuarioDialog} from "./nuevo-usuario.component";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {NuevoUsuarioDialog} from "./nuevo-usuario.component";
     FormsModule,
     MatTableModule,
     MatGridListModule,
-    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
+    MatProgressSpinnerModule
 
   ]
 })

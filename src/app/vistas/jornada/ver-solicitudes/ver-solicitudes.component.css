@@ -1,5 +1,6 @@
 #tablaSolicitudes {
-  width: 120%;
+  width: 600px;
+  /*height: 500px;*/
 }
 
 h2 {
@@ -32,21 +33,18 @@ a:hover {
 
 .containerVerSolicitudes {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items:center;
 }
 
 .calendar-card {
   width: 250px;
+  margin-right: 40px;
 }
 
-.containerCalendario {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 .containerJornadas {
-  margin-top: 20px;
+  display: flex;
 }
 
 #tablaJornada {
@@ -54,15 +52,20 @@ a:hover {
   text-align: center;
 }
 
+.divTablaJornada{
+  width: 400px;
+
+}
+
 #tablaJornada th {
   text-align: center;
 }
 
-
-caption {
+h3{
   font-weight: bold;
-  font-size: 17px;
+  font-size: 20px;
   color: #77104a;
+  margin-top: 10px;
 }
 
 .divSolicitudes {
@@ -74,16 +77,37 @@ caption {
 }
 
 #aceptarSolAdminBtn {
+  color: forestgreen;
+}
+
+button mat-icon{
+  size: 10px;
+}
+#rechazarSolAdminBtn{
+  color: red;
+}
+
+#btnDetallesEmpleadoSol{
   background-color: #77104a;
   color: white;
-  margin-right: 10px;
 }
 
-#rechazarSolAdminBtn{
-  background-color: #D1D1D1;
+#aceptarVacaciones{
+  background-color: #77104a;
+  color: white;
+}
+
+.vacacionesDialog{
+  display: flex;
+  flex-direction: column;
 
 }
 
-a{
-  font-weight: bold;
+.vacacionesDialog mat-label{
+  display: inline-block;
+  width: 150px;
+  text-align: right ;
+  padding: 15px;
+
 }
+

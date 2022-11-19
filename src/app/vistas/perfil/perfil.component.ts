@@ -52,6 +52,7 @@ export interface PasswordDialogData {
 @Component({
   selector: 'password-dialog',
   templateUrl: 'password-dialog.html',
+  styleUrls: ['./perfil.component.css']
 })
 export class PasswordDialog {
 

@@ -1,7 +1,7 @@
 <div class="dialog-detalles-jornada">
   <h2 mat-dialog-title>Detalles de la tarea</h2>
 
-  <ng-container *ngIf="data.tarea">
+  <div class="detallesTareaDiv" *ngIf="data.tarea">
 
     <mat-form-field *ngIf="data.tarea.horaSalida">
       <h3>Hora de salida</h3>
@@ -23,31 +23,34 @@
       <input [(ngModel)]="data.origen.nombre +'\n-'+ data.final.nombre" matInput readonly/>
     </mat-form-field>
 
+    <div>
     <mat-form-field *ngIf="data.tarea.tren">
       <h3>Tren</h3>
       <input [(ngModel)]="data.tarea.tren.id" matInput readonly/>
     </mat-form-field>
+    </div>
 
-
-    <h3>Incidencias</h3>
     <mat-form-field *ngIf="data.incidencias.length>0">
+      <h3>Incidencias</h3>
       <input *ngFor="let incidencia of data.incidencias" [(ngModel)]="incidencia.descripcion" id="incidencias" matInput
              readonly/>
     </mat-form-field>
+    <div class="nuevaIncidenciaDiv">
     <h3>Nueva incidencia</h3>
-    <mat-form-field>
-      <input [(ngModel)]="nuevaIncidencia" id="nuevasIncidencias" matInput type="text"/>
-    </mat-form-field>
 
+    <mat-form-field>
+      <input [(ngModel)]="nuevaIncidencia" id="nuevasIncidencias" matInput placeholder="Nueva incidencia" type="text"/>
+    </mat-form-field>
 
     <button (click)="addIncidencia()" id="addIncidencia" title="Añadir nueva incidencia">
       <mat-icon>add</mat-icon>
     </button>
+    </div>
 
 
     <div mat-dialog-actions>
-      <button (click)="cerrar()" [mat-dialog-close] cdkFocusInitial id="cerrarDetallesJBtn" mat-button>Cerrar</button>
+      <button (click)="cerrar()" [mat-dialog-close] id="cerrarDetallesJBtn" mat-button>Cerrar</button>
 
     </div>
-  </ng-container>
+  </div>
 </div>

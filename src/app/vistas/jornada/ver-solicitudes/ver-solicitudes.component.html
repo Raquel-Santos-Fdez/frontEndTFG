@@ -3,95 +3,104 @@
   <h2> Solicitudes pendientes</h2>
 
   <div class="containerVerSolicitudes">
+    <div *ngIf="solicitudes.length>0" class="divSolicitudes">
+      <div class="divFiltroSol">
+        <mat-form-field *ngFor="let solfilter of solFilters" appearance="fill" id="matformSolFiltro">
+          <mat-label>{{ solfilter.name.toUpperCase().charAt(0)}}{{solfilter.name.substring(1, solfilter.name.length)}}</mat-label>
+          <mat-select (selectionChange)="aplicarFiltro($event, solfilter)"
+                      [(value)]="solfilter.defaultValue"
+                      id="formSolFiltro"
+          >
+            <mat-option *ngFor="let op of solfilter.options" [value]="op">
+              {{ op }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <table [dataSource]="dataSource" id="tablaSolicitudes" mat-table>
+
+        <ng-container matColumnDef="fecha">
+          <th *matHeaderCellDef mat-header-cell> Fecha</th>
+          <td *matCellDef="let element" mat-cell> {{formatearFecha(element.fecha)}}{{getFinVacaciones(element)}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="motivo">
+          <th *matHeaderCellDef mat-header-cell> Motivo</th>
+          <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="empleado">
+          <th *matHeaderCellDef mat-header-cell> Empleado</th>
+          <td *matCellDef="let element" mat-cell>
+            <button (click)="verDetallesEmpleado(element.empleado)" id="btnDetallesEmpleadoSol" mat-button
+                    matTooltip="Detalles empleado">{{element.empleado.username}} </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accion">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let element" mat-cell>
+
+            <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button matTooltip="aceptar">
+              <mat-icon>check</mat-icon>
+            </button>
+
+            <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button matTooltip="rechazar">
+              <mat-icon>clear</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+      </table>
+
+      <ng-container *ngIf="solicitudes.length==0">
+        <h4>No hay solicitudes pendientes</h4>
+      </ng-container>
+    </div>
+    <mat-paginator
+      [hidePageSize]="true"
+      [length]="solicitudes.length"
+      [pageSize]="5"
+      aria-label="Select page"
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
+  <h3>Consultar jornadas en el calendario</h3>
+
+  <div class="containerJornadas">
+
     <mat-card class="calendar-card">
       <mat-calendar (click)="seleccionarDia()" [(selected)]="diaSeleccionado" id="calendario"></mat-calendar>
     </mat-card>
 
-    <div>
-      <div *ngIf="solicitudes.length>0" class="divSolicitudes">
-        <div class="divFiltroSol">
-          <mat-form-field  id="matformSolFiltro" *ngFor="let solfilter of solFilters" appearance="fill">
-            <mat-label>{{ solfilter.name }}</mat-label>
-            <mat-select (selectionChange)="aplicarFiltro($event, solfilter)"
-                        [(value)]="solfilter.defaultValue"
-                        id="formSolFiltro"
-            >
-              <mat-option *ngFor="let op of solfilter.options" [value]="op">
-                {{ op }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+    <div class="divTablaJornada">
+      <table [dataSource]="jornadasEmpleado" id="tablaJornada" mat-table>
 
-        <table [dataSource]="dataSource" id="tablaSolicitudes" mat-table>
+        <td>Prueba</td>
 
-          <ng-container matColumnDef="fecha">
-            <th *matHeaderCellDef mat-header-cell> Fecha</th>
-            <td *matCellDef="let element" mat-cell> {{element.fecha}}{{getFinVacaciones(element)}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="motivo">
-            <th *matHeaderCellDef mat-header-cell> Motivo</th>
-            <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="empleado">
-            <th *matHeaderCellDef mat-header-cell> Empleado</th>
-            <td *matCellDef="let element" mat-cell><a (click)="verDetallesEmpleado(element.empleado)"
-                                                      matTooltip="Detalles empleado">{{element.empleado.username}} </a>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="accion">
-            <th *matHeaderCellDef mat-header-cell></th>
-            <td *matCellDef="let element" mat-cell>
-
-              <button (click)="aceptarSolicitud(element)" id="aceptarSolAdminBtn" mat-button matTooltip="aceptar">
-                <mat-icon>check</mat-icon></button>
-
-              <button (click)="rechazarSolicitud(element)" id="rechazarSolAdminBtn" mat-button matTooltip="rechazar">
-                <mat-icon>clear</mat-icon></button>
-
-            </td>
-          </ng-container>
-
-          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-
-        </table>
-
-        <ng-container *ngIf="solicitudes.length==0">
-          <p>No hay solicitudes pendientes</p>
+        <ng-container matColumnDef="fecha">
+          <th *matHeaderCellDef class="headerJ" mat-header-cell>Fecha</th>
+          <td *matCellDef="let element" mat-cell>{{formatearFecha(element.date)}}</td>
         </ng-container>
-      </div>
-      <mat-paginator [length]="solicitudes.length"
-                     [pageSize]="5"
-                     aria-label="Select page"
-                     showFirstLastButtons>
-      </mat-paginator>
+
+        <ng-container matColumnDef="empleado">
+          <th *matHeaderCellDef mat-header-cell>Empleado</th>
+          <td *matCellDef="let element" mat-cell>{{element.empleado.username}}</td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="columnasJornadas" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: columnasJornadas;" mat-row></tr>
+
+      </table>
     </div>
-  </div>
 
-  <div class="containerJornadas">
-    <table *ngIf="hasTarea" [dataSource]="jornadasEmpleado" id="tablaJornada" mat-table>
-
-      <caption>Jornadas asignadas para el dia seleccionado</caption>
-      <ng-container matColumnDef="fecha">
-        <th *matHeaderCellDef class="headerJ" mat-header-cell>Fecha</th>
-        <td *matCellDef="let element" mat-cell>{{formatearFecha(element.date)}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="empleado">
-        <th *matHeaderCellDef mat-header-cell>Empleado</th>
-        <td *matCellDef="let element" mat-cell>{{element.empleado.username}}</td>
-      </ng-container>
-
-      <tr *matHeaderRowDef="columnasJornadas" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: columnasJornadas;" mat-row></tr>
-
-    </table>
-
-    <p *ngIf="!hasTarea && diaSeleccionado">Aún no se ha asignado una jornada para el día seleccionado</p>
+<!--    <h4 *ngIf="!hasTarea && diaSeleccionado">Aún no se ha asignado una jornada para el día seleccionado</h4>-->
   </div>
 
 </div>

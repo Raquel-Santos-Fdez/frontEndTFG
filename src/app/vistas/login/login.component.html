@@ -3,7 +3,7 @@
   <div *ngIf="loading" class="row">
     <div class="col-md-12">
       <div class="spinner-border text-info float-right" role="status">
-        <span class="sr-only">Loading...</span>
+        <span class="sr-only">Cargando...</span>
       </div>
     </div>
     <br>
@@ -17,7 +17,7 @@
         <div class="col-md-12">
           <input [(ngModel)]="employee.username" [ngModelOptions]="{standalone:true}" class="form-control" matInput
                  name="username"
-                 placeholder="username"
+                 placeholder="Usuario"
                  required type="text">
         </div>
       </mat-form-field>
@@ -29,7 +29,7 @@
           <input [(ngModel)]="employee.password" [ngModelOptions]="{standalone:true}" [type]="show ? 'text': 'password'"
                  class="form-control" matInput
                  name="password"
-                 placeholder="password"
+                 placeholder="Contraseña"
                  required type="password">
         </div>
 

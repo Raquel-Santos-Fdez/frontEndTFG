@@ -20,7 +20,6 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatInputModule} from '@angular/material/input';
-import {NgImageSliderModule} from 'ng-image-slider';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -54,6 +53,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {DetallesJornadaIntercambioComponent} from "./vistas/jornada/portal-solicitudes/detalles-jornada-intercambio.component";
 import es from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
+// import {MomentDateModule, MomentDateAdapter} from '@angular/material-moment-adapter';
+
 
 registerLocaleData(es);
 
@@ -98,7 +99,6 @@ registerLocaleData(es);
     MatButtonModule,
     MatSnackBarModule,
     MatInputModule,
-    NgImageSliderModule,
     MatSelectModule,
     MatTooltipModule,
     DetallesEmpleadoModule,
@@ -106,7 +106,8 @@ registerLocaleData(es);
     GestUsuariosJornadasModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    // MomentDateModule
 
   ],
   providers: [

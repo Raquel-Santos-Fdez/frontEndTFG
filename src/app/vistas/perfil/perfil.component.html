@@ -25,29 +25,6 @@
       </mat-form-field>
     </div>
     <div>
-      <mat-label>Contraseña</mat-label>
-      <mat-form-field appearance="fill">
-        <input [(ngModel)]="empleado.password" [type]="show ? 'text': 'password'" id="password" matInput
-               name="password" readonly>
-      </mat-form-field>
-      <ng-container *ngIf="!show">
-        <button (click)="mostrarPassword()" id="mostrarPassword" mat-button matTooltip="Ver contraseña">
-          <mat-icon>visibility</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="show">
-        <button (click)="mostrarPassword()" id="ocultarPassword" mat-button matTooltip="Ocultar contraseña">
-          <mat-icon>visibility_off</mat-icon>
-        </button>
-      </ng-container>
-      <ng-container>
-        <button (click)="modificarPassword()" id="modificarPassword" mat-button matTooltip="Modificar contraseña">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </ng-container>
-    </div>
-
-    <div>
 
       <mat-label>Rol</mat-label>
       <mat-form-field appearance="fill">
@@ -60,6 +37,12 @@
       <mat-form-field appearance="fill">
         <input [(ngModel)]="empleado.nDiasLibres" matInput name="diasLibres">
       </mat-form-field>
+    </div>
+    <div>
+      <mat-label></mat-label>
+      <ng-container >
+      <button mat-button (click)="modificarPassword()">Modificar contraseña</button>
+      </ng-container>
     </div>
 
   </div>

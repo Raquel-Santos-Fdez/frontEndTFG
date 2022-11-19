@@ -55,11 +55,11 @@ export class NuevaTareaDialog {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private jornadaService: JornadaService,
     private trenService: TrenService,
-    private paradaService: EstacionService,
+    private estacionService: EstacionService,
     private _snackBar: MatSnackBar,
     private rutaService: RutaService
   ) {
-    this.paradaService.findAllStops().subscribe(data => {
+    this.estacionService.findAllEstaciones().subscribe(data => {
       this.estaciones = data
     });
 
@@ -75,17 +75,6 @@ export class NuevaTareaDialog {
         this.data.jornada = new Jornada(fecha2, this.data.empleadoSeleccionado);
       }
         this.comprobarCoincidenciaHorario();
-
-
-      // this.tarea.stops.push(new Tarea_stop(Situacion.FINAL, this.destino));
-      // this.tarea.stops.push(new Tarea_stop(Situacion.INICIO, this.origen));
-      //
-      // this.data.jornada.tareas.push(this.tarea);
-      // this.jornadaService.addJornada(this.data.jornada).subscribe();
-      //
-      // this.dialogRef.close()
-      // this._snackBar.open("Tarea añadida correctamente", undefined, {duration: 2000});
-      // setTimeout(() => this.data.gestorUsuariosJornadas.seleccionarDia(), 200);
 
     }
   }

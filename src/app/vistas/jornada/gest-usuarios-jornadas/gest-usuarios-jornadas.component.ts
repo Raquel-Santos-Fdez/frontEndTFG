@@ -42,6 +42,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource: MatTableDataSource<{ jornada: Jornada, tarea: Tarea }>;
+  isLoading:boolean=false;
 
 
   constructor(
@@ -66,6 +67,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
     this.empleadosService.findAllEmpleados().subscribe(data => {
       this.empleados = data
       this.empleados = this.empleados.filter(e => e.id != this.empleadoActual.id)
+      this.isLoading=false;
     })
   }
 
@@ -239,9 +241,9 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
   }
 
-  formatearFecha(date: string) {
+  formatearFecha(date: Date) {
     let pipe = new DatePipe('en-US')
-    let fecha = pipe.transform(date, 'yyyy-MM-dd')
+    let fecha = pipe.transform(date, 'dd-MM-yyyy')
     if (fecha)
       return fecha;
     return ""

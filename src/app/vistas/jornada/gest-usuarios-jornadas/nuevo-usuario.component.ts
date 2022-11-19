@@ -60,6 +60,7 @@ export class NuevoUsuarioDialog {
       );
     };
   }
+
   comprobarDni(): boolean {
     return this.formulario.controls["dni"].hasError("dniExists");
   }
@@ -81,12 +82,15 @@ export class NuevoUsuarioDialog {
     if (this.formulario.valid) {
       //Generamos una contraseña aleatoria
       this.empleado.password = Math.random().toString(36).toUpperCase().slice(2)
-      this.employeeService.addEmpleado(this.empleado).subscribe(() =>
+      this.employeeService.addEmpleado(this.empleado).subscribe(() => {
+          this.data.gestorUsuariosJornadas.isLoading = true;
+          this.dialogRef.close()
           this._snackBar.open("Usuario añadido correctamente", undefined, {duration: 2000})
+          this.data.gestorUsuariosJornadas.mostrarUsuarios();
+        }
       );
-      this.dialogRef.close()
 
-      setTimeout(() => this.data.gestorUsuariosJornadas.mostrarUsuarios(), 500);
+
     }
   }
 }

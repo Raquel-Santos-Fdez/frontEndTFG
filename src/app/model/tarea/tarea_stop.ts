@@ -8,12 +8,6 @@ export class Tarea_stop{
   estacion:Estacion
   tarea:Tarea
 
-  // constructor(situacion:Situacion, stop: Estacion, tarea:Tarea) {
-  //   this.situacion=situacion;
-  //   this.estacion=stop;
-  //   this.tarea=tarea;
-  // }
-
   constructor(situacion:Situacion, estacion: Estacion) {
     this.situacion=situacion;
     this.estacion=estacion;

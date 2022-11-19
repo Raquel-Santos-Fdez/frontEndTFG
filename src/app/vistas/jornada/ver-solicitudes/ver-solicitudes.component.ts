@@ -166,8 +166,8 @@ export class VerSolicitudesComponent implements OnInit {
   getFinVacaciones(solicitud: Solicitud) {
     if (solicitud.type == "solicitudVacaciones") {
       let pipe = new DatePipe('en-US')
-      let fecha = pipe.transform((solicitud as SolicitudVacaciones).fechaFinVacaciones, 'yyyy-MM-dd')
-      return " - " + fecha;
+      let fecha = pipe.transform((solicitud as SolicitudVacaciones).fechaFinVacaciones, 'dd-MM-yyyy')
+      return " -- " + fecha;
     }
     return "";
   }
@@ -192,9 +192,9 @@ export class VerSolicitudesComponent implements OnInit {
     }
   }
 
-  formatearFecha(date: string) {
+  formatearFecha(date: Date) {
     let pipe = new DatePipe('en-US')
-    let fecha = pipe.transform(date, 'yyyy-MM-dd')
+    let fecha = pipe.transform(date, 'dd-MM-yyyy')
     if (fecha)
       return fecha;
     return ""
@@ -237,8 +237,8 @@ export class DialogSolVacaciones {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private  solicitudService: SolicitudService
   ) {
-    this.periodo1 = this.data.solicitudes[0].fecha + " - " + this.data.verSolicitudComp.getFinVacaciones(this.data.solicitudes[0])
-    this.periodo2 = this.data.solicitudes[1].fecha + " - " + this.data.verSolicitudComp.getFinVacaciones(this.data.solicitudes[1])
+    this.periodo1 = this.data.verSolicitudComp.formatearFecha(this.data.solicitudes[0].fecha)  + this.data.verSolicitudComp.getFinVacaciones(this.data.solicitudes[0])
+    this.periodo2 = this.data.verSolicitudComp.formatearFecha(this.data.solicitudes[1].fecha)  + this.data.verSolicitudComp.getFinVacaciones(this.data.solicitudes[1])
     this.empleado = this.data.solicitudes[0].empleado;
   }
 

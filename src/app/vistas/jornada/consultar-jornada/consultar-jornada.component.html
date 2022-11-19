@@ -1,82 +1,70 @@
 <div class="consultarJornada">
-  <h2>Consultar jornada</h2>
+  <h2>Consultar mi jornada</h2>
 
   <div class="container1">
     <div class="calendarContainer">
       <mat-card class="calendar-card">
         <mat-calendar (click)="verJornada()" [(selected)]="selected"></mat-calendar>
       </mat-card>
-
-      <div *ngIf="isDiaLibre==false" id="contenedor">
-          <mat-expansion-panel id="diaLibrePanel">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Solicitar día libre
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <form [formGroup]="formularioDiaLibre">
-              <div class="row">
-                <mat-form-field>
-                  <mat-label>Hora inicio</mat-label>
-                  <input [(ngModel)]="horaInicio" formControlName="horaInicio" matInput name="horaInicio" required
-                         type="time">
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Hora fin</mat-label>
-                  <input [(ngModel)]="horaFin" formControlName="horaFin" matInput name="horaFin" required type="time">
-                </mat-form-field>
-                <br>
-                <mat-form-field appearance="fill">
-                  <mat-label>Motivo de la ausencia</mat-label>
-                  <mat-select [(ngModel)]="solicitud.motivo" formControlName="selectMotivo" name="selectMotivo"
-                              required>
-                    <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" id="motivo">
-                      {{motivo.text}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <button (click)="solicitarDiaLibre()" id="btnSelMotivo" mat-button type="submit">Solicitar</button>
-              </div>
-            </form>
-          </mat-expansion-panel>
-
-      </div>
-
     </div>
 
     <br/>
 
 
-    <div class="tablaTareaContainer">
-      <table id="tablaTareas" *ngIf="isSelected" [dataSource]="tareas" mat-table>
-        <ng-container matColumnDef="descripcion">
-          <th *matHeaderCellDef mat-header-cell>Descripcion</th>
-          <td *matCellDef="let element" mat-cell>{{element.descripcion}}</td>
-        </ng-container>
+    <div>
+        <mat-expansion-panel [disabled]="isDiaLibre" id="diaLibrePanel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Solicitar día libre
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-        <br>
+          <form [formGroup]="formularioDiaLibre">
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Motivo de la ausencia</mat-label>
+                <mat-select [(ngModel)]="solicitud.motivo" formControlName="selectMotivo" name="selectMotivo"
+                            required>
+                  <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" id="motivo">
+                    {{motivo.text.charAt(0)}}{{motivo.text.substring(1, motivo.text.length).toLowerCase()}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button (click)="solicitarDiaLibre()" id="btnSelMotivo" mat-button type="submit">Solicitar</button>
+            </div>
+          </form>
+        </mat-expansion-panel>
 
-        <ng-container matColumnDef="detalles">
-          <th *matHeaderCellDef mat-header-cell></th>
-          <td *matCellDef="let element" mat-cell>
-            <button (click)="verDetalles(element.id)" id="verDetallesBtn" mat-button>Detalles</button>
-          </td>
-        </ng-container>
+      <div class="tablaTareaContainer">
+        <table *ngIf="isSelected" [dataSource]="tareas" id="tablaTareas" mat-table>
 
-        <tr *matHeaderRowDef="tareasColumns" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: tareasColumns;" mat-row></tr>
-      </table>
+          <caption>Tareas para el día {{formatearFecha(selected)}}</caption>
+
+          <ng-container matColumnDef="descripcion">
+            <th *matHeaderCellDef mat-header-cell>Descripción</th>
+            <td *matCellDef="let element" mat-cell>{{element.descripcion}}</td>
+          </ng-container>
+
+          <br>
+
+          <ng-container matColumnDef="detalles">
+            <th *matHeaderCellDef mat-header-cell></th>
+            <td *matCellDef="let element" mat-cell>
+              <button (click)="verDetalles(element.id)" id="verDetallesBtn" mat-button>Detalles</button>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="tareasColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: tareasColumns;" mat-row></tr>
+        </table>
+      </div>
 
       <div>
-        <h3 *ngIf="!isSelected && !isDiaLibre" id="noAsignada">Aún no se ha asignado una jornada para el día seleccionado</h3>
+        <h3 *ngIf="!isSelected && !isDiaLibre" id="noAsignada">No tiene tareas asignadas para esta jornada</h3>
       </div>
 
       <h3 *ngIf="isDiaLibre">DÍA LIBRE</h3>
     </div>
-
-
-
 
 
   </div>

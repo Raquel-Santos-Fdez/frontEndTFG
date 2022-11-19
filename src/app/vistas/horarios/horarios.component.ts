@@ -7,11 +7,13 @@ import {Route_stop} from "../../model/route_stop/route_stop";
 import {RutaService} from "../../services/ruta.service";
 import {EstacionService} from "../../services/estacion.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MapaComponent} from "./mapa/mapa.component";
 
 @Component({
   selector: 'app-horarios',
   templateUrl: './horarios.component.html',
-  styleUrls: ['./horarios.component.css']
+  styleUrls: ['./horarios.component.css'],
+  providers:[MapaComponent]
 })
 
 export class HorariosComponent implements OnInit {
@@ -23,12 +25,14 @@ export class HorariosComponent implements OnInit {
   destino: Estacion;
   estaciones: Estacion[] = []
   isReady: boolean=false;
+  existe:boolean=true;
 
   constructor(private rutaService: RutaService,
-              private paradaService: EstacionService,
+              private estacionService: EstacionService,
               private router: Router,
               private proveedor: ProveedorService,
-              private _snackBar: MatSnackBar) {
+              private _snackBar: MatSnackBar,
+              private mapaComponent:MapaComponent) {
   }
 
   ngOnInit(): void {
@@ -39,7 +43,7 @@ export class HorariosComponent implements OnInit {
       }
     );
 
-    this.paradaService.findAllStops().subscribe(data => {
+    this.estacionService.findAllEstaciones().subscribe(data => {
       this.estaciones = data
     });
   }
@@ -55,6 +59,7 @@ export class HorariosComponent implements OnInit {
   }
 
   consultarHorario(origen: Estacion, destino: Estacion) {
+    this.existe=true
     let rutasConjuntas: Route_stop[] = [];
     this.isReady=false;
     if (origen && destino) {
@@ -65,8 +70,10 @@ export class HorariosComponent implements OnInit {
           this.proveedor.listRutas = rutasConjuntas;
           this.proveedor.origen = origen;
           this.isReady=true;
+          this.mapaComponent.reload({lat:origen.latitud, lng:origen.longitud, nombre:origen.nombre},
+            {lat:destino.latitud, lng:destino.longitud, nombre:destino.nombre});
         } else
-          alert("No existe recorrido entre esas dos estaciones");
+          this.existe=false;
       })
 
     } else {
@@ -76,7 +83,7 @@ export class HorariosComponent implements OnInit {
 
   getAllEstaciones() {
     let estaciones: Estacion[] = []
-    this.paradaService.findAllStops().subscribe(data => {
+    this.estacionService.findAllEstaciones().subscribe(data => {
       estaciones = data
     });
     return estaciones;
