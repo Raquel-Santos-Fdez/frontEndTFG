@@ -1,7 +1,7 @@
 import {Estacion} from "../estacion/estacion";
 import {Tarea} from "./tarea";
 
-export class Tarea_stop{
+export class Tarea_estacion {
 
   id:bigint
   situacion:Situacion

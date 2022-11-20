@@ -27,7 +27,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
 
   empleados: Empleado[] = [];
   filtroUsuarios = '';
-  diaSeleccionado: Date | null = null;
+  diaSeleccionado: any | null = null;
   hasTarea: boolean = false;
   empleadoSeleccionado: Empleado | undefined = undefined;
   jornadasEmpleado: Jornada[] = [];
@@ -86,11 +86,12 @@ export class GestUsuariosJornadasComponent implements OnInit {
   }
 
   seleccionarDia() {
+    console.log(this.diaSeleccionado)
     if (this.diaSeleccionado) {
       this.inicializarParams();
       //si hay un empleado seleccionado se muestrasn solo las de ese empleado, sino se muestran todas las de esa fecha
       if (this.empleadoSeleccionado) {
-        this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
+        this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado.toDate(), this.empleadoSeleccionado.id).subscribe(data => {
           this.jornadasEmpleado = data;
           if (this.jornadasEmpleado.length > 0)
             if (this.jornadasEmpleado[0].diaLibre)
@@ -98,7 +99,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
           this.guardarTareas();
         });
       } else {
-        this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
+        this.jornadaService.findJornadaByDate(this.diaSeleccionado.toDate()).subscribe(data => {
           this.jornadasEmpleado = data;
           this.guardarTareas();
         });
@@ -168,12 +169,12 @@ export class GestUsuariosJornadasComponent implements OnInit {
     else {
       if(this.isPosterior()) {
         let jornada: Jornada
-        this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado, this.empleadoSeleccionado.id).subscribe(data => {
+        this.jornadaService.findJornadaByDateEmpleado(this.diaSeleccionado.toDate(), this.empleadoSeleccionado.id).subscribe(data => {
           jornada = data[0]
           this.dialog.open(NuevaTareaDialog, {
             width: '450px',
             data: {
-              diaSeleccionado: this.diaSeleccionado?.toDateString(),
+              diaSeleccionado: this.diaSeleccionado.toDate(),
               empleadoSeleccionado: this.empleadoSeleccionado,
               jornada: jornada,
               gestorUsuariosJornadas: this
@@ -188,7 +189,7 @@ export class GestUsuariosJornadasComponent implements OnInit {
   isPosterior(): boolean {
     let fecha_actual: Date = new Date();
     if (this.diaSeleccionado)
-      return (fecha_actual <= this.diaSeleccionado);
+      return (fecha_actual <= this.diaSeleccionado.toDate());
     return false;
 
   }

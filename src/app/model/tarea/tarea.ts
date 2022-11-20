@@ -1,6 +1,6 @@
 import {Time} from "@angular/common";
 import {Tren} from "../tren/tren";
-import {Tarea_stop} from "./tarea_stop";
+import {Tarea_estacion} from "./tarea_estacion";
 
 export class Tarea {
 
@@ -14,7 +14,7 @@ export class Tarea {
 
   tren:Tren;
 
-  stops:Tarea_stop[]=[];
+  stops:Tarea_estacion[]=[];
 
 
   constructor() {

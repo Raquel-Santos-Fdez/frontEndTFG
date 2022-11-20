@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {BackendService} from "../../../services/backend.service";
 import {Horario} from "../../../model/horario/horario";
 import {ProveedorService} from "../../../services/proveedor.service";
+import {RutaService} from "../../../services/ruta.service";
 
 @Component({
   selector: 'app-tabla-horarios',
@@ -13,7 +13,7 @@ export class TablaHorariosComponent implements OnInit {
   stopTimes: Horario[] = [];
   displayedColumns: string[] = ["horario"];
 
-  constructor(private service: BackendService, private proveedor: ProveedorService) {
+  constructor(private rutaService: RutaService, private proveedor: ProveedorService) {
 
   }
 
@@ -29,7 +29,7 @@ export class TablaHorariosComponent implements OnInit {
   }
 
   addHorario(route_id: string, stop_id: string) {
-    this.service.findHorarioByRutaEstacion(route_id, stop_id).subscribe(data => {
+    this.rutaService.findHorarioByRutaEstacion(route_id, stop_id).subscribe(data => {
       this.stopTimes = data
     })
 

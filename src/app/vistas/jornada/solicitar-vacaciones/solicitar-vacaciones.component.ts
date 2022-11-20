@@ -123,7 +123,7 @@ export class SolicitarVacacionesComponent implements OnInit {
             this.comprobarSolicitudExistente()
           });
         } else {
-          this._snackBar.open("Ya existe una solicitud para el periodo "+periodo);
+          this._snackBar.open("Ya existe una solicitud para el periodo "+periodo, undefined, {duration: 2000});
         }
       });
     }

@@ -38,7 +38,6 @@ import {HorariosModule} from "./vistas/horarios/horarios.module";
 import {GoogleMapsModule} from '@angular/google-maps';
 import {SolicitarVacacionesComponent} from './vistas/jornada/solicitar-vacaciones/solicitar-vacaciones.component';
 import {
-  DialogNuevaSolicitud,
   PortalSolicitudesComponent
 } from './vistas/jornada/portal-solicitudes/portal-solicitudes.component';
 import {DialogSolVacaciones, VerSolicitudesComponent} from './vistas/jornada/ver-solicitudes/ver-solicitudes.component';
@@ -53,7 +52,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {DetallesJornadaIntercambioComponent} from "./vistas/jornada/portal-solicitudes/detalles-jornada-intercambio.component";
 import es from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
-// import {MomentDateModule, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {DialogNuevaSolicitud} from "./vistas/jornada/portal-solicitudes/dialog-nueva-solicitud.component";
 
 
 registerLocaleData(es);
@@ -78,7 +78,7 @@ registerLocaleData(es);
     GestUsuariosJornadasComponent,
     FilterPipe,
     DialogSolVacaciones,
-    DetallesJornadaIntercambioComponent,
+    DetallesJornadaIntercambioComponent
   ],
   imports: [
     BrowserModule,
@@ -107,11 +107,11 @@ registerLocaleData(es);
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    // MomentDateModule
+    MatMomentDateModule,
+
 
   ],
   providers: [
-    // AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

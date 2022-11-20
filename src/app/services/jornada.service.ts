@@ -3,14 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Tarea} from "../model/tarea/tarea";
 import {Solicitud} from "../model/solicitud/solicitud";
-import {Estacion} from "../model/estacion/estacion";
 import {SolicitudIntercambio} from "../model/solicitud/solicituIntercambio";
 import {SolicitudSimple} from "../model/solicitud/solicitudSimple";
 import {Jornada} from "../model/jornada/jornada";
-import {Tarea_stop} from "../model/tarea/tarea_stop";
-import {map} from "rxjs/operators"
-import {SolicitudVacaciones} from "../model/solicitud/solicitudVacaciones";
-import {Empleado} from "../model/empleado/empleado";
 import {Time} from "@angular/common";
 
 

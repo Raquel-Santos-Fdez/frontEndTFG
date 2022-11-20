@@ -10,15 +10,15 @@ import {EstacionService} from "../../../services/estacion.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {GestUsuariosJornadasComponent} from "./gest-usuarios-jornadas.component";
 import {Empleado} from "../../../model/empleado/empleado";
-import {Situacion, Tarea_stop} from "../../../model/tarea/tarea_stop";
+import {Situacion, Tarea_estacion} from "../../../model/tarea/tarea_estacion";
 import {Tren} from "../../../model/tren/tren";
 import {RutaService} from "../../../services/ruta.service";
-import {Route_stop} from "../../../model/route_stop/route_stop";
+import {Ruta_estacion} from "../../../model/ruta_estacion/ruta_estacion";
 
 export interface DialogData {
   jornada: Jornada,
   gestorUsuariosJornadas: GestUsuariosJornadasComponent,
-  diaSeleccionado: string,
+  diaSeleccionado: Date,
   empleadoSeleccionado: Empleado
 }
 
@@ -35,7 +35,7 @@ export class NuevaTareaDialog {
   origen: Estacion;
   destino: Estacion;
   tren: Tren;
-  tareaStop: Tarea_stop;
+  tareaEstacion: Tarea_estacion;
   trenes: Tren[] = [];
 
   formulario = new FormGroup({
@@ -71,7 +71,7 @@ export class NuevaTareaDialog {
       this.tarea.tren = this.tren;
 
       if (!this.data.jornada) {
-        let fecha2 = new Date(this.data.diaSeleccionado)
+        let fecha2 = this.data.diaSeleccionado
         this.data.jornada = new Jornada(fecha2, this.data.empleadoSeleccionado);
       }
         this.comprobarCoincidenciaHorario();
@@ -80,11 +80,11 @@ export class NuevaTareaDialog {
   }
 
   comprobarCoincidenciaHorario(){
-    this.jornadaService.existeTarea(new Date(this.data.diaSeleccionado), this.data.empleadoSeleccionado.id, this.tarea.horaSalida, this.tarea.horaFin).subscribe(data=>{
+    this.jornadaService.existeTarea(this.data.diaSeleccionado, this.data.empleadoSeleccionado.id, this.tarea.horaSalida, this.tarea.horaFin).subscribe(data=>{
         let existe=data;
         if(!existe) {
-          this.tarea.stops.push(new Tarea_stop(Situacion.FINAL, this.destino));
-          this.tarea.stops.push(new Tarea_stop(Situacion.INICIO, this.origen));
+          this.tarea.stops.push(new Tarea_estacion(Situacion.FINAL, this.destino));
+          this.tarea.stops.push(new Tarea_estacion(Situacion.INICIO, this.origen));
 
           this.data.jornada.tareas.push(this.tarea);
           this.jornadaService.addJornada(this.data.jornada).subscribe();
@@ -113,7 +113,7 @@ export class NuevaTareaDialog {
   }
 
   validarRuta(group: any) {
-    let rutasConjuntas: Route_stop[] = [];
+    let rutasConjuntas: Ruta_estacion[] = [];
     let origen = group.controls.origen.value;
     let destino = group.controls.destino.value;
 

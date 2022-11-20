@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginService} from "../../services/login.service";
 import {Empleado} from "../../model/empleado/empleado";
+import {EmpleadosService} from "../../services/empleados.service";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   employee:Empleado=new Empleado();
   show: boolean;
 
-  constructor(private service: LoginService) {
+  constructor(private service: EmpleadosService) {
   }
 
   ngOnInit(): void {

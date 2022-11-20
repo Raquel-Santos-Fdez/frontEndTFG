@@ -1,4 +1,4 @@
-import {Route_stop} from "../route_stop/route_stop";
+import {Ruta_estacion} from "../ruta_estacion/ruta_estacion";
 
 export class Ruta {
 
@@ -6,5 +6,5 @@ export class Ruta {
   ruta_corto:string;
   ruta_largo:string;
 
-  stops:Set<Route_stop>;
+  stops:Set<Ruta_estacion>;
 }

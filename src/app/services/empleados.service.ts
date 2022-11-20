@@ -13,6 +13,10 @@ export class EmpleadosService {
 
   constructor(private httpClient:HttpClient) { }
 
+  login(employee: Empleado) {
+    return this.httpClient.post<any>(`${this.backendURL}` +"login", employee);
+  }
+
   findAllEmpleados() {
     return this.httpClient.get<Empleado[]>(`${this.backendURL}`+"empleados");
   }

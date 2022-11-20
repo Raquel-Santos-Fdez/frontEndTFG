@@ -46,15 +46,16 @@
         </button>
       </ng-container>
       </div>
+      <br>
+      <div *ngIf="errorInicio" class="row">
+        <label class="float-right" style="color:red;"> Usuario o contraseña incorrectos</label>
+      </div>
 
       <button id="loginBtn" mat-button type="submit" value="Login">Acceder</button>
 
     </form>
   </div>
 
-  <br>
-  <div *ngIf="errorInicio" class="row">
-    <label class="float-right" style="color:red;"> Usuario o contraseña incorrectos</label>
-  </div>
+
 
 </div>

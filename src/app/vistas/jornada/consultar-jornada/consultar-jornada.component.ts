@@ -12,7 +12,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {DatePipe} from "@angular/common";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatExpansionPanel} from "@angular/material/expansion";
 
 export interface DialogData {
   tarea: Tarea | undefined
@@ -28,7 +27,7 @@ export interface DialogData {
 })
 export class ConsultarJornadaComponent implements OnInit {
 
-  selected: Date | null;
+  selected: any | null;
 
   tareasColumns: string[] = ["descripcion", "detalles"]
 
@@ -83,8 +82,10 @@ export class ConsultarJornadaComponent implements OnInit {
 
     let jornada;
 
+
     if (this.selected != null) {
-      this.jornadaService.findJornadaByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
+      this.jornadaService.findJornadaByDateEmpleado(this.selected.toDate(), this.employee.id).subscribe(data => {
+
         if (data[0]) {
           jornada = data[0];
           this.isDiaLibre = jornada.diaLibre;
@@ -92,7 +93,7 @@ export class ConsultarJornadaComponent implements OnInit {
           this.isDiaLibre = false;
       })
 
-      this.jornadaService.findTareasByDateEmpleado(this.selected, this.employee.id).subscribe(data => {
+      this.jornadaService.findTareasByDateEmpleado(this.selected.toDate(), this.employee.id).subscribe(data => {
         this.tareas = data
         this.isSelected = this.tareas.length > 0;
       });
@@ -141,7 +142,7 @@ export class ConsultarJornadaComponent implements OnInit {
   isPosterior(): boolean {
     let fecha_actual: Date = new Date();
     if (this.selected)
-      return (fecha_actual <= this.selected);
+      return (fecha_actual <= this.selected.toDate());
     return false;
 
   }
@@ -153,8 +154,7 @@ export class ConsultarJornadaComponent implements OnInit {
       if (empleado.nDiasLibres > 0) {
         if (this.formularioDiaLibre.valid) {
           if(this.selected)
-            this.solicitud.fecha = this.selected
-          // this.solicitud.motivo = this.motivoSeleccionado;
+            this.solicitud.fecha = this.selected.toDate();
           this.solicitud.empleado = empleado
           if (this.selected) {
 

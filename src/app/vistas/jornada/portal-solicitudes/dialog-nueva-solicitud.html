@@ -29,9 +29,12 @@
         </mat-select>
       </mat-form-field>
 
-
       <mat-error *ngIf="existeSolVar">
         Ya existe una solicitud para esta fecha
+      </mat-error>
+
+      <mat-error *ngIf="errorFecha">
+        Las fechas deben ser posteriores a la fecha actual
       </mat-error>
 
       <div>

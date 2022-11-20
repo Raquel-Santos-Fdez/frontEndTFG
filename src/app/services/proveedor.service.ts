@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Estacion} from "../model/estacion/estacion";
-import {Route_stop} from "../model/route_stop/route_stop";
+import {Ruta_estacion} from "../model/ruta_estacion/ruta_estacion";
 ;
 
 @Injectable({
@@ -10,6 +10,6 @@ export class ProveedorService {
 
   constructor() { }
 
-  listRutas:Route_stop[]=[];
+  listRutas:Ruta_estacion[]=[];
   origen:Estacion;
 }

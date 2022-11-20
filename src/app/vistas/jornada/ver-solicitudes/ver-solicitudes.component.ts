@@ -25,7 +25,7 @@ export class VerSolicitudesComponent implements OnInit {
 
   solicitudes: Solicitud[] = [];
   displayedColumns: string[] = ["fecha", "motivo", "empleado", "accion"];
-  diaSeleccionado: Date | null = null;
+  diaSeleccionado: any | null = null;
 
   jornadasEmpleado: Jornada[] = [];
   tareas: { jornada: Jornada, tarea: Tarea }[] = [];
@@ -184,7 +184,7 @@ export class VerSolicitudesComponent implements OnInit {
   seleccionarDia() {
     this.hasTarea = false;
     if (this.diaSeleccionado) {
-      this.jornadaService.findJornadaByDate(this.diaSeleccionado).subscribe(data => {
+      this.jornadaService.findJornadaByDate(this.diaSeleccionado.toDate()).subscribe(data => {
         this.jornadasEmpleado = data;
         if (this.jornadasEmpleado.length > 0)
           this.hasTarea = true;

@@ -3,7 +3,7 @@ import {Estacion} from "../../model/estacion/estacion";
 import {Ruta} from "../../model/ruta/ruta";
 import {Router} from "@angular/router";
 import {ProveedorService} from "../../services/proveedor.service";
-import {Route_stop} from "../../model/route_stop/route_stop";
+import {Ruta_estacion} from "../../model/ruta_estacion/ruta_estacion";
 import {RutaService} from "../../services/ruta.service";
 import {EstacionService} from "../../services/estacion.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -60,7 +60,7 @@ export class HorariosComponent implements OnInit {
 
   consultarHorario(origen: Estacion, destino: Estacion) {
     this.existe=true
-    let rutasConjuntas: Route_stop[] = [];
+    let rutasConjuntas: Ruta_estacion[] = [];
     this.isReady=false;
     if (origen && destino) {
       this.rutaService.findRutaByEstacion(origen.id, destino.id).subscribe(data => {

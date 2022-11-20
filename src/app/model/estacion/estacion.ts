@@ -1,5 +1,5 @@
-import {Tarea_stop} from "../tarea/tarea_stop";
-import {Route_stop} from "../route_stop/route_stop";
+import {Tarea_estacion} from "../tarea/tarea_estacion";
+import {Ruta_estacion} from "../ruta_estacion/ruta_estacion";
 
 export class Estacion {
 

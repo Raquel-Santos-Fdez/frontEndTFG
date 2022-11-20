@@ -74,8 +74,8 @@
         <ng-container *ngIf="diaSeleccionado" >
           <button (click)="deleteFechaFiltro()" class="filtro" mat-stroked-button>
             <mat-icon>clear</mat-icon>
-            {{diaSeleccionado.getDate()}}/{{diaSeleccionado.getMonth() + 1}}/{{diaSeleccionado.getFullYear()}}
-          </button>
+            {{formatearFecha(diaSeleccionado.toDate())}}
+       </button>
         </ng-container>
       </div>
       </div>

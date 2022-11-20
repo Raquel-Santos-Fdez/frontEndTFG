@@ -84,3 +84,8 @@ button{
 .nuevaIncidenciaDiv{
   padding-left: 60px;
 }
+
+#addIncidencia{
+  padding:0;
+  min-width: 40px;
+}
