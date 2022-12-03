@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Horario} from "../../../model/horario/horario";
 import {ProveedorService} from "../../../services/proveedor.service";
 import {RutaService} from "../../../services/ruta.service";
+import {Util} from "../../../Util";
 
 @Component({
   selector: 'app-tabla-horarios',
@@ -12,6 +13,7 @@ export class TablaHorariosComponent implements OnInit {
 
   stopTimes: Horario[] = [];
   displayedColumns: string[] = ["horario"];
+  util:Util=new Util();
 
   constructor(private rutaService: RutaService, private proveedor: ProveedorService) {
 

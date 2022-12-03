@@ -26,11 +26,6 @@ h2 {
   font-weight: bold;
 }
 
-a:hover {
-  color: #125699;
-  cursor: pointer;
-}
-
 .containerVerSolicitudes {
   display: flex;
   flex-direction: column;
@@ -88,11 +83,22 @@ button mat-icon{
 }
 
 #btnDetallesEmpleadoSol{
+  color: #77104a;
+  font-weight: bold;
+}
+
+#btnDetallesEmpleadoSol:hover{
+  color: #125699;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#aceptarVacaciones{
   background-color: #77104a;
   color: white;
 }
 
-#aceptarVacaciones{
+#rechazarVacaciones{
   background-color: #77104a;
   color: white;
 }

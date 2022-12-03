@@ -86,7 +86,6 @@ export class GestUsuariosJornadasComponent implements OnInit {
   }
 
   seleccionarDia() {
-    console.log(this.diaSeleccionado)
     if (this.diaSeleccionado) {
       this.inicializarParams();
       //si hay un empleado seleccionado se muestrasn solo las de ese empleado, sino se muestran todas las de esa fecha

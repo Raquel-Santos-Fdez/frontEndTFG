@@ -141,4 +141,15 @@ export class DialogNuevaSolicitud {
     }
     return true;
   }
+
+  formatearMotivo(motivo:string) {
+    if(motivo=="LICENCIA")
+      return "Licencia";
+    else if(motivo=="OTRO_MOTIVO")
+      return "Otro motivo";
+    else if(motivo=="FORMACION")
+      return "Formación";
+    else
+      return "Visita médica";
+  }
 }

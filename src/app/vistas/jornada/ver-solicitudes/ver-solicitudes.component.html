@@ -12,7 +12,7 @@
                       id="formSolFiltro"
           >
             <mat-option *ngFor="let op of solfilter.options" [value]="op">
-              {{ op }}
+              {{ formatearFiltro(op) }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -27,14 +27,14 @@
 
         <ng-container matColumnDef="motivo">
           <th *matHeaderCellDef mat-header-cell> Motivo</th>
-          <td *matCellDef="let element" mat-cell>{{element.motivo}}</td>
+          <td *matCellDef="let element" mat-cell>{{formatearFiltro(element.motivo)}}</td>
         </ng-container>
 
         <ng-container matColumnDef="empleado">
           <th *matHeaderCellDef mat-header-cell> Empleado</th>
           <td *matCellDef="let element" mat-cell>
-            <button (click)="verDetallesEmpleado(element.empleado)" id="btnDetallesEmpleadoSol" mat-button
-                    matTooltip="Detalles empleado">{{element.empleado.username}} </button>
+            <a (click)="verDetallesEmpleado(element.empleado)" id="btnDetallesEmpleadoSol"
+                    matTooltip="Detalles empleado">{{element.empleado.username}} </a>
           </td>
         </ng-container>
 

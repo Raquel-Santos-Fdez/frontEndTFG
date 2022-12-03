@@ -8,6 +8,7 @@ import {finalize} from "rxjs";
   styleUrls: ['./app.component.css'] //indica las hojas de estilo del componente
 })
 export class AppComponent { //clase que exportamos para poder importarla en otros componentes
+  title: any;
 
 
   constructor() {

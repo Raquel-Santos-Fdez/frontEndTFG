@@ -12,6 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {DatePipe} from "@angular/common";
 import {SolicitudService} from "../../../services/solicitud.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Util} from "../../../Util";
 
 export interface DialogData {
   tarea: Tarea | undefined
@@ -193,6 +194,17 @@ export class ConsultarJornadaComponent implements OnInit {
     }
     return ""
   }
+
+  formatearMotivo(motivo:string) {
+    if(motivo=="LICENCIA")
+      return "Licencia";
+    else if(motivo=="OTRO_MOTIVO")
+      return "Otro motivo";
+    else if(motivo=="FORMACION")
+      return "Formación";
+    else
+      return "Visita médica";
+  }
 }
 
 @Component({
@@ -210,6 +222,7 @@ export class DialogDetallesJornada {
   }
 
   nuevaIncidencia: string = "";
+  util: Util=new Util();
 
 
   addIncidencia() {

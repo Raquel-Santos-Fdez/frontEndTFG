@@ -212,6 +212,21 @@ export class VerSolicitudesComponent implements OnInit {
 
     this.paginarSolicitudes(this.dataSourceFilters.filteredData)
   }
+
+  formatearFiltro(texto:string) {
+    if(texto=="LICENCIA")
+      return "Licencia";
+    else if(texto=="OTRO_MOTIVO")
+      return "Otro motivo";
+    else if(texto=="FORMACION")
+      return "Formación";
+    else if(texto=="VISITA_MEDICA")
+      return "Visita médica";
+    else if(texto=="VACACIONES")
+      return "Vacaciones";
+    else
+     return texto;
+  }
 }
 
 

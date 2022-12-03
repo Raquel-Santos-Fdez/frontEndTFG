@@ -26,7 +26,8 @@
                 <mat-select [(ngModel)]="solicitud.motivo" formControlName="selectMotivo" name="selectMotivo"
                             required>
                   <mat-option *ngFor="let motivo of motivos" [value]="motivo.value" id="motivo">
-                    {{motivo.text.charAt(0)}}{{motivo.text.substring(1, motivo.text.length).toLowerCase()}}
+                    {{formatearMotivo(motivo.text)}}
+<!--                    {{motivo.text.charAt(0)}}{{motivo.text.substring(1, motivo.text.length).toLowerCase()}}-->
                   </mat-option>
                 </mat-select>
               </mat-form-field>

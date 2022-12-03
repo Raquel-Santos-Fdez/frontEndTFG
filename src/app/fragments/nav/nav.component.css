@@ -29,11 +29,11 @@ a:hover {
 }
 
 a:hover {
-  color: #125699;
+  color: #ffaff1;
 }
 
 button:hover{
-  color: #125699;
+  color: #ffcaf6;
 }
 
 #separador {
@@ -43,5 +43,11 @@ button:hover{
 .log{
   display: flex;
   align-items: center;
+}
+
+#consultarJornadaBtn:hover,
+#solVacacionesBtn:hover,
+#portalSolBtn:hover{
+  color:#77104a;
 }
 

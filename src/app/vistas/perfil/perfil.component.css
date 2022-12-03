@@ -33,6 +33,10 @@
   color: white;
 }
 
+button:hover{
+  color: #ffcaf6;
+}
+
 .perfil button{
   width: 52%;
   background-color: #77104a;
